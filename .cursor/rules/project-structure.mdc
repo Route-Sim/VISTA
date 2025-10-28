@@ -1,0 +1,40 @@
+---
+alwaysApply: true
+---
+
+# Project Structure & Architecture (Vite + TypeScript + three.js + WebSocket)
+
+This project follows a clean IO → Domain → View separation. The main entry is [src/main.ts](mdc:src/main.ts). Keep networking, simulation state, and rendering decoupled.
+
+## Folder layout
+
+- `src/app/`: app-level configuration and minimal wiring helpers.
+- `src/engine/`: rendering "engine" concerns (RAF loop, renderer, scene management, camera rig, loaders, reusable three objects).
+- `src/sim/`: domain state and systems (snapshots, interpolation, lifetime). No three.js types here.
+- `src/net/`: WebSocket client, protocol schemas and decoding, optional workers for heavy decode.
+- `src/view/`: apply interpolated frames to three.js scene; object pooling/instancing utilities.
+- `src/hud/`: DOM-based HUD/overlays, independent from three.js scene. Uses React, tailwind and shadcn.
+- `src/utils/`: generic utilities (events, time, math).
+- `public/`: models, textures, shaders.
+
+## Data flow
+
+WebSocket → decode/validate → push into `sim/store/SnapshotBuffer` → on each RAF: interpolate → adapt to view models → `view/applyFrame` mutates scene → renderer draws.
+
+## Constraints
+
+- Domain (`sim/*`) is pure and serializable. No three.js classes or side effects.
+- Adaptation at boundaries: wire types ≠ domain types ≠ view models.
+- Scenes are mutated only in `view/*`.
+- Keep `src/main.ts` as composition/wiring only.
+
+## Current minimal engine
+
+- `engine/engine.ts`: RAF + resize + renderer access.
+- `engine/scene-manager.ts`: creates a scene with ambient + point lights.
+- `engine/camera-rig.ts`: perspective camera with resize-safe aspect handling.
+
+## Pathing & config
+
+- Prefer `@` alias to `src` in imports once configured in `tsconfig.json`/`vite.config.ts`.
+- Use `app/config.ts` for env (e.g., `VITE_WS_URL`) and constants.

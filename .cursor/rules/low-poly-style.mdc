@@ -1,0 +1,159 @@
+---
+alwaysApply: true
+description: Visual style guide for warm, rounded, low‑poly worlds (scenes, colors, lights, objects, animation)
+---
+
+## Low‑Poly Warm World Style Guide
+
+This rule defines the visual direction for our three.js scenes: a warm, cozy, low‑poly aesthetic with rounded forms and gentle motion. Apply these guidelines when authoring anything that influences visuals across `engine/*`, `view/*`, and assets in `public/*`. Keep domain logic pure per the architecture rule and perform all scene mutations only in `view/*`.
+
+Related files:
+
+- Color tokens live in [src/app/colors.ts](mdc:src/app/colors.ts)
+- Scene/lights scaffold in [src/engine/scene-manager.ts](mdc:src/engine/scene-manager.ts)
+- Camera in [src/engine/camera-rig.ts](mdc:src/engine/camera-rig.ts)
+- Reusable objects in [src/engine/objects](mdc:src/engine/objects)
+- Texture helpers in [src/engine/loaders/textures.ts](mdc:src/engine/loaders/textures.ts)
+
+### Core principles
+
+- Favor simplified, readable silhouettes over detail. Geometry should be low‑poly with intentional faceting.
+- Prefer rounded, soft forms. Use primitives with modest segment counts and rounded variants where appropriate.
+- Keep a warm overall tone: sunlit, late‑afternoon feel; avoid cold/clinical looks.
+- Motion should be subtle, playful, and physically plausible. No harsh stops; use gentle easing.
+- Maintain strong separation of concerns: only `view/*` mutates three.js objects; domain stays pure in `sim/*`.
+
+### Color & palette
+
+- Use a warm palette; prioritize oranges, sands, terracottas, muted greens, and desaturated blues for contrast.
+- Centralize colors in `app/colors.ts`. Export semantic tokens (e.g., `skyWarm`, `groundSand`, `foliageOlive`, `waterTeal`).
+- Keep saturation moderate; avoid neon. Prefer triadic/analogous combinations with clear hierarchy.
+- Gradients: very subtle; avoid banding. Dither in shaders only if necessary.
+
+### Materials
+
+- Default to `MeshStandardMaterial` with the following baseline unless a toon look is explicitly desired:
+  - `flatShading: true`
+  - `metalness: 0.0`
+  - `roughness: 0.8 – 0.95`
+  - Vertex colors optional; textures minimal and low‑frequency only
+- For a toon accent, use `MeshToonMaterial` with a soft gradient map (2–4 bands, warm mid‑tones). Avoid hard banding.
+- Textures: prefer solid colors or very low‑frequency albedo. Avoid high‑detail normal/roughness maps. If used, keep normal strength very low.
+- Avoid visible specular highlights; keep roughness high. Metalness remains 0.
+
+Example material baseline:
+
+```ts
+import * as THREE from "three";
+import { palette } from "@/app/colors";
+
+export const createWarmLowPolyMaterial = (
+  color: THREE.ColorRepresentation = palette.groundSand
+) =>
+  new THREE.MeshStandardMaterial({
+    color,
+    flatShading: true,
+    metalness: 0,
+    roughness: 0.9,
+  });
+```
+
+### Lighting
+
+- Base fill: warm `AmbientLight` at low intensity (≈ 0.3–0.5) with a cream/peach tint.
+- Key light: one `DirectionalLight` mimicking late‑afternoon sun (warm orange), soft shadows enabled.
+- Optional rim: subtle `HemisphereLight` or a second low‑intensity directional with slightly cooler tint for separation.
+- Shadows: soft, not crisp. Use PCF soft shadows, modest map size, and careful bias to avoid acne.
+
+Suggested setup:
+
+```ts
+import * as THREE from "three";
+import { colors } from "@/app/colors";
+
+export function addWarmLighting(scene: THREE.Scene): void {
+  const ambient = new THREE.AmbientLight(colors.warmCream, 0.4);
+  scene.add(ambient);
+
+  const sun = new THREE.DirectionalLight(colors.sunsetOrange, 1.0);
+  sun.position.set(6, 10, 6);
+  sun.castShadow = true;
+  sun.shadow.mapSize.set(1024, 1024);
+  sun.shadow.radius = 4; // softer penumbra feel
+  sun.shadow.bias = -0.0002;
+  scene.add(sun);
+
+  const hemi = new THREE.HemisphereLight(
+    colors.skyWarm,
+    colors.groundSand,
+    0.35
+  );
+  scene.add(hemi);
+}
+```
+
+### Geometry & modeling
+
+- Tri budgets: small props ≤ 300 tris, medium set pieces ≤ 1.5k tris. Merge static meshes where appropriate.
+- Use low segment counts to preserve faceting:
+  - Spheres: 12×8; Cylinders: 10–14 radial segments; Cones: 10–14; Circles: 16 max.
+- Prefer rounded primitives when needed: `RoundedBoxGeometry`, `CapsuleGeometry`. Avoid sharp 90° unless intentional.
+- Keep proportions friendly and slightly chubby; bevel or round edges instead of hard chamfers.
+- Maintain consistent real‑world scale (meters). Ground tile ≈ 1–5m units; camera tuned accordingly.
+
+### Animation (gentle, lively)
+
+- Idle motion for dynamic objects: low‑amplitude, low‑frequency sways, bobs, or rotations.
+- Easing: smooth in/out; avoid linear snapping. Phase‑offset instances to avoid lockstep.
+- Target ranges: 0.1–0.3 rad sway; 0.02–0.08m bob; 2–6 s cycles.
+
+Example per‑frame idle motion helper:
+
+```ts
+export function applyIdleMotion(
+  object: THREE.Object3D,
+  elapsed: number,
+  opts: { sway?: number; bob?: number; speed?: number; phase?: number } = {}
+): void {
+  const sway = opts.sway ?? 0.2;
+  const bob = opts.bob ?? 0.04;
+  const speed = opts.speed ?? 1.0;
+  const phase = opts.phase ?? 0.0;
+  object.rotation.z = Math.sin(elapsed * 0.8 * speed + phase) * sway;
+  object.position.y = Math.sin(elapsed * 1.2 * speed + phase) * bob;
+}
+```
+
+### Scene composition
+
+- Big shapes first, then medium, then small. Group by color families; use 60/30/10 rule for color balance.
+- Depth cues: warm fog, gentle atmospheric perspective. Keep backgrounds less saturated and lighter.
+- Ground: simple planes or large rounded tiles; avoid visible texture tiling. Use vertex color gradients instead of repeating textures where possible.
+- Water: stylized, slightly opaque, with gentle normal perturbation; avoid photoreal refraction.
+
+Fog recommendation:
+
+```ts
+scene.fog = new THREE.FogExp2(colors.skyWarm, 0.015);
+renderer.setClearColor(colors.skyWarm, 1);
+```
+
+### Performance & quality
+
+- Prefer `InstancedMesh` for repeated assets; use object pooling in `view/*`.
+- Keep materials few and shared; avoid per‑object material clones.
+- Limit post‑processing. If AA is needed, prefer MSAA or FXAA; keep bloom subtle.
+- Textures: small, compressed where possible; minimal normal maps; avoid heavy PBR stacks.
+
+### Shaders & post
+
+- If writing custom shaders in `public/shaders/*`, keep bands soft and noise low frequency. Colors should bias warm mid‑tones.
+- Dithering to mitigate banding is acceptable; keep grain subtle.
+- Post effects should never overpower the base palette or crush blacks.
+
+### Checklist (Do / Avoid)
+
+- Do: warm lights, flat shading, rounded forms, gentle motion, clean silhouettes.
+- Do: consistent meters‑based scale, subtle fog, limited materials, instancing for crowds.
+- Avoid: harsh speculars, high‑frequency textures, cold white light, stiff/linear animation.
+- Avoid: busy post‑processing, photoreal PBR look, excessive shadow contrast.

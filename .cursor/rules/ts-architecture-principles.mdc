@@ -1,0 +1,29 @@
+---
+globs: *.ts,*.tsx
+---
+
+# TypeScript Architecture Principles (OOP, SOLID, SoTA hygiene)
+
+- Single Responsibility: each module/class does one thing. Avoid god objects.
+- Open/Closed: extend via composition/polymorphism; avoid editing stable modules.
+- Liskov Substitution: respect contracts; narrow types using interfaces, not classes.
+- Interface Segregation: small, focused interfaces; prefer type aliases for data shapes.
+- Dependency Inversion: depend on abstractions; wire concrete implementations in `main`/`container`.
+
+- Keep domain types in `sim/types.ts`; wire/message schemas live in `net/protocol/schema.ts`.
+- No three.js types in `sim/*`. Convert to view models via `sim/adapters/to-view-models.ts`.
+- Pure functions in `sim/systems/*` (deterministic, testable). Avoid hidden state.
+- Side effects are confined to: `net/*` (IO), `engine/*` (render loop, devices), and `view/*` (scene mutations).
+- Prefer immutability in domain snapshots. Use buffers + interpolation for smooth rendering.
+
+- Use explicit return types for exported functions/classes.
+- Avoid `any`. Use generics and discriminated unions for protocols.
+- Guard clauses over deep nesting; handle edge cases first.
+- Keep files short and names descriptive. Avoid abbreviations.
+- Write small adapters instead of leaking domain or wire types across layers.
+
+Testing & quality:
+
+- Unit-test interpolation math and buffer behavior with Vitest.
+- Validate all inbound messages at the edge using zod/valibot before touching the store.
+- Lint with ESLint; format with Prettier.

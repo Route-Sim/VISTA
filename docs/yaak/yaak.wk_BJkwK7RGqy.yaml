@@ -1,0 +1,14 @@
+type: workspace
+model: workspace
+id: wk_BJkwK7RGqy
+createdAt: 2025-10-28T19:28:11.086413
+updatedAt: 2025-10-28T19:28:11.086414
+authentication: {}
+authenticationType: null
+description: ''
+headers: []
+name: VISTA
+encryptionKeyChallenge: null
+settingValidateCertificates: true
+settingFollowRedirects: true
+settingRequestTimeout: 0

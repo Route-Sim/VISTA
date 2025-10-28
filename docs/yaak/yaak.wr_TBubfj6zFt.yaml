@@ -1,0 +1,20 @@
+type: websocket_request
+model: websocket_request
+id: wr_TBubfj6zFt
+createdAt: 2025-10-28T19:28:17.929191
+updatedAt: 2025-10-28T19:29:54.627965
+workspaceId: wk_BJkwK7RGqy
+folderId: null
+authentication: {}
+authenticationType: null
+description: ''
+headers: []
+message: |-
+  {
+    "type": "start",
+    "tick_rate": 30
+  }
+name: Simulation Websocket
+sortPriority: -1761679600000.0
+url: ws://localhost:8000/ws
+urlParameters: []

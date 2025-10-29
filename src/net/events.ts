@@ -6,7 +6,7 @@ export interface IEventBus<M extends Record<string, unknown>> {
   emit<K extends keyof M & string>(event: K, payload: M[K]): void;
   once<K extends keyof M & string>(
     event: K,
-    handler: Handler<M[K]>
+    handler: Handler<M[K]>,
   ): () => void;
 }
 
@@ -28,7 +28,7 @@ export class EventBus<M extends Record<string, unknown>>
 
   once<K extends keyof M & string>(
     event: K,
-    handler: Handler<M[K]>
+    handler: Handler<M[K]>,
   ): () => void {
     const off = this.on(event, (payload) => {
       off();

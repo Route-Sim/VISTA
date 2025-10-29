@@ -1,14 +1,18 @@
-import { KeyCap } from "./key-cap";
-import { Separator } from "../ui/separator";
-import { Badge } from "../ui/badge";
-import { Table, TableBody, TableCell, TableRow } from "../ui/table";
+import { KeyCap } from './key-cap';
+import { Separator } from '../ui/separator';
+import { Badge } from '../ui/badge';
+import { Table, TableBody, TableCell, TableRow } from '../ui/table';
 
 export function HudContent() {
   return (
     <div className="flex flex-col gap-2">
       <div className="flex items-center justify-between">
-        <div className="font-bold tracking-tight text-[#5a3f34]">Camera & Movement</div>
-        <Badge variant="secondary" className="text-[10px] px-1.5 py-0.5">HUD</Badge>
+        <div className="font-bold tracking-tight text-[#5a3f34]">
+          Camera & Movement
+        </div>
+        <Badge variant="secondary" className="px-1.5 py-0.5 text-[10px]">
+          HUD
+        </Badge>
       </div>
       <Separator className="bg-[rgba(255,171,108,0.35)]" />
 

@@ -1,9 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [
-    './index.html',
-    './src/**/*.{ts,tsx,js,jsx,css,html}',
-  ],
+  content: ['./index.html', './src/**/*.{ts,tsx,js,jsx,css,html}'],
   corePlugins: {
     preflight: false, // avoid interfering with existing CSS and three.js canvas
   },
@@ -26,5 +23,3 @@ module.exports = {
   },
   plugins: [],
 };
-
-

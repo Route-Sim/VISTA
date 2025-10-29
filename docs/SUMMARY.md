@@ -6,7 +6,6 @@
 - [API Reference](api-reference.md)
 
 - Modules
-
   - app
     - [config](modules/app/config.md)
 

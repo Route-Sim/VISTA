@@ -1,20 +1,20 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 // Action schemas: exact params per action
 export const ActionSchemas = {
-  "simulation.start": z.object({ tick_rate: z.number().int().min(1) }),
-  "simulation.stop": z.object({}),
-  "simulation.resume": z.object({}),
-  "map.create": z.object({ size: z.number() }).catchall(z.unknown()),
-  "map.export": z.object({ map_name: z.string() }),
-  "map.import": z.object({ base64_file: z.string() }),
-  "tick_rate.update": z.object({ tick_rate: z.number().int().min(1) }),
-  "agent.create": z
+  'simulation.start': z.object({ tick_rate: z.number().int().min(1) }),
+  'simulation.stop': z.object({}),
+  'simulation.resume': z.object({}),
+  'map.create': z.object({ size: z.number() }).catchall(z.unknown()),
+  'map.export': z.object({ map_name: z.string() }),
+  'map.import': z.object({ base64_file: z.string() }),
+  'tick_rate.update': z.object({ tick_rate: z.number().int().min(1) }),
+  'agent.create': z
     .object({ agent_id: z.string(), agent_kind: z.string() })
     .catchall(z.unknown()),
-  "agent.update": z.object({ agent_id: z.string() }).catchall(z.unknown()),
-  "agent.delete": z.object({ agent_id: z.string() }),
-  "agent.get": z.object({ agent_id: z.string() }),
+  'agent.update': z.object({ agent_id: z.string() }).catchall(z.unknown()),
+  'agent.delete': z.object({ agent_id: z.string() }),
+  'agent.get': z.object({ agent_id: z.string() }),
 } as const;
 
 export type ActionName = keyof typeof ActionSchemas;
@@ -24,22 +24,22 @@ export type ActionParams = {
 
 // Signal schemas: exact data per signal
 export const SignalSchemas = {
-  "simulation.started": z.object({ tick_rate: z.number().int().min(1) }),
-  "simulation.stopped": z.object({}),
-  "simulation.resumed": z.object({}),
-  "map.created": z.object({ size: z.number() }).catchall(z.unknown()),
-  "map.exported": z.object({ filename: z.string(), base64_file: z.string() }),
-  "map.imported": z.object({}),
-  "tick_rate.updated": z.object({ tick_rate: z.number().int().min(1) }),
-  "agent.created": z
+  'simulation.started': z.object({ tick_rate: z.number().int().min(1) }),
+  'simulation.stopped': z.object({}),
+  'simulation.resumed': z.object({}),
+  'map.created': z.object({ size: z.number() }).catchall(z.unknown()),
+  'map.exported': z.object({ filename: z.string(), base64_file: z.string() }),
+  'map.imported': z.object({}),
+  'tick_rate.updated': z.object({ tick_rate: z.number().int().min(1) }),
+  'agent.created': z
     .object({ agent_id: z.string(), agent_kind: z.string() })
     .catchall(z.unknown()),
-  "agent.updated": z.object({ agent_id: z.string() }).catchall(z.unknown()),
-  "agent.deleted": z.object({ agent_id: z.string() }),
-  "agent.state": z
+  'agent.updated': z.object({ agent_id: z.string() }).catchall(z.unknown()),
+  'agent.deleted': z.object({ agent_id: z.string() }),
+  'agent.state': z
     .object({ agent_id: z.string(), agent_kind: z.string() })
     .catchall(z.unknown()),
-  "event.created": z.object({ event_name: z.string() }).catchall(z.unknown()),
+  'event.created': z.object({ event_name: z.string() }).catchall(z.unknown()),
   error: z.object({ code: z.string(), message: z.string() }),
 } as const;
 
@@ -75,10 +75,10 @@ const ActionEnvelopeUnion = (() => {
       action: z.literal(name as ActionName),
       params: schema as z.ZodTypeAny,
       request_id: z.string().optional(),
-    })
+    }),
   );
   return z.union(
-    variants as unknown as [z.ZodTypeAny, z.ZodTypeAny, ...z.ZodTypeAny[]]
+    variants as unknown as [z.ZodTypeAny, z.ZodTypeAny, ...z.ZodTypeAny[]],
   );
 })();
 
@@ -88,10 +88,10 @@ const SignalEnvelopeUnion = (() => {
       signal: z.literal(name as SignalName),
       data: schema as z.ZodTypeAny,
       request_id: z.string().optional(),
-    })
+    }),
   );
   return z.union(
-    variants as unknown as [z.ZodTypeAny, z.ZodTypeAny, ...z.ZodTypeAny[]]
+    variants as unknown as [z.ZodTypeAny, z.ZodTypeAny, ...z.ZodTypeAny[]],
   );
 })();
 
@@ -106,7 +106,7 @@ export function decodeAction(raw: unknown): ActionUnion {
 export function encodeAction<A extends ActionName>(
   action: A,
   params: ActionParams[A],
-  requestId?: string
+  requestId?: string,
 ): ActionEnvelopeOf<A> {
   return { action, params, request_id: requestId };
 }

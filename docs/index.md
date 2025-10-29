@@ -1,13 +1,13 @@
 ---
-title: "VISTA – Project Overview"
-summary: "High-level overview of the IO → Domain → View architecture and module map, with links to the network layer documentation."
+title: 'VISTA – Project Overview'
+summary: 'High-level overview of the IO → Domain → View architecture and module map, with links to the network layer documentation.'
 source_paths:
-  - "src/main.ts"
-last_updated: "2025-10-29"
-owner: "Mateusz Polis"
-tags: ["overview", "architecture", "net", "engine", "sim", "view", "hud"]
+  - 'src/main.ts'
+last_updated: '2025-10-29'
+owner: 'Mateusz Polis'
+tags: ['overview', 'architecture', 'net', 'engine', 'sim', 'view', 'hud']
 links:
-  parent: "./SUMMARY.md"
+  parent: './SUMMARY.md'
   siblings: []
 ---
 

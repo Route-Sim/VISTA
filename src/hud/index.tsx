@@ -1,5 +1,5 @@
-import { createRoot } from "react-dom/client";
-import { HudFrame } from "./components/hud-frame";
+import { createRoot } from 'react-dom/client';
+import { HudFrame } from './components/hud-frame';
 
 export type HudHandle = {
   element: HTMLDivElement;
@@ -13,9 +13,9 @@ function HudRoot() {
   return (
     <div
       style={{
-        position: "fixed",
+        position: 'fixed',
         inset: 0,
-        pointerEvents: "none",
+        pointerEvents: 'none',
         zIndex: 9999,
       }}
     >
@@ -25,7 +25,7 @@ function HudRoot() {
 }
 
 export function mountHud(root: HTMLElement = document.body): HudHandle {
-  const container = document.createElement("div");
+  const container = document.createElement('div');
   root.appendChild(container);
   const reactRoot = createRoot(container);
   reactRoot.render(<HudRoot />);
@@ -33,14 +33,14 @@ export function mountHud(root: HTMLElement = document.body): HudHandle {
   const handle: HudHandle = {
     element: container,
     show() {
-      container.style.display = "block";
+      container.style.display = 'block';
     },
     hide() {
-      container.style.display = "none";
+      container.style.display = 'none';
     },
     toggle() {
       container.style.display =
-        container.style.display === "none" ? "block" : "none";
+        container.style.display === 'none' ? 'block' : 'none';
     },
     destroy() {
       reactRoot.unmount();

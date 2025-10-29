@@ -1,13 +1,13 @@
 ---
-title: "Glossary"
-summary: "Definitions of core terms used across the VISTA network layer and architecture."
+title: 'Glossary'
+summary: 'Definitions of core terms used across the VISTA network layer and architecture.'
 source_paths:
-  - "src/net/**"
-last_updated: "2025-10-29"
-owner: "Mateusz Polis"
-tags: ["glossary", "net", "architecture"]
+  - 'src/net/**'
+last_updated: '2025-10-29'
+owner: 'Mateusz Polis'
+tags: ['glossary', 'net', 'architecture']
 links:
-  parent: "./SUMMARY.md"
+  parent: './SUMMARY.md'
   siblings: []
 ---
 

@@ -1,4 +1,4 @@
-import type { SignalUnion } from "@/net/protocol/schema";
+import type { SignalUnion } from '@/net/protocol/schema';
 
 export type RequestMatcher = (signal: SignalUnion) => boolean;
 
@@ -25,7 +25,7 @@ export class RequestTracker {
 
   waitFor(
     matcher: RequestMatcher,
-    options: RequestOptions = {}
+    options: RequestOptions = {},
   ): Promise<SignalUnion> {
     const timeoutMs = options.timeoutMs ?? this.defaultTimeoutMs;
     return new Promise<SignalUnion>((resolve, reject) => {
@@ -39,7 +39,7 @@ export class RequestTracker {
       if (timeoutMs > 0) {
         pending.timer = setTimeout(() => {
           this.pendings.delete(pending);
-          reject(new Error("Request timed out"));
+          reject(new Error('Request timed out'));
         }, timeoutMs) as unknown as number;
       }
       this.pendings.add(pending);
@@ -66,7 +66,7 @@ export class RequestTracker {
     return false;
   }
 
-  cancelAll(reason: string = "Cancelled"): void {
+  cancelAll(reason: string = 'Cancelled'): void {
     for (const pending of Array.from(this.pendings)) {
       this.pendings.delete(pending);
       if (pending.timer !== null) clearTimeout(pending.timer);

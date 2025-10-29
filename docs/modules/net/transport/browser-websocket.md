@@ -1,14 +1,14 @@
 ---
-title: "Browser WebSocket Transport"
-summary: "Platform WebSocket adapter implementing connect/send/close with lifecycle events and auto-reconnect using backoff."
+title: 'Browser WebSocket Transport'
+summary: 'Platform WebSocket adapter implementing connect/send/close with lifecycle events and auto-reconnect using backoff.'
 source_paths:
-- "src/net/transport/browser-websocket.ts"
-last_updated: "2025-10-29"
-owner: "Mateusz Polis"
-tags: ["module", "net", "transport"]
+  - 'src/net/transport/browser-websocket.ts'
+last_updated: '2025-10-29'
+owner: 'Mateusz Polis'
+tags: ['module', 'net', 'transport']
 links:
-  parent: "../../../SUMMARY.md"
-  siblings: ["../backoff.md"]
+  parent: '../../../SUMMARY.md'
+  siblings: ['../backoff.md']
 ---
 
 # transport/browser-websocket
@@ -23,7 +23,10 @@ links:
 ## Public API / Usage
 
 ```ts
-const transport = new BrowserWebSocketTransport({ url: wsUrl, backoff: new ExponentialBackoff() });
+const transport = new BrowserWebSocketTransport({
+  url: wsUrl,
+  backoff: new ExponentialBackoff(),
+});
 transport.connect();
 transport.onMessage((txt) => console.log(txt));
 ```
@@ -37,5 +40,3 @@ transport.onMessage((txt) => console.log(txt));
 
 - Backoff: [`../../backoff`](../../backoff.md)
 - Client: [`../../client`](../../client.md)
-
-

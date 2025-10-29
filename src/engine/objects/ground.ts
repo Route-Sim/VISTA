@@ -1,5 +1,5 @@
-import * as THREE from "three";
-import { Colors } from "@/app/colors";
+import * as THREE from 'three';
+import { Colors } from '@/app/colors';
 
 export type GroundOptions = {
   width?: number;

@@ -1,5 +1,5 @@
-import type { IWebSocketTransport } from "@/net/transport/browser-websocket";
-import { RequestTracker } from "@/net/request-tracker";
+import type { IWebSocketTransport } from '@/net/transport/browser-websocket';
+import { RequestTracker } from '@/net/request-tracker';
 import {
   encodeAction,
   decodeSignal,
@@ -10,12 +10,12 @@ import {
   type SignalUnion,
   type SignalData,
   type ActionEnvelopeOf,
-} from "@/net/protocol/schema";
+} from '@/net/protocol/schema';
 import {
   ActionToSignal,
   getDefaultMatcher,
   type ExpectedSignalByAction,
-} from "@/net/protocol/mapping";
+} from '@/net/protocol/mapping';
 
 export type SendOptions<A extends ActionName> = {
   timeoutMs?: number;
@@ -36,7 +36,7 @@ export class WebSocketClient {
 
   constructor(
     transport: IWebSocketTransport,
-    defaultTimeoutMs: number = 10_000
+    defaultTimeoutMs: number = 10_000,
   ) {
     this.transport = transport;
     this.tracker = new RequestTracker(defaultTimeoutMs);
@@ -51,21 +51,21 @@ export class WebSocketClient {
         }),
         this.transport.onClose(() => {
           // Reject all in-flight requests when connection closes; callers can retry
-          this.tracker.cancelAll("Connection closed");
-        })
+          this.tracker.cancelAll('Connection closed');
+        }),
       );
     }
     this.transport.connect();
   }
 
   disconnect(code?: number, reason?: string): void {
-    this.tracker.cancelAll("Disconnected");
+    this.tracker.cancelAll('Disconnected');
     this.transport.disconnect(code, reason);
   }
 
   on<S extends SignalName>(
     signal: S,
-    handler: (data: SignalData[S]) => void
+    handler: (data: SignalData[S]) => void,
   ): () => void {
     let set = this.perSignalHandlers.get(signal);
     if (!set) {
@@ -79,7 +79,7 @@ export class WebSocketClient {
 
   off<S extends SignalName>(
     signal: S,
-    handler: (data: SignalData[S]) => void
+    handler: (data: SignalData[S]) => void,
   ): void {
     const set = this.perSignalHandlers.get(signal);
     if (!set) return;
@@ -98,15 +98,15 @@ export class WebSocketClient {
   async sendAction<A extends ActionName>(
     action: A,
     params: ActionParams[A],
-    options: SendOptions<A> = {}
+    options: SendOptions<A> = {},
   ): Promise<
-    SignalEnvelopeOf<ExpectedSignalByAction[A]> | SignalEnvelopeOf<"error">
+    SignalEnvelopeOf<ExpectedSignalByAction[A]> | SignalEnvelopeOf<'error'>
   > {
     const requestId = options.requestId ?? generateRequestId();
     const envelope: ActionEnvelopeOf<A> = encodeAction(
       action,
       params,
-      requestId
+      requestId,
     );
 
     const defaultMatcher = getDefaultMatcher(envelope);
@@ -115,7 +115,7 @@ export class WebSocketClient {
       : (sig: SignalUnion) =>
           defaultMatcher(sig) ||
           (envelope.request_id !== undefined &&
-            sig.signal === "error" &&
+            sig.signal === 'error' &&
             sig.request_id === envelope.request_id);
 
     const waiting = this.tracker.waitFor(matcher, {
@@ -127,12 +127,12 @@ export class WebSocketClient {
     // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
     return (await waiting) as
       | SignalEnvelopeOf<ExpectedSignalByAction[A]>
-      | SignalEnvelopeOf<"error">;
+      | SignalEnvelopeOf<'error'>;
   }
 
   waitFor<S extends SignalName>(
     predicate: (env: SignalEnvelopeOf<S>) => boolean,
-    options: { timeoutMs?: number } = {}
+    options: { timeoutMs?: number } = {},
   ): Promise<SignalEnvelopeOf<S>> {
     return new Promise<SignalEnvelopeOf<S>>((resolve, reject) => {
       const wrapped = (env: SignalUnion): boolean => {
@@ -178,8 +178,8 @@ export class WebSocketClient {
 function generateRequestId(): string {
   try {
     if (
-      typeof crypto !== "undefined" &&
-      typeof crypto.randomUUID === "function"
+      typeof crypto !== 'undefined' &&
+      typeof crypto.randomUUID === 'function'
     ) {
       return crypto.randomUUID();
     }

@@ -1,14 +1,14 @@
 ---
-title: "Request Tracker"
-summary: "Resolves in-flight requests by matching incoming signals with optional correlation IDs and timeouts."
+title: 'Request Tracker'
+summary: 'Resolves in-flight requests by matching incoming signals with optional correlation IDs and timeouts.'
 source_paths:
-- "src/net/request-tracker.ts"
-last_updated: "2025-10-29"
-owner: "Mateusz Polis"
-tags: ["module", "net", "reliability"]
+  - 'src/net/request-tracker.ts'
+last_updated: '2025-10-29'
+owner: 'Mateusz Polis'
+tags: ['module', 'net', 'reliability']
 links:
-  parent: "../../SUMMARY.md"
-  siblings: ["./client.md", "./protocol/mapping.md"]
+  parent: '../../SUMMARY.md'
+  siblings: ['./client.md', './protocol/mapping.md']
 ---
 
 # request-tracker
@@ -24,9 +24,12 @@ links:
 
 ```ts
 const tracker = new RequestTracker(10_000);
-const p = tracker.waitFor((sig) => sig.signal === "agent.created");
+const p = tracker.waitFor((sig) => sig.signal === 'agent.created');
 // When a matching signal arrives:
-tracker.handleSignal({ signal: "agent.created", data: { agent_id: "A" } } as any);
+tracker.handleSignal({
+  signal: 'agent.created',
+  data: { agent_id: 'A' },
+} as any);
 ```
 
 ## Implementation Notes
@@ -38,5 +41,3 @@ tracker.handleSignal({ signal: "agent.created", data: { agent_id: "A" } } as any
 
 - Client: [`./client`](./client.md)
 - Mapping: [`./protocol/mapping`](./protocol/mapping.md)
-
-

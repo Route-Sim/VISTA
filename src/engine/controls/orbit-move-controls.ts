@@ -1,5 +1,5 @@
-import * as THREE from "three";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+import * as THREE from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 export type OrbitMoveController = {
   update(deltaSeconds: number): void;
@@ -10,7 +10,7 @@ type KeyState = Record<string, boolean>;
 export function createOrbitMoveControls(
   camera: THREE.PerspectiveCamera,
   canvas: HTMLCanvasElement,
-  options: { movementSpeed?: number; minY?: number } = {}
+  options: { movementSpeed?: number; minY?: number } = {},
 ): OrbitMoveController {
   const controls = new OrbitControls(camera, canvas);
   controls.enableDamping = true;
@@ -35,8 +35,8 @@ export function createOrbitMoveControls(
     keys[k] = false;
   };
 
-  window.addEventListener("keydown", handleKeyDown);
-  window.addEventListener("keyup", handleKeyUp);
+  window.addEventListener('keydown', handleKeyDown);
+  window.addEventListener('keyup', handleKeyUp);
 
   const up = new THREE.Vector3(0, 1, 0);
   const forward = new THREE.Vector3();
@@ -55,15 +55,15 @@ export function createOrbitMoveControls(
       right.crossVectors(forward, up).normalize();
 
       // WASD / arrow keys (boolean OR)
-      const moveForward = keys["w"] || keys["arrowup"] ? 1 : 0;
-      const moveBackward = keys["s"] || keys["arrowdown"] ? 1 : 0;
-      const moveLeft = keys["a"] || keys["arrowleft"] ? 1 : 0;
-      const moveRight = keys["d"] || keys["arrowright"] ? 1 : 0;
+      const moveForward = keys['w'] || keys['arrowup'] ? 1 : 0;
+      const moveBackward = keys['s'] || keys['arrowdown'] ? 1 : 0;
+      const moveLeft = keys['a'] || keys['arrowleft'] ? 1 : 0;
+      const moveRight = keys['d'] || keys['arrowright'] ? 1 : 0;
 
       // Vertical movement: Space (up), Shift (down)
-      const moveUp = keys[" "] || keys["space"] || keys["spacebar"] ? 1 : 0;
+      const moveUp = keys[' '] || keys['space'] || keys['spacebar'] ? 1 : 0;
       const moveDown =
-        keys["shift"] || keys["shiftleft"] || keys["shiftright"] ? 1 : 0;
+        keys['shift'] || keys['shiftleft'] || keys['shiftright'] ? 1 : 0;
 
       move.set(0, 0, 0);
       if (moveForward) move.add(forward);

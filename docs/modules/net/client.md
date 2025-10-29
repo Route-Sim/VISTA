@@ -1,19 +1,20 @@
 ---
-title: "WebSocket Client"
-summary: "High-level client that composes transport, protocol codec, and request tracker to provide a typed event API and promise-based actions."
+title: 'WebSocket Client'
+summary: 'High-level client that composes transport, protocol codec, and request tracker to provide a typed event API and promise-based actions.'
 source_paths:
-- "src/net/client.ts"
-last_updated: "2025-10-29"
-owner: "Mateusz Polis"
-tags: ["module", "net", "client"]
+  - 'src/net/client.ts'
+last_updated: '2025-10-29'
+owner: 'Mateusz Polis'
+tags: ['module', 'net', 'client']
 links:
-  parent: "../../SUMMARY.md"
-  siblings: [
-    "./protocol/schema.md",
-    "./protocol/mapping.md",
-    "./transport/browser-websocket.md",
-    "./request-tracker.md"
-  ]
+  parent: '../../SUMMARY.md'
+  siblings:
+    [
+      './protocol/schema.md',
+      './protocol/mapping.md',
+      './transport/browser-websocket.md',
+      './request-tracker.md',
+    ]
 ---
 
 # client
@@ -28,15 +29,15 @@ links:
 ## Public API / Usage
 
 ```ts
-import { net } from "@/net";
+import { net } from '@/net';
 
 net.connect();
 
-const off = net.on("simulation.started", ({ tick_rate }) => {
-  console.log("started:", tick_rate);
+const off = net.on('simulation.started', ({ tick_rate }) => {
+  console.log('started:', tick_rate);
 });
 
-const resp = await net.sendAction("simulation.start", { tick_rate: 30 });
+const resp = await net.sendAction('simulation.start', { tick_rate: 30 });
 
 off();
 ```
@@ -44,7 +45,9 @@ off();
 ### Await arbitrary conditions
 
 ```ts
-await net.waitFor((s) => s.signal === "agent.created" && s.data.agent_id === "A");
+await net.waitFor(
+  (s) => s.signal === 'agent.created' && s.data.agent_id === 'A',
+);
 ```
 
 ## Matching Strategy
@@ -58,5 +61,3 @@ await net.waitFor((s) => s.signal === "agent.created" && s.data.agent_id === "A"
 - Schemas: [`./protocol/schema`](./protocol/schema.md)
 - Mapping: [`./protocol/mapping`](./protocol/mapping.md)
 - Request Tracker: [`./request-tracker`](./request-tracker.md)
-
-

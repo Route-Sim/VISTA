@@ -1,25 +1,12 @@
 {
-  "name": "engineering-thesis",
-  "private": true,
+  "name": "VISTA",
   "version": "0.0.0",
+  "private": true,
   "type": "module",
   "scripts": {
-    "dev": "bunx --bun vite",
     "build": "bunx --bun vite build",
+    "dev": "bunx --bun vite",
     "preview": "bunx --bun vite preview"
-  },
-  "devDependencies": {
-    "@tailwindcss/postcss": "^4.1.13",
-    "@types/react": "^19.1.14",
-    "@types/react-dom": "^19.1.9",
-    "@vitejs/plugin-react": "^5.0.4",
-    "autoprefixer": "^10.4.21",
-    "postcss": "^8.5.6",
-    "react": "^19.1.1",
-    "react-dom": "^19.1.1",
-    "tailwindcss": "^4.1.13",
-    "typescript": "~5.8.3",
-    "vite": "^7.1.7"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
@@ -59,8 +46,8 @@
     "lucide-react": "^0.544.0",
     "next-themes": "^0.4.6",
     "path": "^0.12.7",
-    "react-day-picker": "^9.11.0",
-    "react-hook-form": "^7.63.0",
+    "react-day-picker": "^9.11.1",
+    "react-hook-form": "^7.65.0",
     "react-resizable-panels": "^3.0.6",
     "recharts": "2.15.4",
     "sonner": "^2.0.7",
@@ -69,6 +56,22 @@
     "three": "^0.180.0",
     "url": "^0.11.4",
     "vaul": "^1.1.2",
-    "zod": "^4.1.11"
+    "zod": "^4.1.12"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.16",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
+    "@vercel/style-guide": "^6.0.0",
+    "@vitejs/plugin-react": "^5.1.0",
+    "autoprefixer": "^10.4.21",
+    "eslint": "^9.38.0",
+    "postcss": "^8.5.6",
+    "prettier-plugin-tailwindcss": "^0.7.1",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "tailwindcss": "^4.1.16",
+    "typescript": "~5.8.3",
+    "vite": "^7.1.12"
   }
 }

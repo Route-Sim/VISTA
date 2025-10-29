@@ -1,7 +1,7 @@
-import * as THREE from "three";
+import * as THREE from 'three';
 
-import { createGround } from "@/engine/objects/ground";
-import { Colors } from "@/app/colors";
+import { createGround } from '@/engine/objects/ground';
+import { Colors } from '@/app/colors';
 
 export class SceneManager {
   public readonly scene: THREE.Scene;

@@ -1,13 +1,13 @@
 ---
-title: "Event Bus"
-summary: "Minimal typed observer used for internal signalling; supports on/off/once/emit with string keys and payload types."
+title: 'Event Bus'
+summary: 'Minimal typed observer used for internal signalling; supports on/off/once/emit with string keys and payload types.'
 source_paths:
-- "src/net/events.ts"
-last_updated: "2025-10-29"
-owner: "Mateusz Polis"
-tags: ["module", "net", "events"]
+  - 'src/net/events.ts'
+last_updated: '2025-10-29'
+owner: 'Mateusz Polis'
+tags: ['module', 'net', 'events']
 links:
-  parent: "../../SUMMARY.md"
+  parent: '../../SUMMARY.md'
   siblings: []
 ---
 
@@ -19,8 +19,8 @@ links:
 
 ```ts
 const bus = new EventBus<{ hello: string }>();
-const off = bus.on("hello", (payload) => console.log(payload));
-bus.emit("hello", "world");
+const off = bus.on('hello', (payload) => console.log(payload));
+bus.emit('hello', 'world');
 off();
 ```
 
@@ -32,5 +32,3 @@ off();
 ## References
 
 - Client: [`./client`](./client.md)
-
-

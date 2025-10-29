@@ -1,6 +1,6 @@
-import type { BackoffStrategy } from "@/net/backoff";
+import type { BackoffStrategy } from '@/net/backoff';
 
-export type ReadyState = "idle" | "connecting" | "open" | "closing" | "closed";
+export type ReadyState = 'idle' | 'connecting' | 'open' | 'closing' | 'closed';
 
 export type CloseEventLike = {
   code?: number;
@@ -25,7 +25,7 @@ export type BrowserWebSocketTransportOptions = {
 };
 
 export class BrowserWebSocketTransport implements IWebSocketTransport {
-  public readyState: ReadyState = "idle";
+  public readyState: ReadyState = 'idle';
   private ws: WebSocket | null = null;
   private readonly url: string | (() => string);
   private readonly backoff: BackoffStrategy;
@@ -42,7 +42,7 @@ export class BrowserWebSocketTransport implements IWebSocketTransport {
   }
 
   connect(): void {
-    if (this.readyState === "open" || this.readyState === "connecting") return;
+    if (this.readyState === 'open' || this.readyState === 'connecting') return;
     this.explicitClose = false;
     this.openSocket();
   }
@@ -55,9 +55,9 @@ export class BrowserWebSocketTransport implements IWebSocketTransport {
     }
     if (
       this.ws &&
-      (this.readyState === "open" || this.readyState === "connecting")
+      (this.readyState === 'open' || this.readyState === 'connecting')
     ) {
-      this.readyState = "closing";
+      this.readyState = 'closing';
       try {
         this.ws.close(code, reason);
       } catch {
@@ -67,8 +67,8 @@ export class BrowserWebSocketTransport implements IWebSocketTransport {
   }
 
   send(data: string): void {
-    if (!this.ws || this.readyState !== "open") {
-      throw new Error("WebSocket is not open");
+    if (!this.ws || this.readyState !== 'open') {
+      throw new Error('WebSocket is not open');
     }
     this.ws.send(data);
   }
@@ -94,8 +94,8 @@ export class BrowserWebSocketTransport implements IWebSocketTransport {
   }
 
   private openSocket(): void {
-    this.readyState = "connecting";
-    const currentUrl = typeof this.url === "function" ? this.url() : this.url;
+    this.readyState = 'connecting';
+    const currentUrl = typeof this.url === 'function' ? this.url() : this.url;
     try {
       this.ws = new WebSocket(currentUrl);
     } catch (err) {
@@ -105,18 +105,18 @@ export class BrowserWebSocketTransport implements IWebSocketTransport {
     }
 
     this.ws.onopen = () => {
-      this.readyState = "open";
+      this.readyState = 'open';
       this.backoff.reset();
       for (const h of this.openHandlers) h();
     };
 
     this.ws.onmessage = (ev: MessageEvent) => {
       const data = ev.data as unknown;
-      if (typeof data === "string") {
+      if (typeof data === 'string') {
         for (const h of this.messageHandlers) h(data);
         return;
       }
-      if (typeof Blob !== "undefined" && data instanceof Blob) {
+      if (typeof Blob !== 'undefined' && data instanceof Blob) {
         data
           .text()
           .then((t) => {
@@ -126,7 +126,7 @@ export class BrowserWebSocketTransport implements IWebSocketTransport {
         return;
       }
       // unsupported payload type; surface as error
-      this.handleError(new Error("Unsupported WebSocket message payload type"));
+      this.handleError(new Error('Unsupported WebSocket message payload type'));
     };
 
     this.ws.onerror = (ev: Event) => {
@@ -134,7 +134,7 @@ export class BrowserWebSocketTransport implements IWebSocketTransport {
     };
 
     this.ws.onclose = (ev: CloseEvent) => {
-      this.readyState = "closed";
+      this.readyState = 'closed';
       this.ws = null;
       for (const h of this.closeHandlers) h(ev);
       if (!this.explicitClose) this.scheduleReconnect();

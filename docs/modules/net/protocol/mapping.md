@@ -1,14 +1,14 @@
 ---
-title: "Action→Signal Mapping"
-summary: "Default mapping from actions to expected response signals, plus a safe matcher for interleaved streams with optional request_id correlation."
+title: 'Action→Signal Mapping'
+summary: 'Default mapping from actions to expected response signals, plus a safe matcher for interleaved streams with optional request_id correlation.'
 source_paths:
-- "src/net/protocol/mapping.ts"
-last_updated: "2025-10-29"
-owner: "Mateusz Polis"
-tags: ["module", "net", "protocol"]
+  - 'src/net/protocol/mapping.ts'
+last_updated: '2025-10-29'
+owner: 'Mateusz Polis'
+tags: ['module', 'net', 'protocol']
 links:
-  parent: "../../../SUMMARY.md"
-  siblings: ["./schema.md"]
+  parent: '../../../SUMMARY.md'
+  siblings: ['./schema.md']
 ---
 
 # protocol/mapping
@@ -41,5 +41,3 @@ agent.get → agent.state
 
 - Schemas: [`./schema`](./schema.md)
 - Client: [`../../client`](../../client.md)
-
-

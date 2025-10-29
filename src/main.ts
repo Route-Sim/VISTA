@@ -1,11 +1,11 @@
-import { Engine } from "./engine/engine";
-import { SceneManager } from "./engine/scene-manager";
-import { createCamera } from "./engine/camera-rig";
-import { createOrbitMoveControls } from "./engine/controls/orbit-move-controls";
-import { mountHud } from "./hud";
+import { Engine } from './engine/engine';
+import { SceneManager } from './engine/scene-manager';
+import { createCamera } from './engine/camera-rig';
+import { createOrbitMoveControls } from './engine/controls/orbit-move-controls';
+import { mountHud } from './hud';
 
-const canvas = document.createElement("canvas");
-canvas.id = "app";
+const canvas = document.createElement('canvas');
+canvas.id = 'app';
 document.body.appendChild(canvas);
 
 const engine = new Engine(canvas);
@@ -20,9 +20,9 @@ const controls = createOrbitMoveControls(camera, canvas, {
 const hud = mountHud();
 
 // Toggle HUD with H key
-window.addEventListener("keydown", (e) => {
+window.addEventListener('keydown', (e) => {
   const key = e.key.toLowerCase();
-  if (key === "h") {
+  if (key === 'h') {
     hud.toggle();
   }
 });

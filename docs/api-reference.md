@@ -1,14 +1,14 @@
 ---
-title: "API Reference – WebSocket Protocol"
-summary: "Typed actions and signals exchanged between VISTA and SPINE with zod-validated envelopes and examples."
+title: 'API Reference – WebSocket Protocol'
+summary: 'Typed actions and signals exchanged between VISTA and SPINE with zod-validated envelopes and examples.'
 source_paths:
-- "src/net/protocol/schema.ts"
-- "src/net/protocol/mapping.ts"
-last_updated: "2025-10-29"
-owner: "Mateusz Polis"
-tags: ["api", "net", "protocol"]
+  - 'src/net/protocol/schema.ts'
+  - 'src/net/protocol/mapping.ts'
+last_updated: '2025-10-29'
+owner: 'Mateusz Polis'
+tags: ['api', 'net', 'protocol']
 links:
-  parent: "./SUMMARY.md"
+  parent: './SUMMARY.md'
   siblings: []
 ---
 
@@ -27,10 +27,17 @@ See detailed schemas: [`protocol/schema`](modules/net/protocol/schema.md) and ma
 
 ```ts
 type ActionName =
-  | "simulation.start" | "simulation.stop" | "simulation.resume"
-  | "map.create" | "map.export" | "map.import"
-  | "tick_rate.update"
-  | "agent.create" | "agent.update" | "agent.delete" | "agent.get";
+  | 'simulation.start'
+  | 'simulation.stop'
+  | 'simulation.resume'
+  | 'map.create'
+  | 'map.export'
+  | 'map.import'
+  | 'tick_rate.update'
+  | 'agent.create'
+  | 'agent.update'
+  | 'agent.delete'
+  | 'agent.get';
 ```
 
 Params per action (TypeScript/zod enforced):
@@ -63,11 +70,19 @@ Example (client → server):
 
 ```ts
 type SignalName =
-  | "simulation.started" | "simulation.stopped" | "simulation.resumed"
-  | "map.created" | "map.exported" | "map.imported"
-  | "tick_rate.updated"
-  | "agent.created" | "agent.updated" | "agent.deleted" | "agent.state"
-  | "event.created" | "error";
+  | 'simulation.started'
+  | 'simulation.stopped'
+  | 'simulation.resumed'
+  | 'map.created'
+  | 'map.exported'
+  | 'map.imported'
+  | 'tick_rate.updated'
+  | 'agent.created'
+  | 'agent.updated'
+  | 'agent.deleted'
+  | 'agent.state'
+  | 'event.created'
+  | 'error';
 ```
 
 Data per signal (TypeScript/zod enforced):
@@ -109,5 +124,3 @@ Example (server → client):
 - Reconnect: Exponential backoff with jitter (0.5s → 30s cap). See [`net/backoff`](modules/net/backoff.md).
 - Transport: Browser WebSocket wrapper with lifecycle hooks. See [`net/transport/browser-websocket`](modules/net/transport/browser-websocket.md).
 - Client API: `connect()`, `disconnect()`, `on(signal, handler)`, `onAny(handler)`, `sendAction()`, `waitFor()`. See [`net/client`](modules/net/client.md).
-
-

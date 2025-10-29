@@ -1,14 +1,14 @@
 ---
-title: "Exponential Backoff Strategy"
-summary: "Reconnect timing strategy with exponential growth and optional jitter; pluggable via a simple interface."
+title: 'Exponential Backoff Strategy'
+summary: 'Reconnect timing strategy with exponential growth and optional jitter; pluggable via a simple interface.'
 source_paths:
-  - "src/net/backoff.ts"
-last_updated: "2025-10-29"
-owner: "Mateusz Polis"
-tags: ["module", "net", "reliability"]
+  - 'src/net/backoff.ts'
+last_updated: '2025-10-29'
+owner: 'Mateusz Polis'
+tags: ['module', 'net', 'reliability']
 links:
-  parent: "../../SUMMARY.md"
-  siblings: ["./transport/browser-websocket.md"]
+  parent: '../../SUMMARY.md'
+  siblings: ['./transport/browser-websocket.md']
 ---
 
 # backoff

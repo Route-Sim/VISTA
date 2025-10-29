@@ -1,14 +1,14 @@
 ---
-title: "Protocol Schemas – Actions & Signals"
-summary: "Strongly typed zod schemas and TypeScript unions for actions and signals, with envelope types and codec helpers."
+title: 'Protocol Schemas – Actions & Signals'
+summary: 'Strongly typed zod schemas and TypeScript unions for actions and signals, with envelope types and codec helpers.'
 source_paths:
-- "src/net/protocol/schema.ts"
-last_updated: "2025-10-29"
-owner: "Mateusz Polis"
-tags: ["module", "net", "protocol", "zod"]
+  - 'src/net/protocol/schema.ts'
+last_updated: '2025-10-29'
+owner: 'Mateusz Polis'
+tags: ['module', 'net', 'protocol', 'zod']
 links:
-  parent: "../../../SUMMARY.md"
-  siblings: ["./mapping.md"]
+  parent: '../../../SUMMARY.md'
+  siblings: ['./mapping.md']
 ---
 
 # protocol/schema
@@ -24,17 +24,32 @@ links:
 
 ```ts
 type ActionName =
-  | "simulation.start" | "simulation.stop" | "simulation.resume"
-  | "map.create" | "map.export" | "map.import"
-  | "tick_rate.update"
-  | "agent.create" | "agent.update" | "agent.delete" | "agent.get";
+  | 'simulation.start'
+  | 'simulation.stop'
+  | 'simulation.resume'
+  | 'map.create'
+  | 'map.export'
+  | 'map.import'
+  | 'tick_rate.update'
+  | 'agent.create'
+  | 'agent.update'
+  | 'agent.delete'
+  | 'agent.get';
 
 type SignalName =
-  | "simulation.started" | "simulation.stopped" | "simulation.resumed"
-  | "map.created" | "map.exported" | "map.imported"
-  | "tick_rate.updated"
-  | "agent.created" | "agent.updated" | "agent.deleted" | "agent.state"
-  | "event.created" | "error";
+  | 'simulation.started'
+  | 'simulation.stopped'
+  | 'simulation.resumed'
+  | 'map.created'
+  | 'map.exported'
+  | 'map.imported'
+  | 'tick_rate.updated'
+  | 'agent.created'
+  | 'agent.updated'
+  | 'agent.deleted'
+  | 'agent.state'
+  | 'event.created'
+  | 'error';
 ```
 
 ## Envelopes
@@ -70,5 +85,3 @@ encodeAction(action: ActionName, params: ActionParams[ActionName], requestId?: s
 
 - Mapping: [`./mapping`](./mapping.md)
 - Client: [`../../client`](../../client.md)
-
-

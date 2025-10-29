@@ -1,9 +1,9 @@
-import * as THREE from "three";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+import * as THREE from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 export function createOrbitControls(
   camera: THREE.PerspectiveCamera,
-  canvas: HTMLCanvasElement
+  canvas: HTMLCanvasElement,
 ): OrbitControls {
   const controls = new OrbitControls(camera, canvas);
   controls.enableDamping = true;

@@ -1,13 +1,13 @@
 ---
-title: "App Config – WebSocket URL"
-summary: "Centralized resolution of the WebSocket endpoint with environment override and safe fallbacks for local development."
+title: 'App Config – WebSocket URL'
+summary: 'Centralized resolution of the WebSocket endpoint with environment override and safe fallbacks for local development.'
 source_paths:
-- "src/app/config.ts"
-last_updated: "2025-10-29"
-owner: "Mateusz Polis"
-tags: ["module", "app", "config", "net"]
+  - 'src/app/config.ts'
+last_updated: '2025-10-29'
+owner: 'Mateusz Polis'
+tags: ['module', 'app', 'config', 'net']
 links:
-  parent: "../../SUMMARY.md"
+  parent: '../../SUMMARY.md'
   siblings: []
 ---
 
@@ -29,7 +29,7 @@ links:
 ## Public API / Usage
 
 ```ts
-import { wsUrl } from "@/app/config";
+import { wsUrl } from '@/app/config';
 // wsUrl is a string like "wss://example.com/ws" or "ws://localhost:8080/ws"
 ```
 
@@ -43,5 +43,3 @@ import { wsUrl } from "@/app/config";
 
 - Network client: [`net/client`](../../modules/net/client.md)
 - Transport: [`net/transport/browser-websocket`](../../modules/net/transport/browser-websocket.md)
-
-

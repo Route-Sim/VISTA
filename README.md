@@ -119,7 +119,7 @@ Central palette lives in `src/app/colors.ts`. The visual direction aims for simp
 Example material baseline:
 
 ```ts
-import * as THREE from "three";
+import * as THREE from 'three';
 
 export const createWarmLowPolyMaterial = (color: THREE.ColorRepresentation) =>
   new THREE.MeshStandardMaterial({
@@ -133,7 +133,7 @@ export const createWarmLowPolyMaterial = (color: THREE.ColorRepresentation) =>
 Suggested warm lighting:
 
 ```ts
-import * as THREE from "three";
+import * as THREE from 'three';
 
 export function addWarmLighting(scene: THREE.Scene): void {
   const ambient = new THREE.AmbientLight(0xffe8cc, 0.4);

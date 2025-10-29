@@ -32,7 +32,7 @@ export class ExponentialBackoff implements BackoffStrategy {
   nextDelayMs(): number {
     const base = Math.min(
       this.initialDelayMs * Math.pow(this.factor, this.attempt++),
-      this.maxDelayMs
+      this.maxDelayMs,
     );
     if (this.jitterRatio <= 0) return base;
     const jitter = base * this.jitterRatio;

@@ -168,7 +168,7 @@ source_paths:
 
 - "<relative repo path(s) this doc covers>"
   last_updated: "2025-10-29"
-  owner: "Mateusz Polis"
+  owner: "Mateusz Nędzi"
   tags: ["module", "api", "engine", "view", "sim", "net", "hud"]
   links:
   parent: "../../SUMMARY.md"

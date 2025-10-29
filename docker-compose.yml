@@ -1,0 +1,25 @@
+version: '3.9'
+
+services:
+  # Production profile: build image and serve via nginx
+  web:
+    build: .
+    ports:
+      - '8080:80'
+    profiles: ['prod']
+
+  # Development profile: run Vite dev server with HMR using Bun
+  dev:
+    image: oven/bun:1
+    working_dir: /app
+    command: bunx --bun vite --host 0.0.0.0 --port 5173
+    volumes:
+      - .:/app
+      - /app/node_modules
+    ports:
+      - '5173:5173'
+    environment:
+      # Pass through Vite envs if needed, e.g. WebSocket URL
+      # - VITE_WS_URL=
+      - NODE_ENV=development
+    profiles: ['dev']

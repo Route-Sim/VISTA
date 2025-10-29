@@ -9,6 +9,10 @@
   - app
     - [config](modules/app/config.md)
 
+  - config
+    - [docker](modules/config/docker.md)
+    - [docker-compose](modules/config/docker-compose.md)
+
   - net
     - [index](modules/net/index.md)
     - [protocol/schema](modules/net/protocol/schema.md)

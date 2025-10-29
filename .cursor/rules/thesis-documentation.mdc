@@ -1,0 +1,296 @@
+---
+alwaysApply: true
+---
+
+# Cursor Rule: Thesis Docs for VISTA (Repo-Aware)
+
+## Intent
+
+Whenever I (Mateusz) write or modify code in this repository, also create or update a Markdown documentation file under the `docs/` folder.
+
+Each module, class, system, or script should have its own file, written in a thesis-ready, explanatory tone.
+
+The documentation should form a navigable “book” with cross-links, frontmatter, and a global table of contents.
+
+---
+
+## Apply To (Repo Structure)
+
+**Include:**
+
+- `src/app/**`
+- `src/engine/**` (including `controls/**`, `objects/**`, `loaders/**`)
+- `src/sim/**` (adapters, systems, store)
+- `src/net/**` (protocol, transport, workers)
+- `src/view/**`
+- `src/hud/**` (components, ui)
+- `src/utils/**`
+- `public/shaders/**`, `public/models/**`, `public/textures/**` (document shader entry points, model usage, texture sets)
+- Top-level config and build files: `vite.config.ts`, `tsconfig.json`, `tailwind.config.cjs`, `postcss.config.cjs`, `index.html`, `package.json`
+- `scripts/**` and `tests/**` if/when added
+
+**Exclude:**
+
+- `node_modules/**`
+- `dist/**`, `build/**`, `.vite/**`, `coverage/**`
+- `README.md`
+- `docs/yaak/**` (keep as external test artifacts; reference from docs when needed)
+- Binary assets (`*.png`, `*.jpg`, `*.glb`, `*.ktx2`, etc.) — describe usage, don’t duplicate
+
+---
+
+## Docs Folder Structure (Create if Missing)
+
+docs/
+index.md # project overview
+SUMMARY.md # global Table of Contents
+glossary.md # definitions and abbreviations
+api-reference.md # WebSocket protocol (messages, frames, events)
+style-guide.md # low‑poly warm world style guide summary
+adr/ # Architecture Decision Records
+modules/ # code-part docs (mirroring repo layout)
+app/
+engine/
+sim/
+net/
+view/
+hud/
+utils/
+public/
+shaders/
+models/
+textures/
+config/ # for top-level config/build files
+
+---
+
+## Path Mapping (Code → Doc)
+
+Each code file corresponds to one Markdown file in `docs/modules/`, mirroring the directory tree (drop the `src/` prefix). Filenames use kebab-case and no extension.
+
+Examples:
+
+- `src/engine/scene-manager.ts` → `docs/modules/engine/scene-manager.md`
+- `src/engine/controls/orbit-controls.ts` → `docs/modules/engine/controls/orbit-controls.md`
+- `src/hud/ui/button.tsx` → `docs/modules/hud/ui/button.md`
+- `src/net/protocol/schema.ts` → `docs/modules/net/protocol/schema.md`
+- `src/app/colors.ts` → `docs/modules/app/colors.md`
+- `src/main.ts` → `docs/modules/main.md`
+- `public/shaders/water.frag` → `docs/modules/public/shaders/water-frag.md`
+- `vite.config.ts` → `docs/modules/config/vite.md`
+- `tsconfig.json` → `docs/modules/config/tsconfig.md`
+
+Rules:
+
+- Convert CamelCase/file stems to kebab-case.
+- For shader and non-TS files, replace dots with dashes in the stem (e.g., `water.frag` → `water-frag.md`).
+- `index.ts(x)` becomes `index.md`.
+
+---
+
+## Global Book Artifacts (Keep Synced)
+
+### docs/index.md
+
+- Project title and abstract
+- High-level architecture overview (IO → Domain → View)
+- Module map linking to key module docs (engine, sim, net, view, hud, utils, app, config)
+
+### docs/SUMMARY.md
+
+Use mdBook/GitBook-style ToC:
+
+# Summary
+
+- [Overview](index.md)
+- [Glossary](glossary.md)
+- [Style Guide](style-guide.md)
+- [API Reference](api-reference.md)
+
+- Modules
+
+  - app
+    - [colors](modules/app/colors.md)
+    - [config](modules/app/config.md)
+  - engine
+    - [engine](modules/engine/engine.md)
+    - [scene-manager](modules/engine/scene-manager.md)
+    - [camera-rig](modules/engine/camera-rig.md)
+    - [controls/orbit-controls](modules/engine/controls/orbit-controls.md)
+    - [objects/ground](modules/engine/objects/ground.md)
+  - sim
+    - [store](modules/sim/store/index.md)
+    - [systems](modules/sim/systems/index.md)
+    - [adapters](modules/sim/adapters/index.md)
+  - net
+    - [index](modules/net/index.md)
+    - [client](modules/net/client.md)
+    - [protocol/schema](modules/net/protocol/schema.md)
+    - [protocol/mapping](modules/net/protocol/mapping.md)
+    - [transport/browser-websocket](modules/net/transport/browser-websocket.md)
+    - [events](modules/net/events.md)
+    - [backoff](modules/net/backoff.md)
+    - [request-tracker](modules/net/request-tracker.md)
+  - view
+    - [index](modules/view/index.md)
+  - hud
+    - [index](modules/hud/index.md)
+    - [components/hud-frame](modules/hud/components/hud-frame.md)
+    - [components/hub-content](modules/hud/components/hub-content.md)
+    - [ui/button](modules/hud/ui/button.md)
+  - utils
+    - [index](modules/utils/index.md)
+  - public
+    - [shaders/water-frag](modules/public/shaders/water-frag.md)
+
+- ADRs
+  - [YYYY-MM-DD short-title](adr/ADR-YYYY-MM-DD-short-title.md)
+
+### docs/glossary.md
+
+Add new terms and short definitions when first introduced (e.g., snapshot buffer, interpolation frame, instancing, idle motion).
+
+### docs/style-guide.md
+
+Summarize the Low‑Poly Warm World Style Guide. Link to `src/app/colors.ts`, `src/engine/scene-manager.ts`, `src/engine/camera-rig.ts`, and `src/engine/objects/*`.
+
+---
+
+## Frontmatter (Every Doc)
+
+Use this YAML block at the top of each Markdown file:
+
+---
+
+title: "<Readable Title>"
+summary: "<2–3 sentence abstract for thesis readers>"
+source_paths:
+
+- "<relative repo path(s) this doc covers>"
+  last_updated: "2025-10-29"
+  owner: "Mateusz Polis"
+  tags: ["module", "api", "engine", "view", "sim", "net", "hud"]
+  links:
+  parent: "../../SUMMARY.md"
+  siblings: []
+
+---
+
+---
+
+## Module Doc Template
+
+# {Module Name}
+
+> **Purpose:** {1–2 paragraph high-level explanation for thesis readers}
+
+## Context & Motivation
+
+- Problem solved
+- Requirements and constraints
+- Dependencies and assumptions
+
+## Responsibilities & Boundaries
+
+- In-scope
+- Out-of-scope
+
+## Architecture & Design
+
+- Key functions, classes, or modules
+- Data flow and interactions
+- State management or concurrency (if any)
+- Resource handling (files, network, shaders, textures)
+- Optional diagram: `![diagram](./{diagram.png})`
+
+## Algorithms & Complexity
+
+- Core algorithmic approach
+- Big-O complexity of main operations
+- Edge cases and stability
+
+## Public API / Usage
+
+- Short TypeScript signatures or component props
+- Example usage snippet
+
+## Implementation Notes
+
+- Key design trade-offs
+- 3rd-party libraries (three.js, shadcn/ui, tailwind, etc.)
+- Testing hooks or debug modes
+
+## Tests (If Applicable)
+
+- Test scope and strategy
+- Critical test cases
+
+## Performance
+
+- Benchmarks or baselines
+- Known bottlenecks
+
+## Security & Reliability
+
+- Validation, error handling, fault tolerance
+- Logging and observability
+
+## References
+
+- Related modules
+- ADRs
+- Papers, specifications, issues, PRs
+
+---
+
+## ADR Template
+
+# ADR: {Decision Title}
+
+- **Date:** {YYYY-MM-DD}
+- **Status:** Proposed | Accepted | Superseded | Rejected
+- **Context:** {background or motivation}
+- **Options Considered:** {A, B, C}
+- **Decision:** {chosen option}
+- **Consequences:** {positive, negative, follow-ups}
+- **Related:** {modules, PRs, issues}
+
+---
+
+## Workflow (Each Time You Change Code)
+
+1. Map changed file(s) to corresponding `docs/modules/**` doc paths (drop `src/`).
+2. Create or update the doc using the template and frontmatter.
+3. Add or update sibling/parent links.
+4. Update `docs/SUMMARY.md` to reflect new or changed docs.
+5. Add glossary entries for new terms.
+6. Write or update ADRs for important design choices (e.g., scene composition, instancing strategy, networking reconnection policy).
+
+7. API Reference Update (MANDATORY) — When adding or modifying message types, events, or wire schemas in `src/net/protocol/schema.ts` or `src/net/protocol/mapping.ts`:
+   - Update `docs/api-reference.md` with message names, TypeScript types, and JSON examples.
+   - Document connection lifecycle, backoff, heartbeats/pings (if any), and client error codes.
+   - Include usage examples with `src/net/client.ts` and `src/net/events.ts`.
+   - Reference any Yaak collections under `docs/yaak/` for testing.
+
+---
+
+## Style & Consistency Rules
+
+- Use kebab-case filenames and Title Case in frontmatter `title`.
+- Only use relative links — never absolute paths.
+- Write for a thesis audience: clear, formal, and explanatory.
+- Keep examples minimal and correct.
+- Match the IO → Domain → View architecture boundaries in explanations.
+- For visuals, align with the Low‑Poly Warm World Style Guide (warm palette, flat shading, gentle motion).
+
+---
+
+## Quality Checklist
+
+- [ ] Module doc created or updated with correct frontmatter
+- [ ] Entry in `SUMMARY.md` added or updated
+- [ ] Cross-links to related modules added
+- [ ] Glossary updated with new terms
+- [ ] Diagram paths valid (if any)
+- [ ] Examples tested or verified
+- [ ] API reference updated if wire schemas, events, or mappings changed

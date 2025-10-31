@@ -4,7 +4,7 @@ summary: 'Centralized resolution of the WebSocket endpoint with environment over
 source_paths:
   - 'src/app/config.ts'
 last_updated: '2025-10-29'
-owner: 'Mateusz Polis'
+owner: 'Mateusz Nędzi'
 tags: ['module', 'app', 'config', 'net']
 links:
   parent: '../../SUMMARY.md'

@@ -4,7 +4,7 @@ summary: 'Default mapping from actions to expected response signals, plus a safe
 source_paths:
   - 'src/net/protocol/mapping.ts'
 last_updated: '2025-10-29'
-owner: 'Mateusz Polis'
+owner: 'Mateusz Nędzi'
 tags: ['module', 'net', 'protocol']
 links:
   parent: '../../../SUMMARY.md'

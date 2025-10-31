@@ -5,7 +5,7 @@ source_paths:
   - 'src/net/protocol/schema.ts'
   - 'src/net/protocol/mapping.ts'
 last_updated: '2025-10-31'
-owner: 'Mateusz Polis'
+owner: 'Mateusz Nędzi'
 tags: ['api', 'net', 'protocol']
 links:
   parent: './SUMMARY.md'

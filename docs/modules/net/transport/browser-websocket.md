@@ -4,7 +4,7 @@ summary: 'Platform WebSocket adapter implementing connect/send/close with lifecy
 source_paths:
   - 'src/net/transport/browser-websocket.ts'
 last_updated: '2025-10-29'
-owner: 'Mateusz Polis'
+owner: 'Mateusz Nędzi'
 tags: ['module', 'net', 'transport']
 links:
   parent: '../../../SUMMARY.md'

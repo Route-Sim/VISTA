@@ -4,7 +4,7 @@ summary: 'Public entry point for the WebSocket network layer, barrel exports, an
 source_paths:
   - 'src/net/index.ts'
 last_updated: '2025-10-29'
-owner: 'Mateusz Polis'
+owner: 'Mateusz Nędzi'
 tags: ['module', 'net', 'api']
 links:
   parent: '../../SUMMARY.md'

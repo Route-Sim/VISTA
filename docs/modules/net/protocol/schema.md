@@ -4,7 +4,7 @@ summary: 'Strongly typed zod schemas and TypeScript unions for actions and signa
 source_paths:
   - 'src/net/protocol/schema.ts'
 last_updated: '2025-10-31'
-owner: 'Mateusz Polis'
+owner: 'Mateusz Nędzi'
 tags: ['module', 'net', 'protocol', 'zod']
 links:
   parent: '../../../SUMMARY.md'

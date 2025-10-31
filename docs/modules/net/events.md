@@ -4,7 +4,7 @@ summary: 'Minimal typed observer used for internal signalling; supports on/off/o
 source_paths:
   - 'src/net/events.ts'
 last_updated: '2025-10-29'
-owner: 'Mateusz Polis'
+owner: 'Mateusz Nędzi'
 tags: ['module', 'net', 'events']
 links:
   parent: '../../SUMMARY.md'

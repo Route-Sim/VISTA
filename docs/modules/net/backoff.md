@@ -4,7 +4,7 @@ summary: 'Reconnect timing strategy with exponential growth and optional jitter;
 source_paths:
   - 'src/net/backoff.ts'
 last_updated: '2025-10-29'
-owner: 'Mateusz Polis'
+owner: 'Mateusz Nędzi'
 tags: ['module', 'net', 'reliability']
 links:
   parent: '../../SUMMARY.md'

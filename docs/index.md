@@ -4,7 +4,7 @@ summary: 'High-level overview of the IO → Domain → View architecture and mod
 source_paths:
   - 'src/main.ts'
 last_updated: '2025-10-29'
-owner: 'Mateusz Polis'
+owner: 'Mateusz Nędzi'
 tags: ['overview', 'architecture', 'net', 'engine', 'sim', 'view', 'hud']
 links:
   parent: './SUMMARY.md'

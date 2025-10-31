@@ -4,7 +4,7 @@ summary: 'High-level client that composes transport, protocol codec, and request
 source_paths:
   - 'src/net/client.ts'
 last_updated: '2025-10-29'
-owner: 'Mateusz Polis'
+owner: 'Mateusz Nędzi'
 tags: ['module', 'net', 'client']
 links:
   parent: '../../SUMMARY.md'

@@ -3,7 +3,7 @@ title: 'Protocol Schemas – Actions & Signals'
 summary: 'Strongly typed zod schemas and TypeScript unions for actions and signals, with envelope types and codec helpers.'
 source_paths:
   - 'src/net/protocol/schema.ts'
-last_updated: '2025-10-29'
+last_updated: '2025-10-31'
 owner: 'Mateusz Polis'
 tags: ['module', 'net', 'protocol', 'zod']
 links:
@@ -49,6 +49,7 @@ type SignalName =
   | 'agent.deleted'
   | 'agent.state'
   | 'event.created'
+  | 'building.updated'
   | 'error';
 ```
 

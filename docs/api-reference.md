@@ -4,7 +4,7 @@ summary: 'Typed actions and signals exchanged between VISTA and SPINE with zod-v
 source_paths:
   - 'src/net/protocol/schema.ts'
   - 'src/net/protocol/mapping.ts'
-last_updated: '2025-10-29'
+last_updated: '2025-10-31'
 owner: 'Mateusz Polis'
 tags: ['api', 'net', 'protocol']
 links:
@@ -82,6 +82,7 @@ type SignalName =
   | 'agent.deleted'
   | 'agent.state'
   | 'event.created'
+  | 'building.updated'
   | 'error';
 ```
 
@@ -100,6 +101,7 @@ agent.updated: { agent_id: string, ... }
 agent.deleted: { agent_id: string }
 agent.state: { agent_id: string, agent_kind: string, ... }
 event.created: { event_name: string, ... }
+building.updated: { building_id: string, ... }
 error: { code: string, message: string }
 ```
 

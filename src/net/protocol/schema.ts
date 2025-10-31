@@ -40,6 +40,9 @@ export const SignalSchemas = {
     .object({ agent_id: z.string(), agent_kind: z.string() })
     .catchall(z.unknown()),
   'event.created': z.object({ event_name: z.string() }).catchall(z.unknown()),
+  'building.updated': z
+    .object({ building_id: z.string() })
+    .catchall(z.unknown()),
   error: z.object({ code: z.string(), message: z.string() }),
 } as const;
 

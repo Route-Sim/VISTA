@@ -1,11 +1,12 @@
 ---
 title: 'Glossary'
-summary: 'Definitions of core terms used across the VISTA network layer and architecture.'
+summary: 'Definitions of core terms used across the VISTA network, simulation, and rendering architecture.'
 source_paths:
   - 'src/net/**'
-last_updated: '2025-10-29'
-owner: 'Mateusz Polis'
-tags: ['glossary', 'net', 'architecture']
+  - 'src/sim/**'
+last_updated: '2025-10-31'
+owner: 'Mateusz Nędzi'
+tags: ['glossary', 'net', 'sim', 'architecture']
 links:
   parent: './SUMMARY.md'
   siblings: []

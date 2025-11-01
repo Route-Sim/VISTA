@@ -33,13 +33,13 @@ function HudRoot() {
     >
       <HudVisibilityProvider>
         <HudHotkeysMount />
-        <NetEventsPanel />
-        <div className="fixed top-4 right-4">
-          <CameraHelp />
-        </div>
-
-        <div className="fixed bottom-4 left-1/2 -translate-x-1/2">
+        
+        <div className="fixed left-4 top-4 bottom-4 flex flex-col gap-4">
           <PlayControls controller={playbackController} />
+          <CameraHelp />
+          <div className="flex-1 min-h-0">
+            <NetEventsPanel />
+          </div>
         </div>
 
         <div className="fixed right-4 bottom-4">

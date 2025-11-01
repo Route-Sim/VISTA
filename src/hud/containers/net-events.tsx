@@ -47,7 +47,11 @@ function Toggle({
   );
 }
 
-function Row({ item, expanded, onToggle }: {
+function Row({
+  item,
+  expanded,
+  onToggle,
+}: {
   item: ListItem;
   expanded: boolean;
   onToggle: () => void;
@@ -95,20 +99,28 @@ function Row({ item, expanded, onToggle }: {
   return (
     <div className="rounded-md border border-black/5 bg-white/80 p-2">
       <div className="flex items-center justify-between gap-2">
-        <div className="flex items-center gap-2 min-w-0">
-          <div className="text-[10px] font-semibold text-black/60 w-[42px]">{badge}</div>
-          <div className="text-[10px] text-black/60 w-[94px]">{t}</div>
+        <div className="flex min-w-0 items-center gap-2">
+          <div className="w-[42px] text-[10px] font-semibold text-black/60">
+            {badge}
+          </div>
+          <div className="w-[94px] text-[10px] text-black/60">{t}</div>
           <div className="truncate text-xs text-black/90">{summary}</div>
         </div>
         {details ? (
-          <Button size="sm" variant="ghost" className="h-7 px-2" onClick={onToggle} aria-label="Toggle details">
+          <Button
+            size="sm"
+            variant="ghost"
+            className="h-7 px-2"
+            onClick={onToggle}
+            aria-label="Toggle details"
+          >
             {expanded ? 'Hide' : 'Show'}
           </Button>
         ) : null}
       </div>
       {expanded && details ? (
         <div className="mt-2 max-h-40 overflow-auto rounded bg-black/5 p-2">
-          <pre className="m-0 whitespace-pre-wrap break-words text-[10px] text-black/80">
+          <pre className="m-0 text-[10px] break-words whitespace-pre-wrap text-black/80">
             {details}
           </pre>
         </div>
@@ -118,7 +130,11 @@ function Row({ item, expanded, onToggle }: {
 }
 
 export function NetEventsPanel(): React.ReactNode {
-  const [filters, setFilters] = React.useState<FilterState>({ in: true, out: true, conn: true });
+  const [filters, setFilters] = React.useState<FilterState>({
+    in: true,
+    out: true,
+    conn: true,
+  });
   const [items, setItems] = React.useState<ListItem[]>([]);
   const [expanded, setExpanded] = React.useState<Record<number, boolean>>({});
   const listRef = React.useRef<HTMLDivElement | null>(null);
@@ -155,28 +171,43 @@ export function NetEventsPanel(): React.ReactNode {
     <HudContainer
       id="net-events"
       title="Net Events"
-      className="fixed top-4 left-4 w-[420px]"
+      className="flex h-full w-[400px] flex-col"
     >
-      <div className="flex flex-col gap-2">
+      <div className="flex h-full min-h-0 flex-col gap-2">
         <div className="flex items-center justify-between gap-2">
           <div className="flex items-center gap-2">
-            <Toggle active={filters.in} onClick={() => toggleFilter('in')}>Incoming</Toggle>
-            <Toggle active={filters.out} onClick={() => toggleFilter('out')}>Outgoing</Toggle>
-            <Toggle active={filters.conn} onClick={() => toggleFilter('conn')}>Conn</Toggle>
+            <Toggle active={filters.in} onClick={() => toggleFilter('in')}>
+              Incoming
+            </Toggle>
+            <Toggle active={filters.out} onClick={() => toggleFilter('out')}>
+              Outgoing
+            </Toggle>
+            <Toggle active={filters.conn} onClick={() => toggleFilter('conn')}>
+              Conn
+            </Toggle>
           </div>
-          <Button variant="outline" size="sm" className="h-7" onClick={clear}>Clear</Button>
+          <Button variant="outline" size="sm" className="h-7" onClick={clear}>
+            Clear
+          </Button>
         </div>
         <Separator className="bg-black/10" />
-        <div ref={listRef} className="max-h-[320px] overflow-auto pr-1">
+        <div ref={listRef} className="min-h-0 flex-1 overflow-auto pr-1">
           <div className="flex flex-col gap-2">
             {items
-              .filter(({ e }) => (e.dir === 'in' && filters.in) || (e.dir === 'out' && filters.out) || (e.dir === 'conn' && filters.conn))
+              .filter(
+                ({ e }) =>
+                  (e.dir === 'in' && filters.in) ||
+                  (e.dir === 'out' && filters.out) ||
+                  (e.dir === 'conn' && filters.conn),
+              )
               .map((item) => (
                 <Row
                   key={item.id}
                   item={item}
                   expanded={!!expanded[item.id]}
-                  onToggle={() => setExpanded((m) => ({ ...m, [item.id]: !m[item.id] }))}
+                  onToggle={() =>
+                    setExpanded((m) => ({ ...m, [item.id]: !m[item.id] }))
+                  }
                 />
               ))}
           </div>
@@ -185,5 +216,3 @@ export function NetEventsPanel(): React.ReactNode {
     </HudContainer>
   );
 }
-
-

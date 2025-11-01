@@ -11,7 +11,7 @@ export function resolveWsUrl(): string {
     return `${scheme}://${location.host}/ws`;
   }
 
-  return 'ws://localhost:8080/ws';
+  return 'ws://localhost:8000/ws';
 }
 
 export const wsUrl: string = resolveWsUrl();

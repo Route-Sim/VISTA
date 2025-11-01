@@ -12,6 +12,7 @@
   - config
     - [docker](modules/config/docker.md)
     - [docker-compose](modules/config/docker-compose.md)
+    - [vite](modules/config/vite.md)
 
   - net
     - [index](modules/net/index.md)
@@ -20,6 +21,8 @@
     - [backoff](modules/net/backoff.md)
     - [events](modules/net/events.md)
     - [transport/browser-websocket](modules/net/transport/browser-websocket.md)
+    - [transport/instrumented-transport](modules/net/transport/instrumented-transport.md)
+    - [telemetry](modules/net/telemetry.md)
     - [request-tracker](modules/net/request-tracker.md)
     - [client](modules/net/client.md)
 
@@ -30,3 +33,10 @@
     - store
       - [sim-store](modules/sim/store/sim-store.md)
       - [reducers](modules/sim/store/reducers.md)
+
+  - hud
+    - [index](modules/hud/index.md)
+    - containers
+      - [play-controls](modules/hud/containers/play-controls.md)
+      - [camera-help](modules/hud/containers/camera-help.md)
+      - [net-events](modules/hud/containers/net-events.md)

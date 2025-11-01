@@ -70,6 +70,14 @@ export class BrowserWebSocketTransport implements IWebSocketTransport {
     if (!this.ws || this.readyState !== 'open') {
       throw new Error('WebSocket is not open');
     }
+    try {
+      // Outgoing WS event
+      // Using concise logging to avoid heavy console noise
+      // eslint-disable-next-line no-console
+      console.log('[net][ws] ->', data);
+    } catch {
+      // ignore logging errors
+    }
     this.ws.send(data);
   }
 
@@ -107,12 +115,25 @@ export class BrowserWebSocketTransport implements IWebSocketTransport {
     this.ws.onopen = () => {
       this.readyState = 'open';
       this.backoff.reset();
+      try {
+        // eslint-disable-next-line no-console
+        console.log('[net][ws] open', currentUrl);
+      } catch {
+        // ignore logging errors
+      }
       for (const h of this.openHandlers) h();
     };
 
     this.ws.onmessage = (ev: MessageEvent) => {
       const data = ev.data as unknown;
       if (typeof data === 'string') {
+        try {
+          // Incoming WS event (string payload)
+          // eslint-disable-next-line no-console
+          console.log('[net][ws] <-', data);
+        } catch {
+          // ignore logging errors
+        }
         for (const h of this.messageHandlers) h(data);
         return;
       }
@@ -120,6 +141,13 @@ export class BrowserWebSocketTransport implements IWebSocketTransport {
         data
           .text()
           .then((t) => {
+            try {
+              // Incoming WS event (blob converted to text)
+              // eslint-disable-next-line no-console
+              console.log('[net][ws] <-', t);
+            } catch {
+              // ignore logging errors
+            }
             for (const h of this.messageHandlers) h(t);
           })
           .catch((err) => this.handleError(err));
@@ -130,12 +158,28 @@ export class BrowserWebSocketTransport implements IWebSocketTransport {
     };
 
     this.ws.onerror = (ev: Event) => {
+      try {
+        // eslint-disable-next-line no-console
+        console.error('[net][ws] error', ev);
+      } catch {
+        // ignore logging errors
+      }
       this.handleError(ev);
     };
 
     this.ws.onclose = (ev: CloseEvent) => {
       this.readyState = 'closed';
       this.ws = null;
+      try {
+        // eslint-disable-next-line no-console
+        console.log('[net][ws] close', {
+          code: ev.code,
+          reason: ev.reason,
+          wasClean: ev.wasClean,
+        });
+      } catch {
+        // ignore logging errors
+      }
       for (const h of this.closeHandlers) h(ev);
       if (!this.explicitClose) this.scheduleReconnect();
     };

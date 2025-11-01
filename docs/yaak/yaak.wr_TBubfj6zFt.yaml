@@ -2,7 +2,7 @@ type: websocket_request
 model: websocket_request
 id: wr_TBubfj6zFt
 createdAt: 2025-10-28T19:28:17.929191
-updatedAt: 2025-10-29T17:07:13.806555
+updatedAt: 2025-11-01T10:08:53.261093
 workspaceId: wk_BJkwK7RGqy
 folderId: null
 authentication: {}
@@ -11,10 +11,8 @@ description: ''
 headers: []
 message: |-
   {
-    "type": "export_map",
-    "metadata": {
-      "map_name": "my_custom_map"
-    }
+    "action": "simulation.start",
+    "params": {}
   }
 name: Simulation Websocket
 sortPriority: -1761679600000.0

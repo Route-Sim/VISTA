@@ -35,8 +35,10 @@ import { wsUrl } from '@/app/config';
 import { ExponentialBackoff } from '@/net/backoff';
 import { BrowserWebSocketTransport } from '@/net/transport/browser-websocket';
 import { WebSocketClient } from '@/net/client';
+import { InstrumentedTransport } from '@/net/transport/instrumented-transport';
+import { wireNetTelemetry } from '@/net/telemetry';
 
-const transport = new BrowserWebSocketTransport({
+const rawTransport = new BrowserWebSocketTransport({
   url: wsUrl,
   backoff: new ExponentialBackoff({
     initialDelayMs: 500,
@@ -46,5 +48,7 @@ const transport = new BrowserWebSocketTransport({
   }),
 });
 
+const transport = new InstrumentedTransport(rawTransport);
 export const net = new WebSocketClient(transport, 10_000);
+wireNetTelemetry(net, transport);
 // Consumers should call: net.connect()

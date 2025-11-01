@@ -26,29 +26,7 @@
   - sim
     - [index](modules/sim/index.md)
     - domain
-      - [index](modules/sim/domain/index.md)
-      - [types](modules/sim/domain/types.md)
-      - [node](modules/sim/domain/node.md)
-      - [edge](modules/sim/domain/edge.md)
-      - [road](modules/sim/domain/road.md)
-      - [building](modules/sim/domain/building.md)
-      - [depot](modules/sim/domain/depot.md)
-      - [gas-station](modules/sim/domain/gas-station.md)
-      - [site](modules/sim/domain/site.md)
-      - [package](modules/sim/domain/package.md)
-      - [truck](modules/sim/domain/truck.md)
-      - [agent](modules/sim/domain/agent.md)
-    - [state](modules/sim/state.md)
-    - [selectors](modules/sim/selectors/index.md)
+      - [entities](modules/sim/domain/entities.md)
     - store
-      - [index](modules/sim/store/index.md)
-      - [simulation-state](modules/sim/store/simulation-state.md)
-      - [simulation-store](modules/sim/store/simulation-store.md)
-      - [snapshot-buffer](modules/sim/store/snapshot-buffer.md)
-    - systems
-      - [index](modules/sim/systems/index.md)
-      - [advance](modules/sim/systems/advance.md)
-    - adapters
-      - [index](modules/sim/adapters/index.md)
-      - [from-network](modules/sim/adapters/from-network.md)
-      - [to-view](modules/sim/adapters/to-view.md)
+      - [sim-store](modules/sim/store/sim-store.md)
+      - [reducers](modules/sim/store/reducers.md)

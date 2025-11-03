@@ -42,7 +42,7 @@ export function usePlaybackNetController(): PlaybackController {
           break;
         }
         case 'pause': {
-          // No server-side pause; keep local-only for now
+          await net.sendAction('simulation.pause', {});
           break;
         }
       }
@@ -55,5 +55,3 @@ export function usePlaybackNetController(): PlaybackController {
 
   return { commandSink };
 }
-
-

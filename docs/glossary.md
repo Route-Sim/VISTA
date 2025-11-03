@@ -24,7 +24,7 @@ links:
 - Event Bus: Minimal observer for subscribing to typed signals or connection events.
 - Request Tracker: Tracks in-flight requests and resolves them when a matching signal arrives or times out.
 - HUD Container: Reusable card wrapper with title and hide action for on-screen panels.
-- Playback Controller: Optional adapter that accepts playback commands (play, pause, resume, stop, setTickRate) from the HUD for future @net wiring.
+- Playback Controller: Optional adapter that accepts playback commands (play, pause, resume, pause, stop, setTickRate) from the HUD for future @net wiring.
 -
 - Net Telemetry: Lightweight, typed stream of connection lifecycle and IO events (incoming/outgoing) for diagnostics and HUD display.
 - Instrumented Transport: Decorator around the WebSocket transport that surfaces `connecting`, `open/close/error`, `incoming`, and `outgoing` as observable events without modifying the core client.

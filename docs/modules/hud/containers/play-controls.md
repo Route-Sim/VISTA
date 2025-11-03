@@ -48,7 +48,7 @@ Example (wired):
   - `resume` → `simulation.resume` with `{}`
   - `stop` → `simulation.stop` with `{}`
   - `setTickRate` → `tick_rate.update` with `{ tick_rate }`
-  - `pause` is local-only (no server action)
+  - `pause` → `simulation.pause` with `{}`
 
 The hook calls `net.connect()` on mount and sends actions via `net.sendAction(...)`. UI remains optimistic; errors are logged for now.
 
@@ -61,4 +61,3 @@ The hook calls `net.connect()` on mount and sends actions via `net.sendAction(..
 ## Performance
 
 - Lightweight React component; no timers or subscriptions; minimal re-renders.
-

@@ -21,6 +21,7 @@ links:
 simulation.start → simulation.started
 simulation.stop → simulation.stopped
 simulation.resume → simulation.resumed
+simulation.pause → simulation.paused
 map.create → map.created
 map.export → map.exported
 map.import → map.imported

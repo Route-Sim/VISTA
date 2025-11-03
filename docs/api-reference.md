@@ -30,6 +30,7 @@ type ActionName =
   | 'simulation.start'
   | 'simulation.stop'
   | 'simulation.resume'
+  | 'simulation.pause'
   | 'map.create'
   | 'map.export'
   | 'map.import'
@@ -46,6 +47,7 @@ Params per action (TypeScript/zod enforced):
 simulation.start: { tick_rate: number }
 simulation.stop: {}
 simulation.resume: {}
+simulation.pause: {}
 map.create: { size: number, ... }
 map.export: { map_name: string }
 map.import: { base64_file: string }
@@ -73,6 +75,7 @@ type SignalName =
   | 'simulation.started'
   | 'simulation.stopped'
   | 'simulation.resumed'
+  | 'simulation.paused'
   | 'map.created'
   | 'map.exported'
   | 'map.imported'
@@ -92,6 +95,7 @@ Data per signal (TypeScript/zod enforced):
 simulation.started: { tick_rate: number }
 simulation.stopped: {}
 simulation.resumed: {}
+simulation.paused: {}
 map.created: { size: number, ... }
 map.exported: { filename: string, base64_file: string }
 map.imported: {}

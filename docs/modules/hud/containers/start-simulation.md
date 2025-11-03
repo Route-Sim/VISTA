@@ -25,7 +25,7 @@ Since Play Controls and other simulation panels are hidden before simulation sta
 ## Responsibilities & Boundaries
 
 - In-scope: Display a start button, trigger simulation start command via playback controller.
-- Out-of-scope: Playback controls (pause, resume, stop), tick rate configuration (handled by Play Controls panel).
+- Out-of-scope: Playback controls (pause, resume, pause, stop), tick rate configuration (handled by Play Controls panel).
 
 ## Architecture & Design
 
@@ -57,4 +57,3 @@ const controller = usePlaybackNetController();
 - Siblings: [`./map-creator.md`](./map-creator.md), [`./fleet-creator.md`](./fleet-creator.md), [`./play-controls.md`](./play-controls.md)
 - State: [`../state/playback-state.md`](../state/playback-state.md)
 - API: [`../api/playback.ts`](../api/playback.ts)
-

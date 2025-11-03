@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { HudContainer } from '@/hud/components/hud-container';
 import { Button } from '@/hud/ui/button';
-import { Separator } from '@/hud/ui/separator';
 import { netTelemetry, type NetTelemetryEvent } from '@/net/telemetry';
 
 type FilterState = {
@@ -82,13 +81,13 @@ function Row({
     }
   } else if (e.dir === 'out') {
     badge = 'OUT';
-    summary = e.action ? `action ${e.action}` : 'action';
+    summary = e.action ? `${e.action}` : 'action';
     details = e.text;
   } else {
     // in
     badge = 'IN';
     if (e.kind === 'incoming-signal') {
-      summary = `signal ${e.signal.signal}`;
+      summary = `${e.signal.signal}`;
       details = JSON.stringify(e.signal, null, 2);
     } else {
       summary = 'raw';
@@ -158,8 +157,10 @@ export function NetEventsPanel(): React.ReactNode {
   React.useEffect(() => {
     const el = listRef.current;
     if (!el) return;
-    const nearBottom = el.scrollHeight - el.scrollTop - el.clientHeight < 48;
-    if (nearBottom) el.scrollTop = el.scrollHeight;
+    // Scroll to bottom after DOM updates
+    requestAnimationFrame(() => {
+      el.scrollTop = el.scrollHeight;
+    });
   }, [items]);
 
   const clear = () => {
@@ -170,10 +171,10 @@ export function NetEventsPanel(): React.ReactNode {
   return (
     <HudContainer
       id="net-events"
-      title="Net Events"
+      title="Network Log"
       className="flex h-full w-[400px] flex-col"
     >
-      <div className="flex h-full min-h-0 flex-col gap-2">
+      <div className="flex h-full min-h-0 flex-col gap-2 pt-2">
         <div className="flex items-center justify-between gap-2">
           <div className="flex items-center gap-2">
             <Toggle active={filters.in} onClick={() => toggleFilter('in')}>
@@ -190,7 +191,6 @@ export function NetEventsPanel(): React.ReactNode {
             Clear
           </Button>
         </div>
-        <Separator className="bg-black/10" />
         <div ref={listRef} className="min-h-0 flex-1 overflow-auto pr-1">
           <div className="flex flex-col gap-2">
             {items

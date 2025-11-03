@@ -4,6 +4,7 @@ import { HudContainer } from '@/hud/components/hud-container';
 import { Button } from '@/hud/ui/button';
 import { Slider } from '@/hud/ui/slider';
 import { Separator } from '@/hud/ui/separator';
+import { usePlaybackState } from '@/hud/state/playback-state';
 import type {
   PlaybackCommand,
   PlaybackController,
@@ -35,8 +36,10 @@ type PlayControlsProps = {
 export function PlayControls({
   controller,
 }: PlayControlsProps): React.ReactNode {
+  const { status: globalStatus, setStatus: setGlobalStatus } =
+    usePlaybackState();
   const initial: PlaybackState = {
-    status: controller?.initialState?.status ?? 'idle',
+    status: globalStatus ?? controller?.initialState?.status ?? 'idle',
     tickRateHz: controller?.initialState?.tickRateHz ?? readInitialTickRate(),
   };
 
@@ -46,6 +49,18 @@ export function PlayControls({
   );
   const [dragHz, setDragHz] = React.useState<number | null>(null);
   const sink = controller?.commandSink;
+
+  // Sync local status with global playback state
+  React.useEffect(() => {
+    setGlobalStatus(status);
+  }, [status, setGlobalStatus]);
+
+  // Sync global status to local when it changes externally (e.g., from StartSimulation)
+  React.useEffect(() => {
+    if (globalStatus !== status) {
+      setStatus(globalStatus);
+    }
+  }, [globalStatus]);
 
   const commitTickRate = React.useCallback(
     (hz: number) => {

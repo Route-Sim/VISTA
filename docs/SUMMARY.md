@@ -40,3 +40,8 @@
       - [play-controls](modules/hud/containers/play-controls.md)
       - [camera-help](modules/hud/containers/camera-help.md)
       - [net-events](modules/hud/containers/net-events.md)
+      - [map-creator](modules/hud/containers/map-creator.md)
+      - [fleet-creator](modules/hud/containers/fleet-creator.md)
+      - [start-simulation](modules/hud/containers/start-simulation.md)
+    - state
+      - [playback-state](modules/hud/state/playback-state.md)

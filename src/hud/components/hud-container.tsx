@@ -6,6 +6,7 @@ import { Button } from '@/hud/ui/button';
 import { cn } from '@/hud/lib/utils';
 import { useHudVisibility } from '@/hud/state/hud-visibility';
 import type { HudPanelId } from '@/hud/state/hud-visibility';
+import { Separator } from '@/hud/ui/separator';
 
 export type HudContainerProps = {
   id: HudPanelId;
@@ -28,8 +29,9 @@ export function HudContainer({
   const visible = isVisible(id);
   if (!visible) return null;
 
-  const needsFlex = className?.includes('flex') || className?.includes('h-full');
-  const cardClassName = needsFlex 
+  const needsFlex =
+    className?.includes('flex') || className?.includes('h-full');
+  const cardClassName = needsFlex
     ? 'rounded-xl border border-black/10 bg-white/90 shadow-lg backdrop-blur-sm h-full flex flex-col'
     : 'rounded-xl border border-black/10 bg-white/90 shadow-lg backdrop-blur-sm';
 
@@ -58,7 +60,15 @@ export function HudContainer({
             </Button>
           ) : null}
         </CardHeader>
-        <CardContent className={cn('p-3 pt-0', needsFlex && 'flex-1 min-h-0 flex flex-col')}>{children}</CardContent>
+        <Separator />
+        <CardContent
+          className={cn(
+            'p-3 pt-0',
+            needsFlex && 'flex min-h-0 flex-1 flex-col',
+          )}
+        >
+          {children}
+        </CardContent>
       </Card>
     </div>
   );

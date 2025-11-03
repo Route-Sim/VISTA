@@ -16,6 +16,9 @@ const LABELS: Record<(typeof HUD_PANELS)[number], string> = {
   'play-controls': 'Play Controls',
   'camera-help': 'Camera Help',
   'net-events': 'Net Events',
+  'map-creator': 'Map Creator',
+  'fleet-creator': 'Fleet Creator',
+  'start-simulation': 'Start Simulation',
 };
 
 export function HudMenu(): React.ReactNode {

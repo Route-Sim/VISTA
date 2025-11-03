@@ -3,7 +3,7 @@ title: 'Map Creator'
 summary: 'Full-screen container for map creation and editing. Displayed when simulation is idle, hidden when simulation starts.'
 source_paths:
   - 'src/hud/containers/map-creator.tsx'
-last_updated: '2025-11-01'
+last_updated: '2025-11-03'
 owner: 'Mateusz Nędzi'
 tags: ['module', 'hud', 'react', 'ui', 'container']
 links:
@@ -16,7 +16,7 @@ links:
 
 # Map Creator
 
-> **Purpose:** A full-screen container panel for map creation and editing functionality. Currently a placeholder, to be extended with map editing tools.
+> **Purpose:** Configure and generate a new procedural map before starting the simulation. Exposes all `map.create` parameters, offers presets, and sends the creation request to the server.
 
 ## Context & Motivation
 
@@ -24,14 +24,26 @@ The Map Creator panel provides a dedicated workspace for users to create and con
 
 ## Responsibilities & Boundaries
 
-- In-scope: Display as a full-screen container (50% width), provide title and structure for future map editing features.
-- Out-of-scope: Actual map editing logic, three.js scene manipulation (handled by engine/view layers).
+- In-scope: Parameter form (dimensions, structure, densities, connectivity, road composition, seed), presets, and the Create Map action.
+- Out-of-scope: Procedural generation logic (server-side), three.js scene mutation (handled by view/engine).
 
 ## Architecture & Design
 
-- Built on `HudContainer` component with `closable={false}` to prevent manual dismissal.
-- Takes full height of its container and uses flexbox for centering placeholder content.
-- Visibility is controlled by playback state: visible when simulation is `idle` or `stopped`, hidden when `playing`.
+- Built on `HudContainer` with `closable={false}`.
+- Uses Shadcn `Input`, `Slider`, `Button`, `Label` for a simple, skimmable form.
+- Visibility is controlled by playback state: visible when `idle`/`stopped`, hidden when `playing`/`paused`.
+- Presets:
+  - Dense urban: `{ num_major_centers: 5, local_density: 80, rural_density: 0, gridness: 0.7, ring_road_prob: 1 }`
+  - Sparse rural: `{ num_major_centers: 2, local_density: 20, rural_density: 10, gridness: 0, rural_settlement_prob: 0.3 }`
+
+### Parameters
+
+- Dimensions: `map_width`, `map_height`
+- Structure: `num_major_centers`, `minor_per_major`, `center_separation`, `urban_sprawl`
+- Densities: `local_density`, `rural_density`
+- Connectivity: `intra_connectivity` (0–1 slider), `inter_connectivity` (>=1)
+- Road composition: `arterial_ratio`, `gridness`, `ring_road_prob`, `highway_curviness`, `rural_settlement_prob` (all 0–1 sliders)
+- Randomness: `seed`
 
 ## Public API / Usage
 
@@ -43,13 +55,13 @@ import { MapCreator } from '@/hud/containers/map-creator';
 
 ## Implementation Notes
 
-- Uses `HudContainer` with `className="h-full flex flex-col"` for full-height layout.
-- Content area is currently empty with a placeholder comment.
-- Not closable by user interaction; visibility managed by playback state.
+- Sends `net.sendAction('map.create', params)`; button disabled when simulation is not `idle`/`stopped`.
+- No persistence of form values by design (explicit request). Defaults match the API example.
+- Outgoing action visible in Network Log panel.
 
 ## References
 
 - Parent: [`../index.md`](../index.md)
 - Sibling: [`./fleet-creator.md`](./fleet-creator.md)
 - State: [`../state/playback-state.md`](../state/playback-state.md)
-
+- Protocol: [`../../net/protocol/schema.md`](../../net/protocol/schema.md)

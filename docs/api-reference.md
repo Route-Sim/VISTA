@@ -48,7 +48,24 @@ simulation.start: { tick_rate: number }
 simulation.stop: {}
 simulation.resume: {}
 simulation.pause: {}
-map.create: { size: number, ... }
+map.create: {
+  map_width: number (>0),
+  map_height: number (>0),
+  num_major_centers: integer (>=1),
+  minor_per_major: number (>=0),
+  center_separation: number (>0),
+  urban_sprawl: number (>0),
+  local_density: number (>0),
+  rural_density: number (>=0),
+  intra_connectivity: number (0..1),
+  inter_connectivity: number (>=1),
+  arterial_ratio: number (0..1),
+  gridness: number (0..1),
+  ring_road_prob: number (0..1),
+  highway_curviness: number (0..1),
+  rural_settlement_prob: number (0..1),
+  seed: integer
+}
 map.export: { map_name: string }
 map.import: { base64_file: string }
 tick_rate.update: { tick_rate: number }
@@ -96,7 +113,7 @@ simulation.started: { tick_rate: number }
 simulation.stopped: {}
 simulation.resumed: {}
 simulation.paused: {}
-map.created: { size: number, ... }
+map.created: {}
 map.exported: { filename: string, base64_file: string }
 map.imported: {}
 tick_rate.updated: { tick_rate: number }
@@ -108,6 +125,38 @@ event.created: { event_name: string, ... }
 building.updated: { building_id: string, ... }
 error: { code: string, message: string }
 ```
+
+### CREATE_MAP – Generate New Map Procedurally
+
+Action type: `map.create`
+
+Parameters:
+
+```json
+{
+  "action": "map.create",
+  "params": {
+    "map_width": 10000,
+    "map_height": 10000,
+    "num_major_centers": 3,
+    "minor_per_major": 2.0,
+    "center_separation": 2500.0,
+    "urban_sprawl": 800.0,
+    "local_density": 50.0,
+    "rural_density": 5.0,
+    "intra_connectivity": 0.3,
+    "inter_connectivity": 2,
+    "arterial_ratio": 0.2,
+    "gridness": 0.3,
+    "ring_road_prob": 0.5,
+    "highway_curviness": 0.2,
+    "rural_settlement_prob": 0.15,
+    "seed": 42
+  }
+}
+```
+
+Response signal: `map.created` with empty data `{}` (statistics TBD).
 
 Example (server → client):
 

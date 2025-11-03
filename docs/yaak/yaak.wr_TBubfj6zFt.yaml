@@ -2,7 +2,7 @@ type: websocket_request
 model: websocket_request
 id: wr_TBubfj6zFt
 createdAt: 2025-10-28T19:28:17.929191
-updatedAt: 2025-11-01T10:08:53.261093
+updatedAt: 2025-11-03T11:10:31.774603
 workspaceId: wk_BJkwK7RGqy
 folderId: null
 authentication: {}
@@ -14,7 +14,7 @@ message: |-
     "action": "simulation.start",
     "params": {}
   }
-name: Simulation Websocket
+name: Start Simulation
 sortPriority: -1761679600000.0
 url: ws://localhost:8000/ws
 urlParameters: []

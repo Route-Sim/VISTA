@@ -1,0 +1,37 @@
+type: websocket_request
+model: websocket_request
+id: wr_FwJTPuwXWT
+createdAt: 2025-11-03T11:10:33.766484
+updatedAt: 2025-11-03T11:10:44.662939
+workspaceId: wk_BJkwK7RGqy
+folderId: null
+authentication: {}
+authenticationType: null
+description: ''
+headers: []
+message: |
+  {
+    "action": "map.create",
+    "params": {
+      "map_width": 10000,
+      "map_height": 10000,
+      "num_major_centers": 3,
+      "minor_per_major": 2.0,
+      "center_separation": 2500.0,
+      "urban_sprawl": 800.0,
+      "local_density": 50.0,
+      "rural_density": 5.0,
+      "intra_connectivity": 0.3,
+      "inter_connectivity": 2,
+      "arterial_ratio": 0.2,
+      "gridness": 0.3,
+      "ring_road_prob": 0.5,
+      "highway_curviness": 0.2,
+      "rural_settlement_prob": 0.15,
+      "seed": 42
+    }
+  }
+name: Create a Map
+sortPriority: -1761679600000.0
+url: ws://localhost:8000/ws
+urlParameters: []

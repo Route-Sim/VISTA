@@ -2,7 +2,7 @@ type: websocket_request
 model: websocket_request
 id: wr_FwJTPuwXWT
 createdAt: 2025-11-03T11:10:33.766484
-updatedAt: 2025-11-08T16:15:52.251651
+updatedAt: 2025-11-08T16:32:41.891950
 workspaceId: wk_BJkwK7RGqy
 folderId: null
 authentication: {}
@@ -13,8 +13,8 @@ message: |-
   {
     "action": "map.create",
     "params": {
-      "map_width": 10000,
-      "map_height": 10000,
+      "map_width": 1000,
+      "map_height": 1000,
       "num_major_centers": 3,
       "minor_per_major": 2.0,
       "center_separation": 2500.0,

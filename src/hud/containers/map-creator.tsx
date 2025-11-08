@@ -11,8 +11,8 @@ import { cn } from '../lib/utils';
 type MapCreateParams = ActionParams['map.create'];
 
 const DEFAULTS: MapCreateParams = {
-  map_width: 10000,
-  map_height: 10000,
+  map_width: 1000,
+  map_height: 1000,
   num_major_centers: 3,
   minor_per_major: 2.0,
   center_separation: 2500.0,

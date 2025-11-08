@@ -23,6 +23,16 @@ export const ActionSchemas = {
       ring_road_prob: z.number().min(0).max(1),
       highway_curviness: z.number().min(0).max(1),
       rural_settlement_prob: z.number().min(0).max(1),
+      urban_sites_per_km2: z.number().min(0),
+      rural_sites_per_km2: z.number().min(0),
+      urban_activity_rate_range: z.tuple([
+        z.number().min(0),
+        z.number().min(0),
+      ]),
+      rural_activity_rate_range: z.tuple([
+        z.number().min(0),
+        z.number().min(0),
+      ]),
       seed: z.number().int(),
     })
     .strict(),

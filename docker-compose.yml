@@ -18,7 +18,7 @@ services:
     image: oven/bun:1
     container_name: vista-dev
     working_dir: /app
-    command: sh -c "bun install --frozen-lockfile && bun run dev"
+    command: sh -c "bun install --frozen-lockfile && bunx --bun vite --host 0.0.0.0 --port 5173"
     volumes:
       - .:/app
       - node_modules:/app/node_modules

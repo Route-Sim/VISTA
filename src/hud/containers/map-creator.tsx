@@ -26,6 +26,10 @@ const DEFAULTS: MapCreateParams = {
   ring_road_prob: 0.5,
   highway_curviness: 0.2,
   rural_settlement_prob: 0.15,
+  urban_sites_per_km2: 5.0,
+  rural_sites_per_km2: 1.0,
+  urban_activity_rate_range: [5.0, 20.0],
+  rural_activity_rate_range: [1.0, 8.0],
   seed: 42,
 };
 
@@ -45,6 +49,21 @@ export function MapCreator({
     value: number,
   ): void => {
     setParams((p) => ({ ...p, [key]: value }));
+  };
+
+  const setArrayRange = <
+    K extends 'urban_activity_rate_range' | 'rural_activity_rate_range',
+  >(
+    key: K,
+    index: 0 | 1,
+    value: number,
+  ): void => {
+    setParams((p) => {
+      const current = p[key] as [number, number];
+      const updated: [number, number] = [...current];
+      updated[index] = Math.max(0, value);
+      return { ...p, [key]: updated };
+    });
   };
 
   const applyPresetDenseUrban = (): void => {
@@ -438,6 +457,144 @@ export function MapCreator({
                     <span className="w-12 text-right text-xs text-black/70 tabular-nums">
                       {params.rural_settlement_prob.toFixed(2)}
                     </span>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* Sites */}
+            <section className="space-y-2">
+              <h3 className="text-sm font-medium text-black/80">Sites</h3>
+              <div className="grid grid-cols-2 gap-2">
+                <div className="space-y-2 text-black/70">
+                  <Label
+                    htmlFor="urban_sites_per_km2"
+                    className="ml-0.5 text-xs"
+                  >
+                    Urban Sites (per km²)
+                  </Label>
+                  <Input
+                    id="urban_sites_per_km2"
+                    type="number"
+                    min={0}
+                    step={0.1}
+                    value={params.urban_sites_per_km2}
+                    onChange={(e) =>
+                      setNumber(
+                        'urban_sites_per_km2',
+                        Math.max(0, Number(e.target.value) || 0),
+                      )
+                    }
+                  />
+                </div>
+                <div className="space-y-2 text-black/70">
+                  <Label
+                    htmlFor="rural_sites_per_km2"
+                    className="ml-0.5 text-xs"
+                  >
+                    Rural Sites (per km²)
+                  </Label>
+                  <Input
+                    id="rural_sites_per_km2"
+                    type="number"
+                    min={0}
+                    step={0.1}
+                    value={params.rural_sites_per_km2}
+                    onChange={(e) =>
+                      setNumber(
+                        'rural_sites_per_km2',
+                        Math.max(0, Number(e.target.value) || 0),
+                      )
+                    }
+                  />
+                </div>
+              </div>
+            </section>
+
+            {/* Activity Rates */}
+            <section className="space-y-2">
+              <h3 className="text-sm font-medium text-black/80">
+                Activity Rates (packages/hour)
+              </h3>
+              <div className="grid grid-cols-2 gap-2">
+                <div className="space-y-2 text-black/70">
+                  <Label
+                    htmlFor="urban_activity_rate_min"
+                    className="ml-0.5 text-xs"
+                  >
+                    Urban Range [min, max]
+                  </Label>
+                  <div className="grid grid-cols-2 gap-2">
+                    <Input
+                      id="urban_activity_rate_min"
+                      type="number"
+                      min={0}
+                      step={0.1}
+                      value={params.urban_activity_rate_range[0]}
+                      onChange={(e) =>
+                        setArrayRange(
+                          'urban_activity_rate_range',
+                          0,
+                          Number(e.target.value) || 0,
+                        )
+                      }
+                      placeholder="Min"
+                    />
+                    <Input
+                      id="urban_activity_rate_max"
+                      type="number"
+                      min={0}
+                      step={0.1}
+                      value={params.urban_activity_rate_range[1]}
+                      onChange={(e) =>
+                        setArrayRange(
+                          'urban_activity_rate_range',
+                          1,
+                          Number(e.target.value) || 0,
+                        )
+                      }
+                      placeholder="Max"
+                    />
+                  </div>
+                </div>
+                <div className="space-y-2 text-black/70">
+                  <Label
+                    htmlFor="rural_activity_rate_min"
+                    className="ml-0.5 text-xs"
+                  >
+                    Rural Range [min, max]
+                  </Label>
+                  <div className="grid grid-cols-2 gap-2">
+                    <Input
+                      id="rural_activity_rate_min"
+                      type="number"
+                      min={0}
+                      step={0.1}
+                      value={params.rural_activity_rate_range[0]}
+                      onChange={(e) =>
+                        setArrayRange(
+                          'rural_activity_rate_range',
+                          0,
+                          Number(e.target.value) || 0,
+                        )
+                      }
+                      placeholder="Min"
+                    />
+                    <Input
+                      id="rural_activity_rate_max"
+                      type="number"
+                      min={0}
+                      step={0.1}
+                      value={params.rural_activity_rate_range[1]}
+                      onChange={(e) =>
+                        setArrayRange(
+                          'rural_activity_rate_range',
+                          1,
+                          Number(e.target.value) || 0,
+                        )
+                      }
+                      placeholder="Max"
+                    />
                   </div>
                 </div>
               </div>

@@ -2,14 +2,14 @@ type: websocket_request
 model: websocket_request
 id: wr_FwJTPuwXWT
 createdAt: 2025-11-03T11:10:33.766484
-updatedAt: 2025-11-03T11:10:44.662939
+updatedAt: 2025-11-08T16:15:52.251651
 workspaceId: wk_BJkwK7RGqy
 folderId: null
 authentication: {}
 authenticationType: null
 description: ''
 headers: []
-message: |
+message: |-
   {
     "action": "map.create",
     "params": {
@@ -28,10 +28,20 @@ message: |
       "ring_road_prob": 0.5,
       "highway_curviness": 0.2,
       "rural_settlement_prob": 0.15,
+      "urban_sites_per_km2": 5.0,
+      "rural_sites_per_km2": 1.0,
+      "urban_activity_rate_range": [
+        5.0,
+        20.0
+      ],
+      "rural_activity_rate_range": [
+        1.0,
+        8.0
+      ],
       "seed": 42
     }
   }
 name: Create a Map
-sortPriority: -1761679600000.0
+sortPriority: -1761679638528.0
 url: ws://localhost:8000/ws
 urlParameters: []

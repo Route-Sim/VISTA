@@ -5,7 +5,7 @@ source_paths:
   - "src/sim/domain/entities.ts"
   - "src/sim/domain/enums.ts"
   - "src/sim/domain/ids.ts"
-last_updated: "2025-11-01"
+last_updated: "2025-11-08"
 owner: "Mateusz Nędzi"
 tags: ["module", "sim", "domain", "types"]
 links:
@@ -27,12 +27,17 @@ links:
 - Site is modeled as a subtype of Building; `SiteId` is an alias of `BuildingId`.
 - `Road` extends `Edge` functionally; we alias `RoadId = EdgeId` so the same identity can be used in both maps.
 - Relations use ID arrays (e.g., `Node.buildingIds`, `Road.truckIds`).
+- Nodes now carry planar coordinates (`x`, `y`) in meters.
+- `Edge` includes `lengthM` (meters). `Road` adds `roadClass`, `lanes`, `maxSpeedKph`, and `weightLimitKg`.
 
 ## Public Types (excerpt)
 
 ```ts
 // BuildingBase { id, nodeId, kind, truckIds }
 // Building | Depot {capacity, packageIds} | GasStation {capacity} | Site {packageIds}
+// Node { id, x, y, buildingIds }
+// Edge { id, startNodeId, endNodeId, lengthM }
+// Road { ...Edge, roadClass, lanes, maxSpeedKph, weightLimitKg, truckIds }
 ```
 
 ## Implementation Notes

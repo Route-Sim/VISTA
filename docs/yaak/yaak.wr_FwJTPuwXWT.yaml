@@ -2,7 +2,7 @@ type: websocket_request
 model: websocket_request
 id: wr_FwJTPuwXWT
 createdAt: 2025-11-03T11:10:33.766484
-updatedAt: 2025-11-08T16:41:03.314671
+updatedAt: 2025-11-08T17:26:52.495274
 workspaceId: wk_BJkwK7RGqy
 folderId: null
 authentication: {}
@@ -43,5 +43,5 @@ message: |-
   }
 name: Create a Map
 sortPriority: -1761679638528.0
-url: ws://localhost:8000/ws
+url: ${[ WEBSOCKET_URL ]}
 urlParameters: []

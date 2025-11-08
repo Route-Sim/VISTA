@@ -30,6 +30,7 @@
     - [index](modules/sim/index.md)
     - domain
       - [entities](modules/sim/domain/entities.md)
+      - [enums](modules/sim/domain/enums.md)
     - store
       - [sim-store](modules/sim/store/sim-store.md)
       - [reducers](modules/sim/store/reducers.md)

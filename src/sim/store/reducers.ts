@@ -6,6 +6,15 @@ function shallowMerge<T extends object>(a: T, b: Partial<T>): T {
   return { ...(a as any), ...(b as any) } as T;
 }
 
+const mapCreated = (
+  draft: SimDraft,
+  evt: Extract<SimEvent, { type: 'map.created' }>,
+) => {
+  draft.nodes = evt.nodes;
+  draft.edges = evt.edges;
+  draft.roads = evt.roads;
+};
+
 const agentUpdated = (
   draft: SimDraft,
   evt: Extract<SimEvent, { type: 'agent.updated' }>,
@@ -35,6 +44,7 @@ const siteUpdated = (
 
 export function createDefaultReducerRegistry(): ReducerRegistry {
   const registry = new ReducerRegistry();
+  registry.register('map.created', mapCreated as any);
   registry.register('agent.updated', agentUpdated as any);
   registry.register('building.updated', buildingUpdated as any);
   registry.register('site.updated', siteUpdated as any);

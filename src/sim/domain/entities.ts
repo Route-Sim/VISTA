@@ -9,10 +9,14 @@ import type {
   TruckId,
 } from './ids';
 import type { BuildingKind } from './enums';
+import type { RoadClass } from './enums';
 
 // Core graph primitives
 export interface Node {
   id: NodeId;
+  // Position in meters (simulation plane coordinates)
+  x: number;
+  y: number;
   // Buildings (including Sites) attached to this node
   buildingIds: BuildingId[];
 }
@@ -21,12 +25,18 @@ export interface Edge {
   id: EdgeId;
   startNodeId: NodeId;
   endNodeId: NodeId;
+  // Length in meters
+  lengthM: number;
 }
 
 // Roads are edges with traffic attributes; share identity with Edge (RoadId = EdgeId)
 export interface Road extends Edge {
   id: RoadId;
-  maxSpeed: number;
+  // Transport/traffic attributes
+  roadClass: RoadClass;
+  lanes: number;
+  maxSpeedKph: number;
+  weightLimitKg: number | null;
   truckIds: TruckId[];
 }
 

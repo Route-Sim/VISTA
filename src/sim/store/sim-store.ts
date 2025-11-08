@@ -38,6 +38,10 @@ export class SimStore {
     }
     // Apply update to working draft
     this.reducers.dispatch(this.working, evt);
+    // For structural graph updates, commit immediately so consumers can interpolate safely
+    if (evt.type === 'map.created') {
+      this.commitTick(this.working.tick);
+    }
   }
 
   commitTick(tick: number, timeMs?: number): SimSnapshot {

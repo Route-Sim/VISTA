@@ -1,8 +1,8 @@
 type: websocket_request
 model: websocket_request
-id: wr_TBubfj6zFt
-createdAt: 2025-10-28T19:28:17.929191
-updatedAt: 2025-11-08T17:26:56.159853
+id: wr_cvo7f4BHbb
+createdAt: 2025-11-08T17:29:34.126639
+updatedAt: 2025-11-08T17:29:45.370415
 workspaceId: wk_BJkwK7RGqy
 folderId: null
 authentication: {}
@@ -11,10 +11,11 @@ description: ''
 headers: []
 message: |-
   {
-    "action": "simulation.start",
-    "params": {}
+    "action": "agent.create",
+    "params": {
+    }
   }
-name: Start Simulation
-sortPriority: -1174453092352.0
+name: Create Agent
+sortPriority: -782968728234.6667
 url: ${[ WEBSOCKET_URL ]}
 urlParameters: []

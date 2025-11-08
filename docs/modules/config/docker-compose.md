@@ -1,6 +1,6 @@
 ---
 title: 'Docker Compose'
-summary: 'Compose provides dev and prod profiles: Vite dev server with HMR in dev; Nginx static serving in prod.'
+summary: 'Compose provides dev and prod profiles: Vite dev server with HMR in dev; Bun static server in prod.'
 source_paths:
   - 'docker-compose.yml'
 last_updated: '2025-11-08'
@@ -13,7 +13,7 @@ siblings: ['./docker.md']
 
 # Docker Compose
 
-> Purpose: Define convenient profiles for development (hot reloading) and production (built static assets via Nginx) using a single compose file.
+> Purpose: Define convenient profiles for development (hot reloading) and production (built static assets served by a Bun HTTP server) using a single compose file.
 
 ## Profiles
 
@@ -24,8 +24,8 @@ siblings: ['./docker.md']
   - Port: `5173:5173`
 
 - prod (web):
-  - Builds local Dockerfile and serves via Nginx
-  - Port: `8080:80`
+  - Builds local Dockerfile and serves via Bun HTTP server
+  - Port: `8080:3000`
 
 ## Usage
 

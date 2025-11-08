@@ -5,7 +5,7 @@ services:
     build: .
     container_name: vista
     ports:
-      - '8080:80'
+      - '3000:3000'
     environment:
       - VITE_WS_URL=ws://spine:8000/ws
     profiles: ['prod']

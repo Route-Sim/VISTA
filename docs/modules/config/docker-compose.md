@@ -3,7 +3,7 @@ title: 'Docker Compose'
 summary: 'Compose provides dev and prod profiles: Vite dev server with HMR in dev; Nginx static serving in prod.'
 source_paths:
   - 'docker-compose.yml'
-last_updated: '2025-10-29'
+last_updated: '2025-11-08'
 owner: 'Mateusz Nędzi'
 tags: ['module', 'config', 'compose', 'docker']
 links:
@@ -19,8 +19,8 @@ siblings: ['./docker.md']
 
 - dev:
   - Image: `oven/bun:1`
-  - Command: `bunx --bun vite --host 0.0.0.0 --port 5173`
-  - Volumes: project mounted at `/app` for HMR
+  - Command: `bun install --frozen-lockfile && bunx --bun vite --host 0.0.0.0 --port 5173`
+  - Volumes: project bind-mounted at `/app` for HMR, `node_modules` isolated via named volume
   - Port: `5173:5173`
 
 - prod (web):
@@ -42,4 +42,4 @@ docker compose --profile prod up --build -d
 ## Notes
 
 - You can pass Vite envs (e.g., `VITE_WS_URL`) via the `environment` section in the `dev` service.
-- The dev service mounts the workspace and keeps `node_modules` isolated inside the container.
+- The dev service mounts the workspace and keeps `node_modules` isolated inside the container. This prevents host-OS `node_modules` (e.g., macOS arm64) from leaking into the Linux container and breaking native optional dependencies like Rollup's prebuilt binaries.

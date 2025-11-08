@@ -5,8 +5,9 @@ import { Input } from '@/hud/ui/input';
 import { Label } from '@/hud/ui/label';
 import { Slider } from '@/hud/ui/slider';
 import { usePlaybackState } from '@/hud/state/playback-state';
-import { net, type ActionParams } from '@/net';
+import { net, type ActionParams, type SignalData } from '@/net';
 import { cn } from '../lib/utils';
+import { MapGraph } from '@/hud/components/map-graph';
 
 type MapCreateParams = ActionParams['map.create'];
 
@@ -41,8 +42,20 @@ export function MapCreator({
   const { status } = usePlaybackState();
   const [params, setParams] = React.useState<MapCreateParams>({ ...DEFAULTS });
   const [sending, setSending] = React.useState<boolean>(false);
+  const [mapData, setMapData] = React.useState<
+    SignalData['map.created'] | null
+  >(null);
 
   const canCreate = status === 'idle' || status === 'stopped';
+
+  // Subscribe to map.created events
+  React.useEffect(() => {
+    const off = net.on('map.created', (data) => {
+      console.debug('map.created', data);
+      setMapData(data);
+    });
+    return off;
+  }, []);
 
   const setNumber = <K extends keyof MapCreateParams>(
     key: K,
@@ -92,7 +105,10 @@ export function MapCreator({
     if (!canCreate || sending) return;
     setSending(true);
     try {
-      await net.sendAction('map.create', params);
+      const res = await net.sendAction('map.create', params);
+      if (res.signal === 'map.created') {
+        setMapData(res.data);
+      }
     } catch {
       // future: surface via HUD toast
     } finally {
@@ -622,7 +638,15 @@ export function MapCreator({
             </section>
           </div>
         </div>
-        <div className="flex-1 rounded-xl border border-dashed border-black/70" />
+        <div className="relative flex-1 overflow-hidden rounded-xl border border-dashed border-black/70">
+          {mapData ? (
+            <MapGraph data={mapData} />
+          ) : (
+            <div className="flex h-full items-center justify-center text-xs text-black/60">
+              Generated map will appear here after creation
+            </div>
+          )}
+        </div>
       </div>
     </HudContainer>
   );

@@ -4,7 +4,7 @@ summary: 'Typed actions and signals exchanged between VISTA and SPINE with zod-v
 source_paths:
   - 'src/net/protocol/schema.ts'
   - 'src/net/protocol/mapping.ts'
-last_updated: '2025-10-31'
+last_updated: '2025-11-08'
 owner: 'Mateusz Nędzi'
 tags: ['api', 'net', 'protocol']
 links:
@@ -113,7 +113,27 @@ simulation.started: { tick_rate: number }
 simulation.stopped: {}
 simulation.resumed: {}
 simulation.paused: {}
-map.created: {}
+map.created: {
+  // echoes params...
+  map_width: number; map_height: number; num_major_centers: number; minor_per_major: number;
+  center_separation: number; urban_sprawl: number; local_density: number; rural_density: number;
+  intra_connectivity: number; inter_connectivity: number; arterial_ratio: number; gridness: number;
+  ring_road_prob: number; highway_curviness: number; rural_settlement_prob: number;
+  urban_sites_per_km2: number; rural_sites_per_km2: number;
+  urban_activity_rate_range: [number, number]; rural_activity_rate_range: [number, number];
+  seed: number;
+  // summary
+  generated_nodes: number; generated_edges: number; generated_sites: number;
+  // graph
+  graph: {
+    nodes: { id: string; x: number; y: number }[];
+    edges: {
+      id: string; from_node: string; to_node: string; length_m: number;
+      mode: number; road_class: 'A'|'S'|'GP'|'G'|'Z'|'L'|'D'; lanes: number; max_speed_kph: number;
+      weight_limit_kg: number | null;
+    }[];
+  };
+}
 map.exported: { filename: string, base64_file: string }
 map.imported: {}
 tick_rate.updated: { tick_rate: number }
@@ -158,13 +178,37 @@ Parameters:
 
 Response signal: `map.created` with empty data `{}` (statistics TBD).
 
-Example (server → client):
+Example (server → client; arrays truncated):
 
 ```json
 {
-  "signal": "simulation.started",
-  "data": { "tick_rate": 30 },
-  "request_id": "c6f8..."
+  "signal": "map.created",
+  "data": {
+    "map_width": 1000,
+    "map_height": 1000,
+    "num_major_centers": 3,
+    "...": "...",
+    "generated_nodes": 142,
+    "generated_edges": 356,
+    "generated_sites": 13,
+    "graph": {
+      "nodes": [{ "id": "0", "x": 639.43, "y": 25.01 }, { "...": "..." }],
+      "edges": [
+        {
+          "id": "0",
+          "from_node": "50",
+          "to_node": "52",
+          "length_m": 70.33,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 1,
+          "max_speed_kph": 44.11,
+          "weight_limit_kg": 6903.77
+        },
+        { "...": "..." }
+      ]
+    }
+  }
 }
 ```
 

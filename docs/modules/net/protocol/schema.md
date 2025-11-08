@@ -3,7 +3,7 @@ title: 'Protocol Schemas – Actions & Signals'
 summary: 'Strongly typed zod schemas and TypeScript unions for actions and signals, with envelope types and codec helpers.'
 source_paths:
   - 'src/net/protocol/schema.ts'
-last_updated: '2025-11-03'
+last_updated: '2025-11-08'
 owner: 'Mateusz Nędzi'
 tags: ['module', 'net', 'protocol', 'zod']
 links:
@@ -109,7 +109,71 @@ Parameters (validated strictly):
 }
 ```
 
-Expected response signal: `map.created` with empty data `{}` (statistics TBD).
+## Signal: map.created
+
+The server responds with a detailed summary and a 2D graph suitable for HUD visualization.
+
+### RoadClass
+
+```ts
+type RoadClass = 'A' | 'S' | 'GP' | 'G' | 'Z' | 'L' | 'D';
+```
+
+### Graph
+
+```ts
+type GraphNode = { id: string; x: number; y: number };
+type GraphEdge = {
+  id: string;
+  from_node: string;
+  to_node: string;
+  length_m: number;
+  mode: number;            // transport mode code
+  road_class: RoadClass;   // functional class
+  lanes: number;           // >= 1
+  max_speed_kph: number;   // >= 0
+  weight_limit_kg: number | null; // null if not applicable
+};
+```
+
+### Payload
+
+```ts
+{
+  // echoes creation params...
+  map_width: number;
+  map_height: number;
+  num_major_centers: number;
+  minor_per_major: number;
+  center_separation: number;
+  urban_sprawl: number;
+  local_density: number;
+  rural_density: number;
+  intra_connectivity: number;
+  inter_connectivity: number;
+  arterial_ratio: number;
+  gridness: number;
+  ring_road_prob: number;
+  highway_curviness: number;
+  rural_settlement_prob: number;
+  urban_sites_per_km2: number;
+  rural_sites_per_km2: number;
+  urban_activity_rate_range: [number, number];
+  rural_activity_rate_range: [number, number];
+  seed: number;
+
+  // generation summary
+  generated_nodes: number;
+  generated_edges: number;
+  generated_sites: number;
+
+  // graph
+  graph: {
+    nodes: GraphNode[];
+    edges: GraphEdge[];
+  };
+}
+```
 
 ## References
 

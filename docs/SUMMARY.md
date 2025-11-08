@@ -43,5 +43,7 @@
       - [map-creator](modules/hud/containers/map-creator.md)
       - [fleet-creator](modules/hud/containers/fleet-creator.md)
       - [start-simulation](modules/hud/containers/start-simulation.md)
+    - components
+      - [map-graph](modules/hud/components/map-graph.md)
     - state
       - [playback-state](modules/hud/state/playback-state.md)

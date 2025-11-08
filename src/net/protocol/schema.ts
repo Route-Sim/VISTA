@@ -52,13 +52,70 @@ export type ActionParams = {
   [K in ActionName]: z.infer<(typeof ActionSchemas)[K]>;
 };
 
+// Shared types for signals
+const RoadClass = z.enum(['A', 'S', 'GP', 'G', 'Z', 'L', 'D']);
+const GraphNode = z.object({
+  id: z.string(),
+  x: z.number(),
+  y: z.number(),
+});
+const GraphEdge = z.object({
+  id: z.string(),
+  from_node: z.string(),
+  to_node: z.string(),
+  length_m: z.number(),
+  mode: z.number().int().min(0),
+  road_class: RoadClass,
+  lanes: z.number().int().min(1),
+  max_speed_kph: z.number().min(0),
+  weight_limit_kg: z.number().min(0).nullable(),
+});
+
 // Signal schemas: exact data per signal
 export const SignalSchemas = {
   'simulation.started': z.object({ tick_rate: z.number().int().min(1) }),
   'simulation.stopped': z.object({}),
   'simulation.resumed': z.object({}),
   'simulation.paused': z.object({}),
-  'map.created': z.object({}),
+  'map.created': z
+    .object({
+      // echo of creation params
+      map_width: z.number().positive(),
+      map_height: z.number().positive(),
+      num_major_centers: z.number().int().min(1),
+      minor_per_major: z.number().min(0),
+      center_separation: z.number().positive(),
+      urban_sprawl: z.number().positive(),
+      local_density: z.number().gt(0),
+      rural_density: z.number().min(0),
+      intra_connectivity: z.number().min(0).max(1),
+      inter_connectivity: z.number().min(1),
+      arterial_ratio: z.number().min(0).max(1),
+      gridness: z.number().min(0).max(1),
+      ring_road_prob: z.number().min(0).max(1),
+      highway_curviness: z.number().min(0).max(1),
+      rural_settlement_prob: z.number().min(0).max(1),
+      urban_sites_per_km2: z.number().min(0),
+      rural_sites_per_km2: z.number().min(0),
+      urban_activity_rate_range: z.tuple([
+        z.number().min(0),
+        z.number().min(0),
+      ]),
+      rural_activity_rate_range: z.tuple([
+        z.number().min(0),
+        z.number().min(0),
+      ]),
+      seed: z.number().int(),
+      // generation summary + graph
+      generated_nodes: z.number().int().min(0),
+      generated_edges: z.number().int().min(0),
+      generated_sites: z.number().int().min(0),
+      graph: z.object({
+        nodes: z.array(GraphNode),
+        edges: z.array(GraphEdge),
+      }),
+    })
+    .strict(),
   'map.exported': z.object({ filename: z.string(), base64_file: z.string() }),
   'map.imported': z.object({}),
   'tick_rate.updated': z.object({ tick_rate: z.number().int().min(1) }),

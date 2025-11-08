@@ -2,7 +2,7 @@ type: websocket_request
 model: websocket_request
 id: wr_FwJTPuwXWT
 createdAt: 2025-11-03T11:10:33.766484
-updatedAt: 2025-11-08T16:32:41.891950
+updatedAt: 2025-11-08T16:41:03.314671
 workspaceId: wk_BJkwK7RGqy
 folderId: null
 authentication: {}

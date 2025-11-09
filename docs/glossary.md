@@ -4,7 +4,7 @@ summary: 'Definitions of core terms used across the VISTA network, simulation, a
 source_paths:
   - 'src/net/**'
   - 'src/sim/**'
-last_updated: '2025-11-01'
+last_updated: '2025-11-09'
 owner: 'Mateusz Nędzi'
 tags: ['glossary', 'net', 'sim', 'architecture']
 links:
@@ -29,3 +29,6 @@ links:
 - Net Telemetry: Lightweight, typed stream of connection lifecycle and IO events (incoming/outgoing) for diagnostics and HUD display.
 - Instrumented Transport: Decorator around the WebSocket transport that surfaces `connecting`, `open/close/error`, `incoming`, and `outgoing` as observable events without modifying the core client.
 - Net Events Panel: HUD panel that renders the telemetry stream with filters, timestamps, and expandable details for debugging.
+- View Controller: Three.js orchestration layer that pulls interpolated snapshots from `SimStore` and forwards them to scene subviews.
+- Graph View: Scene subtree responsible for rendering simulation nodes as low cylinders and roads as line segments atop the ground plane.
+- Graph Primitives: Reusable mesh/line factories under `engine/objects` that enforce consistent geometry, elevation, and palette for graph visualizations.

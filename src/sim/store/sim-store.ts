@@ -60,6 +60,9 @@ export class SimStore {
     this.buffer.push(committed);
     this.lastCommitted = committed;
     this.working = cloneSnapshot(committed);
+
+    console.log('[sim] Committed snapshot:', committed);
+
     return committed;
   }
 

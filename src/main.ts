@@ -5,6 +5,7 @@ import { createOrbitMoveControls } from './engine/controls/orbit-move-controls';
 import { mountHud } from './hud';
 import { net } from '@/net';
 import { SimStore, wireNetToSim } from '@/sim';
+import { createViewController } from '@/view';
 
 const canvas = document.createElement('canvas');
 canvas.id = 'app';
@@ -33,8 +34,11 @@ const simStore = new SimStore();
 // Wire net → sim using a single adapter
 wireNetToSim(net, simStore);
 
+const view = createViewController({ store: simStore, scene: scenes.scene });
+
 engine.onUpdate((t) => {
   controls.update(t.deltaTimeMs / 1000);
+  view.update(t.renderTimeMs);
   engine.gl.render(scenes.scene, camera);
 });
 

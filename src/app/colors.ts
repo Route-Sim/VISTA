@@ -10,6 +10,10 @@ export const Colors = {
   // Ground
   ground: 0x4da167 as ColorHex, // sand / dry grass tone
 
+  // Graph primitives
+  graphNode: 0xffb36b as ColorHex,
+  graphRoad: 0x5f4b32 as ColorHex,
+
   // Lights
   lightAmbient: 0xffe8cc as ColorHex, // warm cream
   lightPoint: 0xff9b5e as ColorHex, // sunset orange key

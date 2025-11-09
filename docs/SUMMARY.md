@@ -9,6 +9,18 @@
   - [main](modules/main.md)
   - app
     - [config](modules/app/config.md)
+    - [colors](modules/app/colors.md)
+
+  - engine
+    - [index](modules/engine/index.md)
+    - [engine](modules/engine/engine.md)
+    - [scene-manager](modules/engine/scene-manager.md)
+    - [camera-rig](modules/engine/camera-rig.md)
+    - controls
+      - [orbit-move-controls](modules/engine/controls/orbit-move-controls.md)
+    - objects
+      - [ground](modules/engine/objects/ground.md)
+      - [graph-primitives](modules/engine/objects/graph-primitives.md)
 
   - config
     - [docker](modules/config/docker.md)
@@ -37,6 +49,11 @@
     - store
       - [sim-store](modules/sim/store/sim-store.md)
       - [reducers](modules/sim/store/reducers.md)
+
+  - view
+    - [index](modules/view/index.md)
+    - graph
+      - [graph-view](modules/view/graph/graph-view.md)
 
   - hud
     - [index](modules/hud/index.md)

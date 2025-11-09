@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Pause, Play } from 'lucide-react';
+import { Pause, Play, Square } from 'lucide-react';
 import { HudContainer } from '@/hud/components/hud-container';
 import { Button } from '@/hud/ui/button';
 import { Slider } from '@/hud/ui/slider';
@@ -82,6 +82,9 @@ export function PlayControls({
         case 'pause':
           setStatus('paused');
           break;
+        case 'stop':
+          setStatus('idle');
+          break;
         case 'setTickRate':
           // handled by commitTickRate
           break;
@@ -128,7 +131,7 @@ export function PlayControls({
               {status === 'playing' ? (
                 <Button
                   aria-label="Pause"
-                  variant="secondary"
+                  variant="default"
                   onClick={() => issue({ type: 'pause' })}
                   className="h-8"
                 >
@@ -138,6 +141,7 @@ export function PlayControls({
               ) : (
                 <Button
                   aria-label="Resume"
+                  variant="default"
                   onClick={() => issue({ type: 'resume' })}
                   className="h-8"
                 >
@@ -145,6 +149,15 @@ export function PlayControls({
                   Resume
                 </Button>
               )}
+              <Button
+                aria-label="Stop"
+                variant="secondary"
+                onClick={() => issue({ type: 'stop' })}
+                className="h-8"
+              >
+                <Square />
+                Stop
+              </Button>
             </div>
           )}
         </div>

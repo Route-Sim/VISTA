@@ -25,7 +25,10 @@ links:
 - Request Tracker: Tracks in-flight requests and resolves them when a matching signal arrives or times out.
 - HUD Container: Reusable card wrapper with title and hide action for on-screen panels.
 - Playback Controller: Optional adapter that accepts playback commands (play, pause, resume, pause, stop, setTickRate) from the HUD for future @net wiring.
--
+- Agent Tags: Arbitrary key–value metadata attached to agents; forwarded verbatim from the server for HUD/tooling enrichment.
+- Inbox Count: Number of pending inbound messages awaiting processing for a given agent.
+- Outbox Count: Number of queued outbound messages scheduled for dispatch on a given agent.
+- Graph Index: Identifier used by the network protocol for graph nodes and edges; may be numeric or string depending on server implementation.
 - Net Telemetry: Lightweight, typed stream of connection lifecycle and IO events (incoming/outgoing) for diagnostics and HUD display.
 - Instrumented Transport: Decorator around the WebSocket transport that surfaces `connecting`, `open/close/error`, `incoming`, and `outgoing` as observable events without modifying the core client.
 - Net Events Panel: HUD panel that renders the telemetry stream with filters, timestamps, and expandable details for debugging.

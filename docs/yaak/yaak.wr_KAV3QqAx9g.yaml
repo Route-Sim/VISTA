@@ -1,0 +1,22 @@
+type: websocket_request
+model: websocket_request
+id: wr_KAV3QqAx9g
+createdAt: 2025-11-09T12:03:56.132306
+updatedAt: 2025-11-09T12:06:53.602177
+workspaceId: wk_BJkwK7RGqy
+folderId: fl_SqvYVEjgdz
+authentication: {}
+authenticationType: null
+description: ''
+headers: []
+message: |-
+  {
+    "action": "agent.delete",
+    "params": {
+      "agent_id": "truck-2"
+    }
+  }
+name: Delete Agent
+sortPriority: 333.3333333333333
+url: ${[ WEBSOCKET_URL ]}
+urlParameters: []

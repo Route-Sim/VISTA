@@ -2,9 +2,9 @@ type: websocket_request
 model: websocket_request
 id: wr_cvo7f4BHbb
 createdAt: 2025-11-08T17:29:34.126639
-updatedAt: 2025-11-08T17:29:45.370415
+updatedAt: 2025-11-09T12:07:08.940963
 workspaceId: wk_BJkwK7RGqy
-folderId: null
+folderId: fl_4vCZGrpiXK
 authentication: {}
 authenticationType: null
 description: ''
@@ -13,9 +13,11 @@ message: |-
   {
     "action": "agent.create",
     "params": {
+      "agent_id": "",
+      "agent_kind": "truck"
     }
   }
-name: Create Agent
-sortPriority: -782968728234.6667
+name: Create Truck
+sortPriority: 0.0
 url: ${[ WEBSOCKET_URL ]}
 urlParameters: []

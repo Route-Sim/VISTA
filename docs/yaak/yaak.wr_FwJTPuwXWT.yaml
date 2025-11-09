@@ -2,9 +2,9 @@ type: websocket_request
 model: websocket_request
 id: wr_FwJTPuwXWT
 createdAt: 2025-11-03T11:10:33.766484
-updatedAt: 2025-11-08T17:26:52.495274
+updatedAt: 2025-11-09T12:05:27.804550
 workspaceId: wk_BJkwK7RGqy
-folderId: null
+folderId: fl_V57ekqotsu
 authentication: {}
 authenticationType: null
 description: ''
@@ -41,7 +41,7 @@ message: |-
       "seed": 42
     }
   }
-name: Create a Map
-sortPriority: -1761679638528.0
+name: Create Map
+sortPriority: 0.0
 url: ${[ WEBSOCKET_URL ]}
 urlParameters: []

@@ -1,8 +1,8 @@
 type: websocket_request
 model: websocket_request
-id: wr_TBubfj6zFt
-createdAt: 2025-10-28T19:28:17.929191
-updatedAt: 2025-11-09T12:06:02.369445
+id: wr_kHgnC5SMxi
+createdAt: 2025-11-09T12:05:52.607414
+updatedAt: 2025-11-09T12:06:18.415334
 workspaceId: wk_BJkwK7RGqy
 folderId: fl_x65ys46iyJ
 authentication: {}
@@ -11,10 +11,10 @@ description: ''
 headers: []
 message: |-
   {
-    "action": "simulation.start",
+    "action": "simulation.resume",
     "params": {}
   }
-name: Start Simulation
-sortPriority: 0.0
+name: Resume Simulation
+sortPriority: 2000.0
 url: ${[ WEBSOCKET_URL ]}
 urlParameters: []

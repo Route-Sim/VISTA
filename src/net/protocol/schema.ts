@@ -1,5 +1,11 @@
 import { z } from 'zod';
 
+const AgentKind = z.enum(['truck', 'building']);
+const TruckAgentData = z.object({
+  max_speed_kph: z.number().min(0).optional(),
+});
+const BuildingAgentData = z.object({});
+
 // Action schemas: exact params per action
 export const ActionSchemas = {
   'simulation.start': z.object({ tick_rate: z.number().int().min(1) }),
@@ -40,7 +46,11 @@ export const ActionSchemas = {
   'map.import': z.object({ base64_file: z.string() }),
   'tick_rate.update': z.object({ tick_rate: z.number().int().min(1) }),
   'agent.create': z
-    .object({ agent_id: z.string(), agent_kind: z.string() })
+    .object({
+      agent_id: z.string(),
+      agent_kind: AgentKind,
+      agent_data: z.union([TruckAgentData, BuildingAgentData]).optional(),
+    })
     .catchall(z.unknown()),
   'agent.update': z.object({ agent_id: z.string() }).catchall(z.unknown()),
   'agent.delete': z.object({ agent_id: z.string() }),
@@ -70,6 +80,43 @@ const GraphEdge = z.object({
   max_speed_kph: z.number().min(0),
   weight_limit_kg: z.number().min(0).nullable(),
 });
+
+const AgentTags = z.record(z.string(), z.unknown()).default({});
+
+const AgentSignalBase = z.object({
+  id: z.string(),
+  kind: AgentKind,
+  inbox_count: z.number().int().min(0),
+  outbox_count: z.number().int().min(0),
+  tags: AgentTags,
+});
+
+const GraphIndex = z.union([z.string(), z.number()]);
+
+const BuildingAgentSignalData = AgentSignalBase.extend({
+  kind: z.literal('building'),
+  building: z
+    .object({
+      id: z.string(),
+    })
+    .catchall(z.unknown()),
+}).catchall(z.unknown());
+
+const TruckAgentSignalData = AgentSignalBase.extend({
+  kind: z.literal('truck'),
+  max_speed_kph: z.number().min(0),
+  current_speed_kph: z.number().min(0),
+  current_node: GraphIndex,
+  current_edge: GraphIndex.nullable(),
+  edge_progress_m: z.number().min(0),
+  route: z.array(GraphIndex),
+  destination: GraphIndex.nullable(),
+}).catchall(z.unknown());
+
+const AgentCreatedSignalData = z.union([
+  BuildingAgentSignalData,
+  TruckAgentSignalData,
+]);
 
 // Signal schemas: exact data per signal
 export const SignalSchemas = {
@@ -121,9 +168,7 @@ export const SignalSchemas = {
   'map.exported': z.object({ filename: z.string(), base64_file: z.string() }),
   'map.imported': z.object({}),
   'tick_rate.updated': z.object({ tick_rate: z.number().int().min(1) }),
-  'agent.created': z
-    .object({ agent_id: z.string(), agent_kind: z.string() })
-    .catchall(z.unknown()),
+  'agent.created': AgentCreatedSignalData,
   'agent.updated': z.object({ agent_id: z.string() }).catchall(z.unknown()),
   'agent.deleted': z.object({ agent_id: z.string() }),
   'agent.state': z

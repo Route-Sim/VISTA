@@ -141,7 +141,7 @@ map.created: {
 map.exported: { filename: string, base64_file: string }
 map.imported: {}
 tick_rate.updated: { tick_rate: number }
-agent.created: { agent_id: string, agent_kind: string, ... }
+agent.created: AgentCreatedPayload // see detailed breakdown below
 agent.updated: { agent_id: string, ... }
 agent.deleted: { agent_id: string }
 agent.state: { agent_id: string, agent_kind: string, ... }
@@ -222,6 +222,85 @@ Example (server → client; arrays truncated):
   }
 }
 ```
+
+### Signal: agent.created – Post-Creation Snapshot
+
+Base payload shared by all agent kinds:
+
+```ts
+type AgentEnvelopeBase = {
+  id: string;
+  kind: 'truck' | 'building';
+  inbox_count: number;   // >= 0
+  outbox_count: number;  // >= 0
+  tags: Record<string, unknown>; // defaults to {}
+};
+```
+
+Variants:
+
+- Building agents append a `building` object that currently mirrors the identifier and may grow with structural metadata.
+- Truck agents provide the full motion state.
+
+```ts
+type GraphIndex = string | number;
+
+type BuildingAgentPayload = AgentEnvelopeBase & {
+  kind: 'building';
+  building: { id: string };
+};
+
+type TruckAgentPayload = AgentEnvelopeBase & {
+  kind: 'truck';
+  max_speed_kph: number;      // >= 0
+  current_speed_kph: number;  // >= 0
+  current_node: GraphIndex;
+  current_edge: GraphIndex | null;
+  edge_progress_m: number;    // >= 0
+  route: GraphIndex[];
+  destination: GraphIndex | null;
+};
+
+type AgentCreatedPayload = BuildingAgentPayload | TruckAgentPayload;
+```
+
+Examples:
+
+```json
+{
+  "signal": "agent.created",
+  "data": {
+    "id": "test3",
+    "kind": "building",
+    "tags": {},
+    "inbox_count": 0,
+    "outbox_count": 0,
+    "building": { "id": "test3" }
+  }
+}
+```
+
+```json
+{
+  "signal": "agent.created",
+  "data": {
+    "id": "test2",
+    "kind": "truck",
+    "max_speed_kph": 100.0,
+    "current_speed_kph": 0.0,
+    "current_node": 110,
+    "current_edge": null,
+    "edge_progress_m": 0.0,
+    "route": [],
+    "destination": null,
+    "inbox_count": 0,
+    "outbox_count": 0,
+    "tags": {}
+  }
+}
+```
+
+Downstream systems should tolerate additional properties introduced by the server; the schema intentionally uses `.catchall(z.unknown())` on each variant to allow forward-compatible extensions.
 
 ## Request/Response Matching
 

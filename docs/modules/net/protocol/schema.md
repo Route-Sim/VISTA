@@ -115,6 +115,91 @@ Parameters (validated strictly):
 
 The server responds with a detailed summary and a 2D graph suitable for HUD visualization.
 
+## Signal: agent.created
+
+The `agent.created` payload is now a discriminated union that provides a rich snapshot of the agent immediately after creation. The base shape applies to both variants:
+
+```ts
+type AgentEnvelopeBase = {
+  id: string;
+  kind: 'truck' | 'building';
+  inbox_count: number;   // >= 0
+  outbox_count: number;  // >= 0
+  tags: Record<string, unknown>; // defaults to {}
+};
+```
+
+### Building agents
+
+```ts
+type BuildingAgentPayload = AgentEnvelopeBase & {
+  kind: 'building';
+  building: {
+    id: string;
+    // server may add more building fields in future revisions
+  };
+};
+```
+
+Example:
+
+```json
+{
+  "signal": "agent.created",
+  "data": {
+    "id": "test3",
+    "kind": "building",
+    "tags": {},
+    "inbox_count": 0,
+    "outbox_count": 0,
+    "building": {
+      "id": "test3"
+    }
+  }
+}
+```
+
+### Truck agents
+
+```ts
+type GraphIndex = string | number;
+
+type TruckAgentPayload = AgentEnvelopeBase & {
+  kind: 'truck';
+  max_speed_kph: number;      // >= 0
+  current_speed_kph: number;  // >= 0
+  current_node: GraphIndex;
+  current_edge: GraphIndex | null;
+  edge_progress_m: number;    // >= 0
+  route: GraphIndex[];
+  destination: GraphIndex | null;
+};
+```
+
+Example:
+
+```json
+{
+  "signal": "agent.created",
+  "data": {
+    "id": "test2",
+    "kind": "truck",
+    "max_speed_kph": 100.0,
+    "current_speed_kph": 0.0,
+    "current_node": 110,
+    "current_edge": null,
+    "edge_progress_m": 0.0,
+    "route": [],
+    "destination": null,
+    "inbox_count": 0,
+    "outbox_count": 0,
+    "tags": {}
+  }
+}
+```
+
+The schema allows additional truck-specific fields via `.catchall(z.unknown())`, so downstream code should rely on the documented subset above.
+
 ## Signals: tick.start / tick.end
 
 The server delimits each simulation tick with a start and end signal:

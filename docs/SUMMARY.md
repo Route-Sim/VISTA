@@ -54,6 +54,7 @@
     - [index](modules/view/index.md)
     - graph
       - [graph-view](modules/view/graph/graph-view.md)
+      - [graph-transform](modules/view/graph/graph-transform.md)
 
   - hud
     - [index](modules/hud/index.md)

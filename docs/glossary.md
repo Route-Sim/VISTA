@@ -32,3 +32,4 @@ links:
 - View Controller: Three.js orchestration layer that pulls interpolated snapshots from `SimStore` and forwards them to scene subviews.
 - Graph View: Scene subtree responsible for rendering simulation nodes as low cylinders and roads as line segments atop the ground plane.
 - Graph Primitives: Reusable mesh/line factories under `engine/objects` that enforce consistent geometry, elevation, and palette for graph visualizations.
+- Graph Transform: Normalization helper that centers the graph at the world origin and scales coordinates (×0.1) before rendering so all view modules share consistent placement.

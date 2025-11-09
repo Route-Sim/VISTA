@@ -25,7 +25,7 @@ links:
 - Dependencies and assumptions:
   - Nodes contain planar coordinates (`x`, `y`) in meters.
   - Roads reference valid start/end nodes; if not present they are skipped defensively.
-  - Relies on `createGraphNodeMesh`/`createGraphRoadLine` factories for consistent styling.
+  - Relies on graph object factories and normalization helpers for consistent styling and positioning.
 
 ## Responsibilities & Boundaries
 
@@ -43,8 +43,8 @@ links:
   - `root` group containing `roadGroup` and `nodeGroup` child groups.
   - Maps from IDs to meshes/lines (`nodeMeshes`, `roadLines`).
 - Data flow:
-  - `GraphView.update(frame)` selects `frame.snapshotB` (latest) and synchronizes nodes then roads.
-  - Node positions map to 3D using `x → x`, `y → z`, with a small Y elevation to avoid z-fighting.
+  - `GraphView.update(frame)` selects `frame.snapshotB` (latest), computes `GraphTransform` (center + scale), then synchronizes nodes and roads.
+  - Node positions map to 3D using normalized `x → x`, `y → z`, with a small Y elevation to avoid z-fighting.
 - Resource handling:
   - Uses graph primitive factories, ensuring shared material parameters and dimensions.
   - Buffer attributes reused for road line segments; positions array updated each frame.
@@ -53,15 +53,16 @@ links:
 
 - Node sync: O(|nodes|) creation/update plus O(|stale|) removals.
 - Road sync: O(|roads|) creation/update plus O(|stale|) removals.
-- Each update reuses buffer attributes avoiding reallocation.
+- Normalization runs in O(|nodes|) to compute bounding center.
 
 ## Public API / Usage
 
 ```start:GraphView.update:src/view/graph/graph-view.ts
 update(frame: SimFrame): void {
   const snapshot = frame.snapshotB;
-  this.syncRoads(snapshot);
-  this.syncNodes(snapshot);
+  const transform = computeGraphTransform(snapshot);
+  this.syncRoads(snapshot, transform);
+  this.syncNodes(snapshot, transform);
 }
 ```
 
@@ -72,6 +73,7 @@ update(frame: SimFrame): void {
 
 - Cylindrical nodes align with style guide; factories disable shadows to keep visuals soft.
 - Roads sit slightly above ground (`GRAPH_ROAD_ELEVATION`) to avoid z-fighting with the ground plane.
+- Bounding-box centering keeps the graph around the world origin, while a global ×0.1 scale keeps distances manageable for the camera rig.
 - Defensive guards skip roads if referenced nodes are missing, preventing runtime errors during partial updates.
 
 ## Tests (If Applicable)
@@ -93,5 +95,6 @@ update(frame: SimFrame): void {
 
 - `src/view/index.ts`
 - `src/engine/objects/graph-primitives.ts`
+- `src/view/graph/graph-transform.ts`
 - `src/sim/store/snapshot.ts`
 - `docs/style-guide.md`

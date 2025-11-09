@@ -8,9 +8,19 @@ import {
   createGraphNodeMesh,
   createGraphRoadLine,
 } from '@/engine/objects/graph-primitives';
+import {
+  type GraphTransform,
+  computeGraphTransform,
+} from '@/view/graph/graph-transform';
 
-function toVector3(node: Node, target: THREE.Vector3): THREE.Vector3 {
-  target.set(node.x, GRAPH_ROAD_ELEVATION, node.y);
+function toVector3(
+  node: Node,
+  transform: GraphTransform,
+  target: THREE.Vector3,
+): THREE.Vector3 {
+  const normalizedX = (node.x - transform.centerX) * transform.scale;
+  const normalizedZ = (node.y - transform.centerY) * transform.scale;
+  target.set(normalizedX, GRAPH_ROAD_ELEVATION, normalizedZ);
   return target;
 }
 
@@ -46,8 +56,9 @@ export class GraphView {
 
   update(frame: SimFrame): void {
     const snapshot = frame.snapshotB;
-    this.syncRoads(snapshot);
-    this.syncNodes(snapshot);
+    const transform = computeGraphTransform(snapshot);
+    this.syncRoads(snapshot, transform);
+    this.syncNodes(snapshot, transform);
   }
 
   dispose(): void {
@@ -68,7 +79,7 @@ export class GraphView {
     this.roadLines.clear();
   }
 
-  private syncNodes(snapshot: SimSnapshot): void {
+  private syncNodes(snapshot: SimSnapshot, transform: GraphTransform): void {
     const seen = new Set<NodeId>();
     for (const node of Object.values(snapshot.nodes)) {
       seen.add(node.id);
@@ -79,7 +90,7 @@ export class GraphView {
         this.nodeMeshes.set(node.id, mesh);
         this.nodeGroup.add(mesh);
       }
-      toVector3(node, this.nodePosition);
+      toVector3(node, transform, this.nodePosition);
       mesh.position.copy(this.nodePosition);
       mesh.position.y += GRAPH_NODE_HEIGHT / 2;
     }
@@ -93,7 +104,7 @@ export class GraphView {
     }
   }
 
-  private syncRoads(snapshot: SimSnapshot): void {
+  private syncRoads(snapshot: SimSnapshot, transform: GraphTransform): void {
     const seen = new Set<RoadId>();
     for (const road of Object.values(snapshot.roads)) {
       const startNode = snapshot.nodes[road.startNodeId];
@@ -112,8 +123,8 @@ export class GraphView {
       const attribute = line.geometry.getAttribute(
         'position',
       ) as THREE.BufferAttribute;
-      toVector3(startNode, this.tempStart);
-      toVector3(endNode, this.tempEnd);
+      toVector3(startNode, transform, this.tempStart);
+      toVector3(endNode, transform, this.tempEnd);
       attribute.setXYZ(0, this.tempStart.x, this.tempStart.y, this.tempStart.z);
       attribute.setXYZ(1, this.tempEnd.x, this.tempEnd.y, this.tempEnd.z);
       attribute.needsUpdate = true;

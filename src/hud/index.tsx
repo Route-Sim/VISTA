@@ -131,7 +131,7 @@ function CreatorPanels({
   if (status === 'playing' || status === 'paused') return null;
 
   return (
-    <div className="cols- fixed inset-0 grid grid-cols-2 grid-rows-[1fr_auto] gap-4 p-4">
+    <div className="fixed inset-0 grid grid-cols-2 grid-rows-[1fr_auto] gap-4 bg-[#0d1f2d] p-4">
       <MapCreator className="row-span-2" />
       <FleetCreator />
       <StartSimulation controller={controller} />

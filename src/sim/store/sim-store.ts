@@ -32,7 +32,14 @@ export class SimStore {
   }
 
   ingest(evt: SimEvent): void {
-    if (evt.type === 'tick') {
+    console.log('[sim] Ingesting event:', evt);
+
+    if (evt.type === 'tick.start') {
+      this.working.tick = evt.tick;
+      if (typeof evt.timeMs === 'number') this.working.timeMs = evt.timeMs;
+      return;
+    }
+    if (evt.type === 'tick.end') {
       this.commitTick(evt.tick, evt.timeMs);
       return;
     }
@@ -45,6 +52,8 @@ export class SimStore {
   }
 
   commitTick(tick: number, timeMs?: number): SimSnapshot {
+    console.log('[sim] Committing tick:', tick, timeMs);
+
     this.working.tick = tick;
     if (typeof timeMs === 'number') this.working.timeMs = timeMs;
     const committed = freezeSnapshot({ ...this.working });

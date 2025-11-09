@@ -3,6 +3,8 @@ import { SceneManager } from './engine/scene-manager';
 import { createCamera } from './engine/camera-rig';
 import { createOrbitMoveControls } from './engine/controls/orbit-move-controls';
 import { mountHud } from './hud';
+import { net } from '@/net';
+import { SimStore, wireNetToSim } from '@/sim';
 
 const canvas = document.createElement('canvas');
 canvas.id = 'app';
@@ -26,6 +28,10 @@ window.addEventListener('keydown', (e) => {
     hud.toggle();
   }
 });
+
+const simStore = new SimStore();
+// Wire net → sim using a single adapter
+wireNetToSim(net, simStore);
 
 engine.onUpdate((t) => {
   controls.update(t.deltaTimeMs / 1000);

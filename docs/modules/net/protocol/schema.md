@@ -3,7 +3,7 @@ title: 'Protocol Schemas – Actions & Signals'
 summary: 'Strongly typed zod schemas and TypeScript unions for actions and signals, with envelope types and codec helpers.'
 source_paths:
   - 'src/net/protocol/schema.ts'
-last_updated: '2025-11-08'
+last_updated: '2025-11-09'
 owner: 'Mateusz Nędzi'
 tags: ['module', 'net', 'protocol', 'zod']
 links:
@@ -42,6 +42,8 @@ type SignalName =
   | 'simulation.stopped'
   | 'simulation.resumed'
   | 'simulation.paused'
+  | 'tick.start'
+  | 'tick.end'
   | 'map.created'
   | 'map.exported'
   | 'map.imported'
@@ -112,6 +114,17 @@ Parameters (validated strictly):
 ## Signal: map.created
 
 The server responds with a detailed summary and a 2D graph suitable for HUD visualization.
+
+## Signals: tick.start / tick.end
+
+The server delimits each simulation tick with a start and end signal:
+
+```json
+{ "signal": "tick.start", "data": { "tick": 32 } }
+{ "signal": "tick.end",   "data": { "tick": 32 } }
+```
+
+Client code should apply updates between `tick.start` and `tick.end`; snapshot commits occur on `tick.end`.
 
 ### RoadClass
 

@@ -117,7 +117,7 @@ export class BrowserWebSocketTransport implements IWebSocketTransport {
       this.backoff.reset();
       try {
         // eslint-disable-next-line no-console
-        console.log('[net][ws] open', currentUrl);
+        console.log('[net][ws] Connected to', currentUrl);
       } catch {
         // ignore logging errors
       }
@@ -130,7 +130,7 @@ export class BrowserWebSocketTransport implements IWebSocketTransport {
         try {
           // Incoming WS event (string payload)
           // eslint-disable-next-line no-console
-          console.log('[net][ws] <-', data);
+          console.log('[net][ws] Received message:', data);
         } catch {
           // ignore logging errors
         }
@@ -144,7 +144,7 @@ export class BrowserWebSocketTransport implements IWebSocketTransport {
             try {
               // Incoming WS event (blob converted to text)
               // eslint-disable-next-line no-console
-              console.log('[net][ws] <-', t);
+              console.log('[net][ws] Received message:', t);
             } catch {
               // ignore logging errors
             }
@@ -160,7 +160,7 @@ export class BrowserWebSocketTransport implements IWebSocketTransport {
     this.ws.onerror = (ev: Event) => {
       try {
         // eslint-disable-next-line no-console
-        console.error('[net][ws] error', ev);
+        console.error('[net][ws] Error:', ev);
       } catch {
         // ignore logging errors
       }
@@ -172,7 +172,7 @@ export class BrowserWebSocketTransport implements IWebSocketTransport {
       this.ws = null;
       try {
         // eslint-disable-next-line no-console
-        console.log('[net][ws] close', {
+        console.log('[net][ws] Closed', {
           code: ev.code,
           reason: ev.reason,
           wasClean: ev.wasClean,

@@ -12,12 +12,11 @@ import {
   type ActionEnvelopeOf,
 } from '@/net/protocol/schema';
 import {
-  ActionToSignal,
   getDefaultMatcher,
   type ExpectedSignalByAction,
 } from '@/net/protocol/mapping';
 
-export type SendOptions<A extends ActionName> = {
+export type SendOptions = {
   timeoutMs?: number;
   matcher?: (signal: SignalUnion) => boolean;
   requestId?: string;
@@ -98,7 +97,7 @@ export class WebSocketClient {
   async sendAction<A extends ActionName>(
     action: A,
     params: ActionParams[A],
-    options: SendOptions<A> = {},
+    options: SendOptions = {},
   ): Promise<
     SignalEnvelopeOf<ExpectedSignalByAction[A]> | SignalEnvelopeOf<'error'>
   > {
@@ -162,15 +161,16 @@ export class WebSocketClient {
     } catch {
       return; // ignore invalid signal shape
     }
-    // First satisfy any awaiting request
-    if (!this.tracker.handleSignal(signal)) {
-      // Broadcast to subscribers
-      for (const h of this.anyHandlers) h(signal);
-      const set = this.perSignalHandlers.get(signal.signal as SignalName);
-      if (set) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        for (const fn of set as Set<(data: any) => void>) fn(signal.data);
-      }
+    // Satisfy any awaiting request (promise resolution), then ALWAYS broadcast.
+    // Broadcasting unconditionally ensures event subscribers see signals even when
+    // a request matcher consumes the response.
+    this.tracker.handleSignal(signal);
+    // Broadcast to subscribers
+    for (const h of this.anyHandlers) h(signal);
+    const set = this.perSignalHandlers.get(signal.signal as SignalName);
+    if (set) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      for (const fn of set as Set<(data: any) => void>) fn(signal.data);
     }
   }
 }

@@ -4,7 +4,7 @@ summary: 'Typed actions and signals exchanged between VISTA and SPINE with zod-v
 source_paths:
   - 'src/net/protocol/schema.ts'
   - 'src/net/protocol/mapping.ts'
-last_updated: '2025-11-08'
+last_updated: '2025-11-09'
 owner: 'Mateusz Nędzi'
 tags: ['api', 'net', 'protocol']
 links:
@@ -93,6 +93,8 @@ type SignalName =
   | 'simulation.stopped'
   | 'simulation.resumed'
   | 'simulation.paused'
+  | 'tick.start'
+  | 'tick.end'
   | 'map.created'
   | 'map.exported'
   | 'map.imported'
@@ -113,6 +115,8 @@ simulation.started: { tick_rate: number }
 simulation.stopped: {}
 simulation.resumed: {}
 simulation.paused: {}
+tick.start: { tick: number }
+tick.end: { tick: number }
 map.created: {
   // echoes params...
   map_width: number; map_height: number; num_major_centers: number; minor_per_major: number;
@@ -144,6 +148,13 @@ agent.state: { agent_id: string, agent_kind: string, ... }
 event.created: { event_name: string, ... }
 building.updated: { building_id: string, ... }
 error: { code: string, message: string }
+```
+
+Examples:
+
+```json
+{ "signal": "tick.start", "data": { "tick": 32 } }
+{ "signal": "tick.end",   "data": { "tick": 32 } }
 ```
 
 ### CREATE_MAP – Generate New Map Procedurally

@@ -6,6 +6,7 @@
 - [API Reference](api-reference.md)
 
 - Modules
+  - [main](modules/main.md)
   - app
     - [config](modules/app/config.md)
 
@@ -31,6 +32,8 @@
     - domain
       - [entities](modules/sim/domain/entities.md)
       - [enums](modules/sim/domain/enums.md)
+    - adapters
+      - [wire-net-to-sim](modules/sim/adapters/wire-net-to-sim.md)
     - store
       - [sim-store](modules/sim/store/sim-store.md)
       - [reducers](modules/sim/store/reducers.md)

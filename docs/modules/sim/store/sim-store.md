@@ -6,7 +6,7 @@ source_paths:
   - 'src/sim/store/snapshot-buffer.ts'
   - 'src/sim/store/snapshot.ts'
   - 'src/sim/events.ts'
-last_updated: '2025-11-01'
+last_updated: '2025-11-09'
 owner: 'Mateusz Nędzi'
 tags: ['module', 'sim', 'store', 'events']
 links:
@@ -34,6 +34,11 @@ class SimStore {
   getBuffer(): SnapshotBuffer;
 }
 ```
+
+## Implementation Notes
+
+- Tick lifecycle:
+  - The server emits `tick.start` and `tick.end`. The store updates the working draft’s `tick/timeMs` on `tick.start` and commits a new immutable snapshot on `tick.end`.
 
 ## Performance & Reliability
 

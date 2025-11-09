@@ -77,6 +77,8 @@ export const SignalSchemas = {
   'simulation.stopped': z.object({}),
   'simulation.resumed': z.object({}),
   'simulation.paused': z.object({}),
+  'tick.start': z.object({ tick: z.number().int().min(0) }),
+  'tick.end': z.object({ tick: z.number().int().min(0) }),
   'map.created': z
     .object({
       // echo of creation params

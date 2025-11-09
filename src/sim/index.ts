@@ -11,3 +11,4 @@ export * from './systems/interpolation';
 export * from './selectors';
 export * from './events';
 export * from './adapters/net-adapter';
+export * from './adapters/wire-net-to-sim';

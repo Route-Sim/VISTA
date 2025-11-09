@@ -9,9 +9,10 @@ import type {
 import type { EdgeMap, NodeMap, RoadMap } from './domain/entities';
 
 // Event envelope used by SimStore. The server guarantees ordering within the
-// stream as: tick -> update* -> tick -> update* -> ...
+// stream as: tick.start -> update* -> tick.end -> tick.start -> ...
 export type SimEvent =
-  | { type: 'tick'; tick: number; timeMs?: number }
+  | { type: 'tick.start'; tick: number; timeMs?: number }
+  | { type: 'tick.end'; tick: number; timeMs?: number }
   | {
       type: 'map.created';
       nodes: NodeMap;

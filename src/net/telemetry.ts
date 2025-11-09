@@ -92,19 +92,6 @@ export function wireNetTelemetry(
     ),
   );
 
-  // Raw incoming payloads
-  unsubs.push(
-    transport.onMessage((text) =>
-      netTelemetry.emit('event', {
-        dir: 'in',
-        kind: 'incoming-raw',
-        t: Date.now(),
-        text,
-        bytes: byteLength(text),
-      }),
-    ),
-  );
-
   // Decoded incoming signals from client
   unsubs.push(
     client.onAny((signal) =>

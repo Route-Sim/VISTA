@@ -42,8 +42,6 @@ export const ActionSchemas = {
       seed: z.number().int(),
     })
     .strict(),
-  'map.export': z.object({ map_name: z.string() }),
-  'map.import': z.object({ base64_file: z.string() }),
   'tick_rate.update': z.object({ tick_rate: z.number().int().min(1) }),
   'agent.create': z
     .object({
@@ -54,7 +52,6 @@ export const ActionSchemas = {
     .catchall(z.unknown()),
   'agent.update': z.object({ agent_id: z.string() }).catchall(z.unknown()),
   'agent.delete': z.object({ agent_id: z.string() }),
-  'agent.get': z.object({ agent_id: z.string() }),
   'agent.list': z.object({}),
   'agent.describe': z.object({ agent_id: z.string() }),
 } as const;
@@ -170,22 +167,16 @@ export const SignalSchemas = {
       }),
     })
     .strict(),
-  'map.exported': z.object({ filename: z.string(), base64_file: z.string() }),
-  'map.imported': z.object({}),
   'tick_rate.updated': z.object({ tick_rate: z.number().int().min(1) }),
   'agent.created': AgentSignalData,
   'agent.updated': z.object({ agent_id: z.string() }).catchall(z.unknown()),
   'agent.deleted': z.object({ agent_id: z.string() }),
-  'agent.state': z
-    .object({ agent_id: z.string(), agent_kind: z.string() })
-    .catchall(z.unknown()),
   'agent.listed': z.object({
     total: z.number().int().min(0),
     agents: z.array(AgentSignalData),
     tick: z.number().int().min(0),
   }),
   'agent.described': AgentSignalData,
-  'event.created': z.object({ event_name: z.string() }).catchall(z.unknown()),
   'building.updated': z
     .object({ building_id: z.string() })
     .catchall(z.unknown()),

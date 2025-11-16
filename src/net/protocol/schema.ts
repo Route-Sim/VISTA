@@ -55,6 +55,8 @@ export const ActionSchemas = {
   'agent.update': z.object({ agent_id: z.string() }).catchall(z.unknown()),
   'agent.delete': z.object({ agent_id: z.string() }),
   'agent.get': z.object({ agent_id: z.string() }),
+  'agent.list': z.object({}),
+  'agent.describe': z.object({ agent_id: z.string() }),
 } as const;
 
 export type ActionName = keyof typeof ActionSchemas;
@@ -111,9 +113,12 @@ const TruckAgentSignalData = AgentSignalBase.extend({
   edge_progress_m: z.number().min(0),
   route: z.array(GraphIndex),
   destination: GraphIndex.nullable(),
+  route_start_node: GraphIndex.nullable(),
+  route_end_node: GraphIndex.nullable(),
+  current_building_id: z.string().nullable(),
 }).catchall(z.unknown());
 
-const AgentCreatedSignalData = z.union([
+const AgentSignalData = z.union([
   BuildingAgentSignalData,
   TruckAgentSignalData,
 ]);
@@ -168,12 +173,18 @@ export const SignalSchemas = {
   'map.exported': z.object({ filename: z.string(), base64_file: z.string() }),
   'map.imported': z.object({}),
   'tick_rate.updated': z.object({ tick_rate: z.number().int().min(1) }),
-  'agent.created': AgentCreatedSignalData,
+  'agent.created': AgentSignalData,
   'agent.updated': z.object({ agent_id: z.string() }).catchall(z.unknown()),
   'agent.deleted': z.object({ agent_id: z.string() }),
   'agent.state': z
     .object({ agent_id: z.string(), agent_kind: z.string() })
     .catchall(z.unknown()),
+  'agent.listed': z.object({
+    total: z.number().int().min(0),
+    agents: z.array(AgentSignalData),
+    tick: z.number().int().min(0),
+  }),
+  'agent.described': AgentSignalData,
   'event.created': z.object({ event_name: z.string() }).catchall(z.unknown()),
   'building.updated': z
     .object({ building_id: z.string() })

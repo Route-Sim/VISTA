@@ -2,7 +2,7 @@ type: folder
 model: folder
 id: fl_4vCZGrpiXK
 createdAt: 2025-11-09T12:06:38.538716
-updatedAt: 2025-11-09T12:06:54.948025
+updatedAt: 2025-11-16T18:32:37.372687
 workspaceId: wk_BJkwK7RGqy
 folderId: fl_SqvYVEjgdz
 authentication: {}
@@ -10,4 +10,4 @@ authenticationType: null
 description: ''
 headers: []
 name: Truck
-sortPriority: 111.1111111111111
+sortPriority: 0.0

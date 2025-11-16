@@ -2,7 +2,7 @@ type: folder
 model: folder
 id: fl_SqvYVEjgdz
 createdAt: 2025-11-09T12:06:28.723500
-updatedAt: 2025-11-09T12:06:32.415517
+updatedAt: 2025-11-16T18:32:33.210650
 workspaceId: wk_BJkwK7RGqy
 folderId: null
 authentication: {}
@@ -10,4 +10,4 @@ authenticationType: null
 description: ''
 headers: []
 name: Agent
-sortPriority: 1666.6666666666663
+sortPriority: 2000.0

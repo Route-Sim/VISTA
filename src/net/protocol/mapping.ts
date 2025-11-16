@@ -13,6 +13,8 @@ export const ActionToSignal = {
   'agent.update': 'agent.updated',
   'agent.delete': 'agent.deleted',
   'agent.get': 'agent.state',
+  'agent.list': 'agent.listed',
+  'agent.describe': 'agent.described',
 } as const;
 
 export type ExpectedSignalByAction = typeof ActionToSignal;

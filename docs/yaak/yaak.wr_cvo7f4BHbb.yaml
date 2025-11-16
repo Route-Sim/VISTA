@@ -2,7 +2,7 @@ type: websocket_request
 model: websocket_request
 id: wr_cvo7f4BHbb
 createdAt: 2025-11-08T17:29:34.126639
-updatedAt: 2025-11-09T12:07:08.940963
+updatedAt: 2025-11-16T18:15:58.814889
 workspaceId: wk_BJkwK7RGqy
 folderId: fl_4vCZGrpiXK
 authentication: {}
@@ -13,7 +13,7 @@ message: |-
   {
     "action": "agent.create",
     "params": {
-      "agent_id": "",
+      "agent_id": "test2",
       "agent_kind": "truck"
     }
   }

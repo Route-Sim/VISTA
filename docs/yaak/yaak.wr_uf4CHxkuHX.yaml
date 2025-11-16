@@ -1,8 +1,8 @@
 type: websocket_request
 model: websocket_request
-id: wr_KAV3QqAx9g
-createdAt: 2025-11-09T12:03:56.132306
-updatedAt: 2025-11-16T18:32:37.377987
+id: wr_uf4CHxkuHX
+createdAt: 2025-11-16T18:32:31.271877
+updatedAt: 2025-11-16T18:33:23.983740
 workspaceId: wk_BJkwK7RGqy
 folderId: fl_SqvYVEjgdz
 authentication: {}
@@ -11,12 +11,12 @@ description: ''
 headers: []
 message: |-
   {
-    "action": "agent.delete",
+    "action": "agent.describe",
     "params": {
-      "agent_id": "truck-2"
+      "agent_id": "test1"
     }
   }
-name: Delete Agent
-sortPriority: 2000.0
+name: Describe Agent
+sortPriority: 3000.0
 url: ${[ WEBSOCKET_URL ]}
 urlParameters: []

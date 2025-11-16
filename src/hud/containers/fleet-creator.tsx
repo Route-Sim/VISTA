@@ -53,7 +53,7 @@ export function FleetCreator({
   const highlightTimeoutRef = React.useRef<number | null>(null);
 
   React.useEffect(() => {
-    const unsubscribe = net.on('agent.created', (data) => {
+    const unsubscribeCreated = net.on('agent.created', (data) => {
       if (data.kind !== 'truck') return;
       setCreatedTrucks((prev) => {
         const existingIndex = prev.findIndex((truck) => truck.id === data.id);
@@ -75,8 +75,16 @@ export function FleetCreator({
       }
     });
 
+    const unsubscribeListed = net.on('agent.listed', (data) => {
+      const trucks = data.agents
+        .filter((agent) => agent.kind === 'truck')
+        .map((agent) => agent as TruckCreatedEnvelope);
+      setCreatedTrucks(trucks.slice(0, MAX_TRACKED_TRUCKS));
+    });
+
     return () => {
-      unsubscribe();
+      unsubscribeCreated();
+      unsubscribeListed();
       if (
         typeof window !== 'undefined' &&
         highlightTimeoutRef.current !== null

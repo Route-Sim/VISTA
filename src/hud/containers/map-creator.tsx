@@ -48,13 +48,12 @@ export function MapCreator({
 
   const canCreate = status === 'idle' || status === 'stopped';
 
-  // Subscribe to map.created events
+  // Subscribe to map.created events on mount
   React.useEffect(() => {
-    const off = net.on('map.created', (data) => {
-      console.debug('map.created', data);
+    const unsubscribe = net.on('map.created', (data) => {
       setMapData(data);
     });
-    return off;
+    return unsubscribe;
   }, []);
 
   const setNumber = <K extends keyof MapCreateParams>(
@@ -105,10 +104,7 @@ export function MapCreator({
     if (!canCreate || sending) return;
     setSending(true);
     try {
-      const res = await net.sendAction('map.create', params);
-      if (res.signal === 'map.created') {
-        setMapData(res.data);
-      }
+      await net.sendAction('map.create', params);
     } catch {
       // future: surface via HUD toast
     } finally {

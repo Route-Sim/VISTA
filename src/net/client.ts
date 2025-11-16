@@ -152,7 +152,8 @@ export class WebSocketClient {
     let parsed: unknown;
     try {
       parsed = JSON.parse(txt);
-    } catch {
+    } catch (err) {
+      console.warn('[net][client] Failed to parse JSON:', err);
       return; // ignore invalid JSON
     }
     let signal: SignalUnion;

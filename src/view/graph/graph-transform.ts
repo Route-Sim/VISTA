@@ -6,7 +6,7 @@ export interface GraphTransform {
   scale: number;
 }
 
-export const GRAPH_POSITION_SCALE = 0.1;
+export const GRAPH_POSITION_SCALE = 0.3;
 
 export function computeGraphTransform(snapshot: SimSnapshot): GraphTransform {
   const nodes = Object.values(snapshot.nodes) as Node[];

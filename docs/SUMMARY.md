@@ -19,8 +19,10 @@
     - controls
       - [orbit-move-controls](modules/engine/controls/orbit-move-controls.md)
     - objects
+      - [delivery-site](modules/engine/objects/delivery-site.md)
       - [ground](modules/engine/objects/ground.md)
       - [node](modules/engine/objects/node.md)
+      - [parking](modules/engine/objects/parking.md)
       - [road](modules/engine/objects/road.md)
 
   - config

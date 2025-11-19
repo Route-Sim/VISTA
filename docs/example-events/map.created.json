@@ -1,0 +1,6439 @@
+{
+  "signal": "map.created",
+  "data": {
+    "map_width": 1000.0,
+    "map_height": 1000.0,
+    "num_major_centers": 3,
+    "minor_per_major": 2.0,
+    "center_separation": 2500.0,
+    "urban_sprawl": 800.0,
+    "local_density": 50.0,
+    "rural_density": 5.0,
+    "intra_connectivity": 0.3,
+    "inter_connectivity": 2,
+    "arterial_ratio": 0.2,
+    "gridness": 0.3,
+    "ring_road_prob": 0.5,
+    "highway_curviness": 0.2,
+    "rural_settlement_prob": 0.15,
+    "urban_sites_per_km2": 5.0,
+    "rural_sites_per_km2": 1.0,
+    "urban_activity_rate_range": [5.0, 20.0],
+    "rural_activity_rate_range": [1.0, 8.0],
+    "seed": 42,
+    "generated_nodes": 142,
+    "generated_edges": 361,
+    "generated_sites": 13,
+    "graph": {
+      "nodes": [
+        {
+          "id": "0",
+          "x": 639.4267984578837,
+          "y": 25.010755222666937,
+          "buildings": [
+            {
+              "id": "parking_0_0",
+              "capacity": 6,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "1",
+          "x": 648.0981945680454,
+          "y": 90.49942078041025,
+          "buildings": [
+            {
+              "id": "parking_1_1",
+              "capacity": 25,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "2",
+          "x": 592.5970870405117,
+          "y": 130.20600582753838,
+          "buildings": [
+            {
+              "id": "parking_2_2",
+              "capacity": 25,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "3",
+          "x": 537.6963176143539,
+          "y": 25.01075522266695,
+          "buildings": [
+            {
+              "id": "parking_3_3",
+              "capacity": 10,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "4",
+          "x": 467.14946397025807,
+          "y": 12.503766441293585,
+          "buildings": [
+            {
+              "id": "parking_4_4",
+              "capacity": 10,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "5",
+          "x": 720.9755155944031,
+          "y": 106.55947235918629,
+          "buildings": [
+            {
+              "id": "parking_5_5",
+              "capacity": 6,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "6",
+          "x": 773.6763886821603,
+          "y": 202.0292673419487,
+          "buildings": [
+            {
+              "id": "parking_6_6",
+              "capacity": 25,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "7",
+          "x": 456.0667148580903,
+          "y": 116.9482624612119,
+          "buildings": [
+            {
+              "id": "parking_7_7",
+              "capacity": 10,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "8",
+          "x": 675.8441790744537,
+          "y": 173.94581018526873,
+          "buildings": [
+            {
+              "id": "parking_8_8",
+              "capacity": 25,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "9",
+          "x": 511.8972038780456,
+          "y": 152.54034980250506,
+          "buildings": [
+            {
+              "id": "parking_9_9",
+              "capacity": 25,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "10",
+          "x": 800.8472477247446,
+          "y": 30.281650824951157,
+          "buildings": [
+            {
+              "id": "node10_site_6",
+              "name": "Site 10",
+              "activity_rate": 18.159234560758392,
+              "destination_weights": {
+                "node62_site_0": 0.07840157482952878,
+                "node65_site_1": 0.07505766250190861,
+                "node46_site_2": 0.09683688232778835,
+                "node58_site_3": 0.10214713783494829,
+                "node116_site_4": 0.07552974856053041,
+                "node45_site_5": 0.07515009305749625,
+                "node68_site_7": 0.08837214252691435,
+                "node141_site_8": 0.09870080850486106,
+                "node71_site_9": 0.059489735141283424,
+                "node23_site_10": 0.10788390385068179,
+                "node48_site_11": 0.062060645582138835,
+                "node16_site_12": 0.08036966528191972
+              },
+              "package_config": {
+                "size_range_kg": [1.0, 50.0],
+                "value_range_currency": [10.0, 1000.0],
+                "pickup_deadline_range_ticks": [1800, 7200],
+                "delivery_deadline_range_ticks": [3600, 14400],
+                "priority_weights": {
+                  "Priority.LOW": 0.4,
+                  "Priority.MEDIUM": 0.3,
+                  "Priority.HIGH": 0.2,
+                  "Priority.URGENT": 0.1
+                },
+                "urgency_weights": {
+                  "DeliveryUrgency.STANDARD": 0.6,
+                  "DeliveryUrgency.EXPRESS": 0.3,
+                  "DeliveryUrgency.SAME_DAY": 0.1
+                }
+              },
+              "active_packages": [],
+              "statistics": {
+                "packages_generated": 0,
+                "packages_picked_up": 0,
+                "packages_delivered": 0,
+                "packages_expired": 0,
+                "total_value_delivered": 0.0,
+                "total_value_expired": 0.0
+              }
+            },
+            {
+              "id": "parking_10_10",
+              "capacity": 25,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "11",
+          "x": 408.71351220552066,
+          "y": 51.12071363869616,
+          "buildings": [
+            {
+              "id": "parking_11_11",
+              "capacity": 10,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "12",
+          "x": 873.9982900338053,
+          "y": 82.325891791151,
+          "buildings": [
+            {
+              "id": "parking_12_12",
+              "capacity": 25,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "13",
+          "x": 738.2237023268406,
+          "y": 43.77721125213989,
+          "buildings": [
+            {
+              "id": "parking_13_13",
+              "capacity": 10,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "14",
+          "x": 343.7516241166743,
+          "y": 23.976253736735856,
+          "buildings": [
+            {
+              "id": "parking_14_14",
+              "capacity": 6,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "15",
+          "x": 639.4267984578837,
+          "y": 274.0658181729578,
+          "buildings": [
+            {
+              "id": "parking_15_15",
+              "capacity": 6,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "16",
+          "x": 541.9982182787229,
+          "y": 322.9151907764035,
+          "buildings": [
+            {
+              "id": "node16_site_12",
+              "name": "Site 16",
+              "activity_rate": 18.174485674098847,
+              "destination_weights": {
+                "node62_site_0": 0.10653848727836314,
+                "node65_site_1": 0.07630416993091199,
+                "node46_site_2": 0.0971787200329281,
+                "node58_site_3": 0.09588863555672676,
+                "node116_site_4": 0.06887626588671251,
+                "node45_site_5": 0.0742768241359868,
+                "node10_site_6": 0.06952914963647885,
+                "node68_site_7": 0.07635359135598965,
+                "node141_site_8": 0.0680733103955438,
+                "node71_site_9": 0.10726082529534436,
+                "node23_site_10": 0.07111924597390763,
+                "node48_site_11": 0.08860077452110643
+              },
+              "package_config": {
+                "size_range_kg": [1.0, 50.0],
+                "value_range_currency": [10.0, 1000.0],
+                "pickup_deadline_range_ticks": [1800, 7200],
+                "delivery_deadline_range_ticks": [3600, 14400],
+                "priority_weights": {
+                  "Priority.LOW": 0.4,
+                  "Priority.MEDIUM": 0.3,
+                  "Priority.HIGH": 0.2,
+                  "Priority.URGENT": 0.1
+                },
+                "urgency_weights": {
+                  "DeliveryUrgency.STANDARD": 0.6,
+                  "DeliveryUrgency.EXPRESS": 0.3,
+                  "DeliveryUrgency.SAME_DAY": 0.1
+                }
+              },
+              "active_packages": [],
+              "statistics": {
+                "packages_generated": 0,
+                "packages_picked_up": 0,
+                "packages_delivered": 0,
+                "packages_expired": 0,
+                "total_value_delivered": 0.0,
+                "total_value_expired": 0.0
+              }
+            },
+            {
+              "id": "parking_16_16",
+              "capacity": 10,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "17",
+          "x": 661.4680505038982,
+          "y": 275.653017223528,
+          "buildings": [
+            {
+              "id": "parking_17_17",
+              "capacity": 6,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "18",
+          "x": 444.49877082477997,
+          "y": 219.93878285577074,
+          "buildings": [
+            {
+              "id": "parking_18_18",
+              "capacity": 25,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "19",
+          "x": 495.333217303231,
+          "y": 242.73460047679313,
+          "buildings": [
+            {
+              "id": "parking_19_19",
+              "capacity": 10,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "20",
+          "x": 889.4072910389883,
+          "y": 274.9912478037715,
+          "buildings": [
+            {
+              "id": "parking_20_20",
+              "capacity": 25,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "21",
+          "x": 763.1325989339716,
+          "y": 148.71655569875486,
+          "buildings": [
+            {
+              "id": "parking_21_21",
+              "capacity": 10,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "22",
+          "x": 489.63426279555847,
+          "y": 177.72794388529314,
+          "buildings": [
+            {
+              "id": "parking_22_22",
+              "capacity": 10,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "23",
+          "x": 408.31188516079,
+          "y": 245.75056489271304,
+          "buildings": [
+            {
+              "id": "node23_site_10",
+              "name": "Site 23",
+              "activity_rate": 22.850241903279613,
+              "destination_weights": {
+                "node62_site_0": 0.07529578173522608,
+                "node65_site_1": 0.0679666664157343,
+                "node46_site_2": 0.0769015625378346,
+                "node58_site_3": 0.09638100773837097,
+                "node116_site_4": 0.05795346917236062,
+                "node45_site_5": 0.10096877090405805,
+                "node10_site_6": 0.08931327922020221,
+                "node68_site_7": 0.09368828095305626,
+                "node141_site_8": 0.09605243030337995,
+                "node71_site_9": 0.08251987704990357,
+                "node48_site_11": 0.08177118739376779,
+                "node16_site_12": 0.08118768657610563
+              },
+              "package_config": {
+                "size_range_kg": [1.0, 50.0],
+                "value_range_currency": [10.0, 1000.0],
+                "pickup_deadline_range_ticks": [1800, 7200],
+                "delivery_deadline_range_ticks": [3600, 14400],
+                "priority_weights": {
+                  "Priority.LOW": 0.4,
+                  "Priority.MEDIUM": 0.3,
+                  "Priority.HIGH": 0.2,
+                  "Priority.URGENT": 0.1
+                },
+                "urgency_weights": {
+                  "DeliveryUrgency.STANDARD": 0.6,
+                  "DeliveryUrgency.EXPRESS": 0.3,
+                  "DeliveryUrgency.SAME_DAY": 0.1
+                }
+              },
+              "active_packages": ["pkg-node23_site_10-758-0"],
+              "statistics": {
+                "packages_generated": 1,
+                "packages_picked_up": 0,
+                "packages_delivered": 0,
+                "packages_expired": 0,
+                "total_value_delivered": 0.0,
+                "total_value_expired": 0.0
+              }
+            },
+            {
+              "id": "parking_23_23",
+              "capacity": 6,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "24",
+          "x": 639.4267984578837,
+          "y": 293.8165280322757,
+          "buildings": [
+            {
+              "id": "parking_24_24",
+              "capacity": 6,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "25",
+          "x": 537.390398702286,
+          "y": 402.61250811331666,
+          "buildings": [
+            {
+              "id": "parking_25_25",
+              "capacity": 10,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "26",
+          "x": 467.577733750906,
+          "y": 300.6529287122645,
+          "buildings": [
+            {
+              "id": "parking_26_26",
+              "capacity": 25,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "27",
+          "x": 656.8383066656767,
+          "y": 343.4572447423296,
+          "buildings": [
+            {
+              "id": "parking_27_27",
+              "capacity": 10,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "28",
+          "x": 917.4549958144225,
+          "y": 303.0389525792058,
+          "buildings": [
+            {
+              "id": "parking_28_28",
+              "capacity": 10,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "29",
+          "x": 863.3257951816224,
+          "y": 211.40308486915947,
+          "buildings": [
+            {
+              "id": "parking_29_29",
+              "capacity": 25,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "30",
+          "x": 323.1249501522324,
+          "y": 25.010755222666976,
+          "buildings": [
+            {
+              "id": "parking_30_30",
+              "capacity": 6,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "31",
+          "x": 316.7494105714321,
+          "y": 208.17454158657185,
+          "buildings": [
+            {
+              "id": "parking_31_31",
+              "capacity": 6,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "32",
+          "x": 240.01931876276583,
+          "y": 64.17439807631257,
+          "buildings": [
+            {
+              "id": "parking_32_32",
+              "capacity": 25,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "33",
+          "x": 897.8462241053788,
+          "y": 283.4301808701621,
+          "buildings": [
+            {
+              "id": "parking_33_33",
+              "capacity": 10,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "34",
+          "x": 622.7290006897802,
+          "y": 471.3891422971682,
+          "buildings": [
+            {
+              "id": "parking_34_34",
+              "capacity": 10,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "35",
+          "x": 723.8554170821058,
+          "y": 377.4427264141339,
+          "buildings": [
+            {
+              "id": "parking_35_35",
+              "capacity": 10,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "36",
+          "x": 639.4267984578837,
+          "y": 396.82064657547124,
+          "buildings": [
+            {
+              "id": "parking_36_36",
+              "capacity": 10,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "37",
+          "x": 806.2363714600903,
+          "y": 446.373547805295,
+          "buildings": [
+            {
+              "id": "parking_37_37",
+              "capacity": 25,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "38",
+          "x": 887.0558185454053,
+          "y": 147.0179911764181,
+          "buildings": [
+            {
+              "id": "parking_38_38",
+              "capacity": 10,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "39",
+          "x": 964.6347630526955,
+          "y": 76.02293224209102,
+          "buildings": [
+            {
+              "id": "parking_39_39",
+              "capacity": 6,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "40",
+          "x": 288.6344389872643,
+          "y": 144.40497185156363,
+          "buildings": [
+            {
+              "id": "parking_40_40",
+              "capacity": 25,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "41",
+          "x": 472.8076074746998,
+          "y": 422.74142145703087,
+          "buildings": [
+            {
+              "id": "parking_41_41",
+              "capacity": 10,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "42",
+          "x": 781.9341662649907,
+          "y": 548.7979049830583,
+          "buildings": [
+            {
+              "id": "parking_42_42",
+              "capacity": 6,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "43",
+          "x": 331.19782050702383,
+          "y": 333.2397331735269,
+          "buildings": [
+            {
+              "id": "parking_43_43",
+              "capacity": 10,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "44",
+          "x": 867.4611028944853,
+          "y": 390.8409126105439,
+          "buildings": [
+            {
+              "id": "parking_44_44",
+              "capacity": 25,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "45",
+          "x": 890.6464500410012,
+          "y": 5.117203423980186,
+          "buildings": [
+            {
+              "id": "node45_site_5",
+              "name": "Site 45",
+              "activity_rate": 22.425207433991552,
+              "destination_weights": {
+                "node62_site_0": 0.06553250025507731,
+                "node65_site_1": 0.09095593954388306,
+                "node46_site_2": 0.07398291102200444,
+                "node58_site_3": 0.08359439430201904,
+                "node116_site_4": 0.08144367643359124,
+                "node10_site_6": 0.08756238169300762,
+                "node68_site_7": 0.07857884517290578,
+                "node141_site_8": 0.0941740009838911,
+                "node71_site_9": 0.06909831963869993,
+                "node23_site_10": 0.07081783269823555,
+                "node48_site_11": 0.10464578215804596,
+                "node16_site_12": 0.09961341609863898
+              },
+              "package_config": {
+                "size_range_kg": [1.0, 50.0],
+                "value_range_currency": [10.0, 1000.0],
+                "pickup_deadline_range_ticks": [1800, 7200],
+                "delivery_deadline_range_ticks": [3600, 14400],
+                "priority_weights": {
+                  "Priority.LOW": 0.4,
+                  "Priority.MEDIUM": 0.3,
+                  "Priority.HIGH": 0.2,
+                  "Priority.URGENT": 0.1
+                },
+                "urgency_weights": {
+                  "DeliveryUrgency.STANDARD": 0.6,
+                  "DeliveryUrgency.EXPRESS": 0.3,
+                  "DeliveryUrgency.SAME_DAY": 0.1
+                }
+              },
+              "active_packages": [],
+              "statistics": {
+                "packages_generated": 0,
+                "packages_picked_up": 0,
+                "packages_delivered": 0,
+                "packages_expired": 0,
+                "total_value_delivered": 0.0,
+                "total_value_expired": 0.0
+              }
+            },
+            {
+              "id": "parking_45_45",
+              "capacity": 10,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "46",
+          "x": 960.0530468767288,
+          "y": 25.010755222666937,
+          "buildings": [
+            {
+              "id": "node46_site_2",
+              "name": "Site 46",
+              "activity_rate": 15.541412822253827,
+              "destination_weights": {
+                "node62_site_0": 0.07359724150134954,
+                "node65_site_1": 0.08761467868733544,
+                "node58_site_3": 0.07762177406911633,
+                "node116_site_4": 0.09523315034872339,
+                "node45_site_5": 0.08609112867280207,
+                "node10_site_6": 0.09251738979889863,
+                "node68_site_7": 0.06560858506130236,
+                "node141_site_8": 0.0993532608808588,
+                "node71_site_9": 0.06930713970627458,
+                "node23_site_10": 0.06011894656173078,
+                "node48_site_11": 0.10650633895868689,
+                "node16_site_12": 0.08643036575292132
+              },
+              "package_config": {
+                "size_range_kg": [1.0, 50.0],
+                "value_range_currency": [10.0, 1000.0],
+                "pickup_deadline_range_ticks": [1800, 7200],
+                "delivery_deadline_range_ticks": [3600, 14400],
+                "priority_weights": {
+                  "Priority.LOW": 0.4,
+                  "Priority.MEDIUM": 0.3,
+                  "Priority.HIGH": 0.2,
+                  "Priority.URGENT": 0.1
+                },
+                "urgency_weights": {
+                  "DeliveryUrgency.STANDARD": 0.6,
+                  "DeliveryUrgency.EXPRESS": 0.3,
+                  "DeliveryUrgency.SAME_DAY": 0.1
+                }
+              },
+              "active_packages": [],
+              "statistics": {
+                "packages_generated": 0,
+                "packages_picked_up": 0,
+                "packages_delivered": 0,
+                "packages_expired": 0,
+                "total_value_delivered": 0.0,
+                "total_value_expired": 0.0
+              }
+            },
+            {
+              "id": "parking_46_46",
+              "capacity": 10,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "47",
+          "x": 202.42845275059585,
+          "y": 25.01075522266699,
+          "buildings": [
+            {
+              "id": "parking_47_47",
+              "capacity": 10,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "48",
+          "x": 705.6587545844448,
+          "y": 558.8823709687709,
+          "buildings": [
+            {
+              "id": "node48_site_11",
+              "name": "Site 48",
+              "activity_rate": 12.095818191367293,
+              "destination_weights": {
+                "node62_site_0": 0.07539680511281541,
+                "node65_site_1": 0.07013138886064273,
+                "node46_site_2": 0.08056231332999587,
+                "node58_site_3": 0.08600352562683884,
+                "node116_site_4": 0.08104342834570621,
+                "node45_site_5": 0.09347202907172222,
+                "node10_site_6": 0.08738065858144058,
+                "node68_site_7": 0.06119629416409975,
+                "node141_site_8": 0.09121152869723348,
+                "node71_site_9": 0.096019178939811,
+                "node23_site_10": 0.08784231310741643,
+                "node16_site_12": 0.08974053616227749
+              },
+              "package_config": {
+                "size_range_kg": [1.0, 50.0],
+                "value_range_currency": [10.0, 1000.0],
+                "pickup_deadline_range_ticks": [1800, 7200],
+                "delivery_deadline_range_ticks": [3600, 14400],
+                "priority_weights": {
+                  "Priority.LOW": 0.4,
+                  "Priority.MEDIUM": 0.3,
+                  "Priority.HIGH": 0.2,
+                  "Priority.URGENT": 0.1
+                },
+                "urgency_weights": {
+                  "DeliveryUrgency.STANDARD": 0.6,
+                  "DeliveryUrgency.EXPRESS": 0.3,
+                  "DeliveryUrgency.SAME_DAY": 0.1
+                }
+              },
+              "active_packages": [],
+              "statistics": {
+                "packages_generated": 0,
+                "packages_picked_up": 0,
+                "packages_delivered": 0,
+                "packages_expired": 0,
+                "total_value_delivered": 0.0,
+                "total_value_expired": 0.0
+              }
+            },
+            {
+              "id": "parking_48_48",
+              "capacity": 25,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "49",
+          "x": 639.4267984578837,
+          "y": 482.11865981150976,
+          "buildings": [
+            {
+              "id": "parking_49_49",
+              "capacity": 10,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "50",
+          "x": 639.4267984578837,
+          "y": 490.56829345121645,
+          "buildings": [
+            {
+              "id": "parking_50_50",
+              "capacity": 10,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "51",
+          "x": 334.6592906987988,
+          "y": 329.7782629817519,
+          "buildings": [
+            {
+              "id": "parking_51_51",
+              "capacity": 10,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "52",
+          "x": 613.6590288597255,
+          "y": 556.0079958721313,
+          "buildings": [
+            {
+              "id": "parking_52_52",
+              "capacity": 25,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "53",
+          "x": 482.6780867982383,
+          "y": 542.4262627567877,
+          "buildings": [
+            {
+              "id": "parking_53_53",
+              "capacity": 25,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "54",
+          "x": 668.5397063778029,
+          "y": 414.2383883341089,
+          "buildings": [
+            {
+              "id": "parking_54_54",
+              "capacity": 10,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "55",
+          "x": 783.6264218814765,
+          "y": 339.39139382548393,
+          "buildings": [
+            {
+              "id": "parking_55_55",
+              "capacity": 6,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "56",
+          "x": 429.258494494454,
+          "y": 354.445265802769,
+          "buildings": [
+            {
+              "id": "parking_56_56",
+              "capacity": 10,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "57",
+          "x": 374.05730606049633,
+          "y": 452.32073546811375,
+          "buildings": [
+            {
+              "id": "parking_57_57",
+              "capacity": 25,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "58",
+          "x": 922.2938945364652,
+          "y": 307.8778513012485,
+          "buildings": [
+            {
+              "id": "node58_site_3",
+              "name": "Site 58",
+              "activity_rate": 14.115980687840235,
+              "destination_weights": {
+                "node62_site_0": 0.08550223241569516,
+                "node65_site_1": 0.06896198878928887,
+                "node46_site_2": 0.09931129722288924,
+                "node116_site_4": 0.09474767082996226,
+                "node45_site_5": 0.06456713053325054,
+                "node10_site_6": 0.10461223132951619,
+                "node68_site_7": 0.0775003177880717,
+                "node141_site_8": 0.09547727071570526,
+                "node71_site_9": 0.10255262606113709,
+                "node23_site_10": 0.06973424993696356,
+                "node48_site_11": 0.0653051306122863,
+                "node16_site_12": 0.07172785376523381
+              },
+              "package_config": {
+                "size_range_kg": [1.0, 50.0],
+                "value_range_currency": [10.0, 1000.0],
+                "pickup_deadline_range_ticks": [1800, 7200],
+                "delivery_deadline_range_ticks": [3600, 14400],
+                "priority_weights": {
+                  "Priority.LOW": 0.4,
+                  "Priority.MEDIUM": 0.3,
+                  "Priority.HIGH": 0.2,
+                  "Priority.URGENT": 0.1
+                },
+                "urgency_weights": {
+                  "DeliveryUrgency.STANDARD": 0.6,
+                  "DeliveryUrgency.EXPRESS": 0.3,
+                  "DeliveryUrgency.SAME_DAY": 0.1
+                }
+              },
+              "active_packages": [],
+              "statistics": {
+                "packages_generated": 0,
+                "packages_picked_up": 0,
+                "packages_delivered": 0,
+                "packages_expired": 0,
+                "total_value_delivered": 0.0,
+                "total_value_expired": 0.0
+              }
+            },
+            {
+              "id": "parking_58_58",
+              "capacity": 25,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "59",
+          "x": 546.0795076388271,
+          "y": 569.1718694978094,
+          "buildings": [
+            {
+              "id": "parking_59_59",
+              "capacity": 25,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "60",
+          "x": 745.5389405251058,
+          "y": 652.2249361473222,
+          "buildings": [
+            {
+              "id": "parking_60_60",
+              "capacity": 25,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "61",
+          "x": 435.1986949782507,
+          "y": 495.54796383129894,
+          "buildings": [
+            {
+              "id": "parking_61_61",
+              "capacity": 10,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "62",
+          "x": 137.35475754529722,
+          "y": 237.4708406977599,
+          "buildings": [
+            {
+              "id": "node62_site_0",
+              "name": "Site 62",
+              "activity_rate": 24.592114512227504,
+              "destination_weights": {
+                "node65_site_1": 0.08181778772087324,
+                "node46_site_2": 0.08358025163964558,
+                "node58_site_3": 0.06415985769936498,
+                "node116_site_4": 0.08943177577355005,
+                "node45_site_5": 0.08989218936939468,
+                "node10_site_6": 0.07448985449159008,
+                "node68_site_7": 0.05949921835039816,
+                "node141_site_8": 0.081190898436204,
+                "node71_site_9": 0.10572625131152451,
+                "node23_site_10": 0.09617468458820388,
+                "node48_site_11": 0.08185618578214292,
+                "node16_site_12": 0.092181044837108
+              },
+              "package_config": {
+                "size_range_kg": [1.0, 50.0],
+                "value_range_currency": [10.0, 1000.0],
+                "pickup_deadline_range_ticks": [1800, 7200],
+                "delivery_deadline_range_ticks": [3600, 14400],
+                "priority_weights": {
+                  "Priority.LOW": 0.4,
+                  "Priority.MEDIUM": 0.3,
+                  "Priority.HIGH": 0.2,
+                  "Priority.URGENT": 0.1
+                },
+                "urgency_weights": {
+                  "DeliveryUrgency.STANDARD": 0.6,
+                  "DeliveryUrgency.EXPRESS": 0.3,
+                  "DeliveryUrgency.SAME_DAY": 0.1
+                }
+              },
+              "active_packages": ["pkg-node62_site_0-675-0"],
+              "statistics": {
+                "packages_generated": 1,
+                "packages_picked_up": 0,
+                "packages_delivered": 0,
+                "packages_expired": 0,
+                "total_value_delivered": 0.0,
+                "total_value_expired": 0.0
+              }
+            },
+            {
+              "id": "parking_62_62",
+              "capacity": 10,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "63",
+          "x": 157.00715560443302,
+          "y": 25.010755222666877,
+          "buildings": [
+            {
+              "id": "parking_63_63",
+              "capacity": 10,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "64",
+          "x": 975.1132205877782,
+          "y": 372.51865821991953,
+          "buildings": [
+            {
+              "id": "parking_64_64",
+              "capacity": 25,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "65",
+          "x": 959.8074557051307,
+          "y": 469.73684811621763,
+          "buildings": [
+            {
+              "id": "node65_site_1",
+              "name": "Site 65",
+              "activity_rate": 12.98823409407113,
+              "destination_weights": {
+                "node62_site_0": 0.08664311077343476,
+                "node46_site_2": 0.08894427893435333,
+                "node58_site_3": 0.09497852116829496,
+                "node116_site_4": 0.10682054835647467,
+                "node45_site_5": 0.06977322986567629,
+                "node10_site_6": 0.0775490747774741,
+                "node68_site_7": 0.07072358656562151,
+                "node141_site_8": 0.08875394372212923,
+                "node71_site_9": 0.0736201808617208,
+                "node23_site_10": 0.0813569599792754,
+                "node48_site_11": 0.07137461273243792,
+                "node16_site_12": 0.08946195226310688
+              },
+              "package_config": {
+                "size_range_kg": [1.0, 50.0],
+                "value_range_currency": [10.0, 1000.0],
+                "pickup_deadline_range_ticks": [1800, 7200],
+                "delivery_deadline_range_ticks": [3600, 14400],
+                "priority_weights": {
+                  "Priority.LOW": 0.4,
+                  "Priority.MEDIUM": 0.3,
+                  "Priority.HIGH": 0.2,
+                  "Priority.URGENT": 0.1
+                },
+                "urgency_weights": {
+                  "DeliveryUrgency.STANDARD": 0.6,
+                  "DeliveryUrgency.EXPRESS": 0.3,
+                  "DeliveryUrgency.SAME_DAY": 0.1
+                }
+              },
+              "active_packages": [],
+              "statistics": {
+                "packages_generated": 0,
+                "packages_picked_up": 0,
+                "packages_delivered": 0,
+                "packages_expired": 0,
+                "total_value_delivered": 0.0,
+                "total_value_expired": 0.0
+              }
+            },
+            {
+              "id": "parking_65_65",
+              "capacity": 25,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "66",
+          "x": 330.77899861747363,
+          "y": 333.6585550630771,
+          "buildings": [
+            {
+              "id": "parking_66_66",
+              "capacity": 25,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "67",
+          "x": 110.60014521500125,
+          "y": 115.35793647062681,
+          "buildings": [
+            {
+              "id": "parking_67_67",
+              "capacity": 25,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "68",
+          "x": 639.4267984578837,
+          "y": 676.8934674083262,
+          "buildings": [
+            {
+              "id": "node68_site_7",
+              "name": "Site 68",
+              "activity_rate": 12.47405350993577,
+              "destination_weights": {
+                "node62_site_0": 0.09495925800527949,
+                "node65_site_1": 0.06810306774431361,
+                "node46_site_2": 0.08493041510956406,
+                "node58_site_3": 0.07523182310040816,
+                "node116_site_4": 0.1041300276886529,
+                "node45_site_5": 0.07140965644825081,
+                "node10_site_6": 0.09582260144421459,
+                "node141_site_8": 0.07426144649950019,
+                "node71_site_9": 0.10487427745683087,
+                "node23_site_10": 0.061931297490178665,
+                "node48_site_11": 0.08337002992436236,
+                "node16_site_12": 0.08097609908844447
+              },
+              "package_config": {
+                "size_range_kg": [1.0, 50.0],
+                "value_range_currency": [10.0, 1000.0],
+                "pickup_deadline_range_ticks": [1800, 7200],
+                "delivery_deadline_range_ticks": [3600, 14400],
+                "priority_weights": {
+                  "Priority.LOW": 0.4,
+                  "Priority.MEDIUM": 0.3,
+                  "Priority.HIGH": 0.2,
+                  "Priority.URGENT": 0.1
+                },
+                "urgency_weights": {
+                  "DeliveryUrgency.STANDARD": 0.6,
+                  "DeliveryUrgency.EXPRESS": 0.3,
+                  "DeliveryUrgency.SAME_DAY": 0.1
+                }
+              },
+              "active_packages": [],
+              "statistics": {
+                "packages_generated": 0,
+                "packages_picked_up": 0,
+                "packages_delivered": 0,
+                "packages_expired": 0,
+                "total_value_delivered": 0.0,
+                "total_value_expired": 0.0
+              }
+            },
+            {
+              "id": "parking_68_68",
+              "capacity": 10,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "69",
+          "x": 639.4267984578837,
+          "y": 659.8849096143791,
+          "buildings": [
+            {
+              "id": "parking_69_69",
+              "capacity": 6,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "70",
+          "x": 482.4633220563016,
+          "y": 630.2317742530493,
+          "buildings": [
+            {
+              "id": "parking_70_70",
+              "capacity": 25,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "71",
+          "x": 73.42703189737452,
+          "y": 217.58276693215527,
+          "buildings": [
+            {
+              "id": "node71_site_9",
+              "name": "Site 71",
+              "activity_rate": 11.766241995862684,
+              "destination_weights": {
+                "node62_site_0": 0.10284602540711174,
+                "node65_site_1": 0.09470127932762731,
+                "node46_site_2": 0.07544858649635199,
+                "node58_site_3": 0.10348703140027565,
+                "node116_site_4": 0.09102269668137324,
+                "node45_site_5": 0.06854727066469768,
+                "node10_site_6": 0.10482566106144411,
+                "node68_site_7": 0.08509801090640937,
+                "node141_site_8": 0.059169635092312926,
+                "node23_site_10": 0.05901202371763579,
+                "node48_site_11": 0.07311703557324224,
+                "node16_site_12": 0.08272474367151779
+              },
+              "package_config": {
+                "size_range_kg": [1.0, 50.0],
+                "value_range_currency": [10.0, 1000.0],
+                "pickup_deadline_range_ticks": [1800, 7200],
+                "delivery_deadline_range_ticks": [3600, 14400],
+                "priority_weights": {
+                  "Priority.LOW": 0.4,
+                  "Priority.MEDIUM": 0.3,
+                  "Priority.HIGH": 0.2,
+                  "Priority.URGENT": 0.1
+                },
+                "urgency_weights": {
+                  "DeliveryUrgency.STANDARD": 0.6,
+                  "DeliveryUrgency.EXPRESS": 0.3,
+                  "DeliveryUrgency.SAME_DAY": 0.1
+                }
+              },
+              "active_packages": [],
+              "statistics": {
+                "packages_generated": 0,
+                "packages_picked_up": 0,
+                "packages_delivered": 0,
+                "packages_expired": 0,
+                "total_value_delivered": 0.0,
+                "total_value_expired": 0.0
+              }
+            },
+            {
+              "id": "parking_71_71",
+              "capacity": 10,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "72",
+          "x": 239.12949848487958,
+          "y": 288.909690931707,
+          "buildings": [
+            {
+              "id": "parking_72_72",
+              "capacity": 10,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "73",
+          "x": 267.64436105881686,
+          "y": 396.79319262173385,
+          "buildings": [
+            {
+              "id": "parking_73_73",
+              "capacity": 25,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "74",
+          "x": 864.3663383875339,
+          "y": 592.158772427067,
+          "buildings": [
+            {
+              "id": "parking_74_74",
+              "capacity": 6,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "75",
+          "x": 46.15541807131158,
+          "y": 289.7404127061481,
+          "buildings": [
+            {
+              "id": "parking_75_75",
+              "capacity": 25,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "76",
+          "x": 832.7140336598343,
+          "y": 652.3863952719043,
+          "buildings": [
+            {
+              "id": "parking_76_76",
+              "capacity": 25,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "77",
+          "x": 673.954667440752,
+          "y": 720.5450951213854,
+          "buildings": [
+            {
+              "id": "parking_77_77",
+              "capacity": 25,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "78",
+          "x": 349.4839771142412,
+          "y": 543.6339754477817,
+          "buildings": [
+            {
+              "id": "parking_78_78",
+              "capacity": 10,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "79",
+          "x": 38.34057328919596,
+          "y": 25.01075522266701,
+          "buildings": [
+            {
+              "id": "parking_79_79",
+              "capacity": 25,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "80",
+          "x": 154.93466720424317,
+          "y": 171.5698524123781,
+          "buildings": [
+            {
+              "id": "parking_80_80",
+              "capacity": 10,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "81",
+          "x": 39.128769951441,
+          "y": 142.48780582966808,
+          "buildings": [
+            {
+              "id": "parking_81_81",
+              "capacity": 6,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "82",
+          "x": 295.8597147269743,
+          "y": 492.9056997290022,
+          "buildings": [
+            {
+              "id": "parking_82_82",
+              "capacity": 25,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "83",
+          "x": 835.0829130242734,
+          "y": 504.81942440943703,
+          "buildings": [
+            {
+              "id": "parking_83_83",
+              "capacity": 10,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "84",
+          "x": 988.4643948617681,
+          "y": 579.5768835228688,
+          "buildings": [
+            {
+              "id": "parking_84_84",
+              "capacity": 6,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "85",
+          "x": 131.57049825830345,
+          "y": 318.80880216085706,
+          "buildings": [
+            {
+              "id": "parking_85_85",
+              "capacity": 25,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "86",
+          "x": 415.11886670574245,
+          "y": 567.0783950118553,
+          "buildings": [
+            {
+              "id": "parking_86_86",
+              "capacity": 10,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "87",
+          "x": 176.66468750658447,
+          "y": 75.41472081657298,
+          "buildings": [
+            {
+              "id": "parking_87_87",
+              "capacity": 10,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "88",
+          "x": 214.43591473394332,
+          "y": 348.7636469115645,
+          "buildings": [
+            {
+              "id": "parking_88_88",
+              "capacity": 25,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "89",
+          "x": 156.67208286722519,
+          "y": 395.6516071420475,
+          "buildings": [
+            {
+              "id": "parking_89_89",
+              "capacity": 10,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "90",
+          "x": 352.52609835589044,
+          "y": 676.9989637248739,
+          "buildings": [
+            {
+              "id": "parking_90_90",
+              "capacity": 10,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "91",
+          "x": 479.5466742477778,
+          "y": 708.9790134459954,
+          "buildings": [
+            {
+              "id": "parking_91_91",
+              "capacity": 6,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "92",
+          "x": 607.7018637339047,
+          "y": 622.9545550143132,
+          "buildings": [
+            {
+              "id": "parking_92_92",
+              "capacity": 10,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "93",
+          "x": 197.4187019154137,
+          "y": 455.0223990707527,
+          "buildings": [
+            {
+              "id": "parking_93_93",
+              "capacity": 10,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "94",
+          "x": 920.2680186557792,
+          "y": 672.8017930855516,
+          "buildings": [
+            {
+              "id": "parking_94_94",
+              "capacity": 25,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "95",
+          "x": 600.7252654312161,
+          "y": 721.0261349270811,
+          "buildings": [
+            {
+              "id": "parking_95_95",
+              "capacity": 10,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "96",
+          "x": 120.63476365297171,
+          "y": 455.5051713849329,
+          "buildings": [
+            {
+              "id": "parking_96_96",
+              "capacity": 25,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "97",
+          "x": 201.45942013339064,
+          "y": 535.9146550776854,
+          "buildings": [
+            {
+              "id": "parking_97_97",
+              "capacity": 25,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "98",
+          "x": 136.48265298670358,
+          "y": 574.9009953796024,
+          "buildings": [
+            {
+              "id": "parking_98_98",
+              "capacity": 10,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "99",
+          "x": 61.50816430944657,
+          "y": 609.9311582388559,
+          "buildings": [
+            {
+              "id": "parking_99_99",
+              "capacity": 6,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "100",
+          "x": 834.9901799646012,
+          "y": 780.0276697835658,
+          "buildings": [
+            {
+              "id": "parking_100_100",
+              "capacity": 25,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "101",
+          "x": 639.4267984578837,
+          "y": 744.530849883457,
+          "buildings": [
+            {
+              "id": "parking_101_101",
+              "capacity": 10,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "102",
+          "x": 329.0135335098411,
+          "y": 615.5858067961038,
+          "buildings": [
+            {
+              "id": "parking_102_102",
+              "capacity": 10,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "103",
+          "x": 922.427199207991,
+          "y": 565.191882437067,
+          "buildings": [
+            {
+              "id": "parking_103_103",
+              "capacity": 6,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "104",
+          "x": 277.1955171490011,
+          "y": 576.7806378573638,
+          "buildings": [
+            {
+              "id": "parking_104_104",
+              "capacity": 25,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "105",
+          "x": 224.97327538249672,
+          "y": 663.0066112703229,
+          "buildings": [
+            {
+              "id": "parking_105_105",
+              "capacity": 25,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "106",
+          "x": 1000.0,
+          "y": 390.51020770439317,
+          "buildings": [
+            {
+              "id": "parking_106_106",
+              "capacity": 25,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "107",
+          "x": 350.46671976845664,
+          "y": 804.6309369616861,
+          "buildings": [
+            {
+              "id": "parking_107_107",
+              "capacity": 25,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "108",
+          "x": 749.5896719834883,
+          "y": 754.395635091073,
+          "buildings": [
+            {
+              "id": "parking_108_108",
+              "capacity": 25,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "109",
+          "x": 805.7550136103309,
+          "y": 274.85611816148713,
+          "buildings": [
+            {
+              "id": "parking_109_109",
+              "capacity": 25,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "110",
+          "x": 297.41054598744927,
+          "y": 728.9259646674539,
+          "buildings": [
+            {
+              "id": "parking_110_110",
+              "capacity": 25,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "111",
+          "x": 639.4267984578837,
+          "y": 793.9165049175481,
+          "buildings": [
+            {
+              "id": "parking_111_111",
+              "capacity": 10,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "112",
+          "x": 30.752060707747148,
+          "y": 379.1240608343246,
+          "buildings": [
+            {
+              "id": "parking_112_112",
+              "capacity": 25,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "113",
+          "x": 33.5330150486858,
+          "y": 630.904538631865,
+          "buildings": [
+            {
+              "id": "parking_113_113",
+              "capacity": 10,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "114",
+          "x": 967.8246881072356,
+          "y": 759.0235458269377,
+          "buildings": [
+            {
+              "id": "parking_114_114",
+              "capacity": 6,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "115",
+          "x": 37.50874680708262,
+          "y": 490.70130920382803,
+          "buildings": [
+            {
+              "id": "parking_115_115",
+              "capacity": 25,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "116",
+          "x": 639.4267984578837,
+          "y": 630.1523505330073,
+          "buildings": [
+            {
+              "id": "node116_site_4",
+              "name": "Site 116",
+              "activity_rate": 14.659108942636555,
+              "destination_weights": {
+                "node62_site_0": 0.0757474012233302,
+                "node65_site_1": 0.075652510732495,
+                "node46_site_2": 0.09973592275677745,
+                "node58_site_3": 0.08434962987049584,
+                "node45_site_5": 0.0954694655373303,
+                "node10_site_6": 0.10815300495210539,
+                "node68_site_7": 0.07068514646023832,
+                "node141_site_8": 0.09479773888663919,
+                "node71_site_9": 0.07661272034625029,
+                "node23_site_10": 0.06972461032019131,
+                "node48_site_11": 0.08039861129130944,
+                "node16_site_12": 0.06867323762283724
+              },
+              "package_config": {
+                "size_range_kg": [1.0, 50.0],
+                "value_range_currency": [10.0, 1000.0],
+                "pickup_deadline_range_ticks": [1800, 7200],
+                "delivery_deadline_range_ticks": [3600, 14400],
+                "priority_weights": {
+                  "Priority.LOW": 0.4,
+                  "Priority.MEDIUM": 0.3,
+                  "Priority.HIGH": 0.2,
+                  "Priority.URGENT": 0.1
+                },
+                "urgency_weights": {
+                  "DeliveryUrgency.STANDARD": 0.6,
+                  "DeliveryUrgency.EXPRESS": 0.3,
+                  "DeliveryUrgency.SAME_DAY": 0.1
+                }
+              },
+              "active_packages": [],
+              "statistics": {
+                "packages_generated": 0,
+                "packages_picked_up": 0,
+                "packages_delivered": 0,
+                "packages_expired": 0,
+                "total_value_delivered": 0.0,
+                "total_value_expired": 0.0
+              }
+            },
+            {
+              "id": "parking_116_116",
+              "capacity": 10,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "117",
+          "x": 49.701298516058856,
+          "y": 714.7689644097404,
+          "buildings": [
+            {
+              "id": "parking_117_117",
+              "capacity": 10,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "118",
+          "x": 53.857207690976225,
+          "y": 610.5803459895745,
+          "buildings": [
+            {
+              "id": "parking_118_118",
+              "capacity": 6,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "119",
+          "x": 879.1273012383633,
+          "y": 725.6745891484532,
+          "buildings": [
+            {
+              "id": "parking_119_119",
+              "capacity": 25,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "120",
+          "x": 65.63563488735133,
+          "y": 598.8019187931994,
+          "buildings": [
+            {
+              "id": "parking_120_120",
+              "capacity": 10,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "121",
+          "x": 903.307991374674,
+          "y": 796.1342097109434,
+          "buildings": [
+            {
+              "id": "parking_121_121",
+              "capacity": 6,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "122",
+          "x": 663.7537896428927,
+          "y": 804.3072324525015,
+          "buildings": [
+            {
+              "id": "parking_122_122",
+              "capacity": 10,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "123",
+          "x": 639.4267984578837,
+          "y": 928.1394621921107,
+          "buildings": [
+            {
+              "id": "parking_123_123",
+              "capacity": 6,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "124",
+          "x": 639.4267984578837,
+          "y": 853.7603454445212,
+          "buildings": [
+            {
+              "id": "parking_124_124",
+              "capacity": 10,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "125",
+          "x": 710.7884324887293,
+          "y": 850.9649196167197,
+          "buildings": [
+            {
+              "id": "parking_125_125",
+              "capacity": 25,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "126",
+          "x": 45.21838807950894,
+          "y": 619.2191656010418,
+          "buildings": [
+            {
+              "id": "parking_126_126",
+              "capacity": 6,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "127",
+          "x": 791.1554566131888,
+          "y": 926.8395420409272,
+          "buildings": [
+            {
+              "id": "parking_127_127",
+              "capacity": 25,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "128",
+          "x": 1000.0,
+          "y": 555.8474237521118,
+          "buildings": [
+            {
+              "id": "parking_128_128",
+              "capacity": 6,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "129",
+          "x": 590.829877331686,
+          "y": 819.6126055098489,
+          "buildings": [
+            {
+              "id": "parking_129_129",
+              "capacity": 25,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "130",
+          "x": 463.9356303949391,
+          "y": 821.9177785630412,
+          "buildings": [
+            {
+              "id": "parking_130_130",
+              "capacity": 25,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "131",
+          "x": 236.4182810970858,
+          "y": 849.1815185199753,
+          "buildings": [
+            {
+              "id": "parking_131_131",
+              "capacity": 6,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "132",
+          "x": 530.2041678645102,
+          "y": 879.1610309526444,
+          "buildings": [
+            {
+              "id": "parking_132_132",
+              "capacity": 25,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "133",
+          "x": 599.6271025266243,
+          "y": 905.0622247256792,
+          "buildings": [
+            {
+              "id": "parking_133_133",
+              "capacity": 25,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "134",
+          "x": 462.8227414790779,
+          "y": 902.806251077885,
+          "buildings": [
+            {
+              "id": "parking_134_134",
+              "capacity": 10,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "135",
+          "x": 868.6514677748955,
+          "y": 894.6630774853577,
+          "buildings": [
+            {
+              "id": "parking_135_135",
+              "capacity": 25,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "136",
+          "x": 7.007040652339718,
+          "y": 647.4758673968853,
+          "buildings": [
+            {
+              "id": "parking_136_136",
+              "capacity": 10,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "137",
+          "x": 693.5014601755437,
+          "y": 933.2183915467793,
+          "buildings": [
+            {
+              "id": "parking_137_137",
+              "capacity": 25,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "138",
+          "x": 371.36790725133164,
+          "y": 868.1327489301844,
+          "buildings": [
+            {
+              "id": "parking_138_138",
+              "capacity": 10,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "139",
+          "x": 306.6805238144948,
+          "y": 866.793156559804,
+          "buildings": [
+            {
+              "id": "parking_139_139",
+              "capacity": 10,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "140",
+          "x": 71.78248180412126,
+          "y": 545.2200590769696,
+          "buildings": [
+            {
+              "id": "parking_140_140",
+              "capacity": 10,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        },
+        {
+          "id": "141",
+          "x": 26.938113291420564,
+          "y": 637.4994403891302,
+          "buildings": [
+            {
+              "id": "node141_site_8",
+              "name": "Site 141",
+              "activity_rate": 24.224610624620233,
+              "destination_weights": {
+                "node62_site_0": 0.08263079685356221,
+                "node65_site_1": 0.09142127266837749,
+                "node46_site_2": 0.09426114036663878,
+                "node58_site_3": 0.0855207024617061,
+                "node116_site_4": 0.0769000670094702,
+                "node45_site_5": 0.06882899461900556,
+                "node10_site_6": 0.05913554871969182,
+                "node68_site_7": 0.06331298528152124,
+                "node71_site_9": 0.09063584193131052,
+                "node23_site_10": 0.1012575965393645,
+                "node48_site_11": 0.08432488025467302,
+                "node16_site_12": 0.10177017329467848
+              },
+              "package_config": {
+                "size_range_kg": [1.0, 50.0],
+                "value_range_currency": [10.0, 1000.0],
+                "pickup_deadline_range_ticks": [1800, 7200],
+                "delivery_deadline_range_ticks": [3600, 14400],
+                "priority_weights": {
+                  "Priority.LOW": 0.4,
+                  "Priority.MEDIUM": 0.3,
+                  "Priority.HIGH": 0.2,
+                  "Priority.URGENT": 0.1
+                },
+                "urgency_weights": {
+                  "DeliveryUrgency.STANDARD": 0.6,
+                  "DeliveryUrgency.EXPRESS": 0.3,
+                  "DeliveryUrgency.SAME_DAY": 0.1
+                }
+              },
+              "active_packages": [
+                "pkg-node141_site_8-222-0",
+                "pkg-node141_site_8-399-1"
+              ],
+              "statistics": {
+                "packages_generated": 2,
+                "packages_picked_up": 0,
+                "packages_delivered": 0,
+                "packages_expired": 0,
+                "total_value_delivered": 0.0,
+                "total_value_expired": 0.0
+              }
+            },
+            {
+              "id": "parking_141_141",
+              "capacity": 10,
+              "current_agents": [],
+              "type": "parking"
+            }
+          ]
+        }
+      ],
+      "edges": [
+        {
+          "id": "0",
+          "from_node": "50",
+          "to_node": "52",
+          "length_m": 70.33016851253566,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 1,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "1",
+          "from_node": "52",
+          "to_node": "50",
+          "length_m": 70.33016851253566,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 1,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "2",
+          "from_node": "42",
+          "to_node": "48",
+          "length_m": 76.93916350762962,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": 6836.257721358631
+        },
+        {
+          "id": "3",
+          "from_node": "48",
+          "to_node": "42",
+          "length_m": 76.93916350762962,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": 6836.257721358631
+        },
+        {
+          "id": "4",
+          "from_node": "18",
+          "to_node": "26",
+          "length_m": 83.94886462060609,
+          "mode": 1,
+          "road_class": "G",
+          "lanes": 3,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "5",
+          "from_node": "26",
+          "to_node": "18",
+          "length_m": 83.94886462060609,
+          "mode": 1,
+          "road_class": "G",
+          "lanes": 3,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "6",
+          "from_node": "28",
+          "to_node": "58",
+          "length_m": 6.843236199662623,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 1,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "7",
+          "from_node": "58",
+          "to_node": "28",
+          "length_m": 6.843236199662623,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 1,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "8",
+          "from_node": "25",
+          "to_node": "41",
+          "length_m": 67.64695170622798,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "9",
+          "from_node": "41",
+          "to_node": "25",
+          "length_m": 67.64695170622798,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "10",
+          "from_node": "124",
+          "to_node": "129",
+          "length_m": 59.394687351579655,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "11",
+          "from_node": "129",
+          "to_node": "124",
+          "length_m": 59.394687351579655,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "12",
+          "from_node": "99",
+          "to_node": "118",
+          "length_m": 7.678449186743264,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "13",
+          "from_node": "118",
+          "to_node": "99",
+          "length_m": 7.678449186743264,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "14",
+          "from_node": "20",
+          "to_node": "29",
+          "length_m": 68.72917060140156,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "15",
+          "from_node": "29",
+          "to_node": "20",
+          "length_m": 68.72917060140156,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "16",
+          "from_node": "125",
+          "to_node": "137",
+          "length_m": 84.0504197271254,
+          "mode": 1,
+          "road_class": "G",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "17",
+          "from_node": "137",
+          "to_node": "125",
+          "length_m": 84.0504197271254,
+          "mode": 1,
+          "road_class": "G",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "18",
+          "from_node": "11",
+          "to_node": "14",
+          "length_m": 70.405032543398,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "19",
+          "from_node": "14",
+          "to_node": "11",
+          "length_m": 70.405032543398,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "20",
+          "from_node": "132",
+          "to_node": "133",
+          "length_m": 74.0973393312369,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": 5934.116101225716
+        },
+        {
+          "id": "21",
+          "from_node": "133",
+          "to_node": "132",
+          "length_m": 74.0973393312369,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": 5934.116101225716
+        },
+        {
+          "id": "22",
+          "from_node": "77",
+          "to_node": "108",
+          "length_m": 82.8644252283159,
+          "mode": 1,
+          "road_class": "G",
+          "lanes": 3,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "23",
+          "from_node": "108",
+          "to_node": "77",
+          "length_m": 82.8644252283159,
+          "mode": 1,
+          "road_class": "G",
+          "lanes": 3,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "24",
+          "from_node": "98",
+          "to_node": "140",
+          "length_m": 71.18335571505743,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "25",
+          "from_node": "140",
+          "to_node": "98",
+          "length_m": 71.18335571505743,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "26",
+          "from_node": "18",
+          "to_node": "19",
+          "length_m": 55.711670678426216,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": 5365.009116177954
+        },
+        {
+          "id": "27",
+          "from_node": "19",
+          "to_node": "18",
+          "length_m": 55.711670678426216,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": 5365.009116177954
+        },
+        {
+          "id": "28",
+          "from_node": "96",
+          "to_node": "115",
+          "length_m": 90.27016558104731,
+          "mode": 1,
+          "road_class": "G",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "29",
+          "from_node": "115",
+          "to_node": "96",
+          "length_m": 90.27016558104731,
+          "mode": 1,
+          "road_class": "G",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "30",
+          "from_node": "82",
+          "to_node": "104",
+          "length_m": 85.9264657557036,
+          "mode": 1,
+          "road_class": "G",
+          "lanes": 3,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "31",
+          "from_node": "104",
+          "to_node": "82",
+          "length_m": 85.9264657557036,
+          "mode": 1,
+          "road_class": "G",
+          "lanes": 3,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "32",
+          "from_node": "99",
+          "to_node": "120",
+          "length_m": 11.869961415700795,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": 3845.670616199341
+        },
+        {
+          "id": "33",
+          "from_node": "120",
+          "to_node": "99",
+          "length_m": 11.869961415700795,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": 3845.670616199341
+        },
+        {
+          "id": "34",
+          "from_node": "5",
+          "to_node": "21",
+          "length_m": 59.61911900891071,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": 4177.343362234135
+        },
+        {
+          "id": "35",
+          "from_node": "21",
+          "to_node": "5",
+          "length_m": 59.61911900891071,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": 4177.343362234135
+        },
+        {
+          "id": "36",
+          "from_node": "31",
+          "to_node": "40",
+          "length_m": 69.6922495788925,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "37",
+          "from_node": "40",
+          "to_node": "31",
+          "length_m": 69.6922495788925,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "38",
+          "from_node": "60",
+          "to_node": "76",
+          "length_m": 87.17524265579937,
+          "mode": 1,
+          "road_class": "G",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "39",
+          "from_node": "76",
+          "to_node": "60",
+          "length_m": 87.17524265579937,
+          "mode": 1,
+          "road_class": "G",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "40",
+          "from_node": "122",
+          "to_node": "124",
+          "length_m": 55.112728881057784,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "41",
+          "from_node": "124",
+          "to_node": "122",
+          "length_m": 55.112728881057784,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "42",
+          "from_node": "97",
+          "to_node": "104",
+          "length_m": 86.05803239504681,
+          "mode": 1,
+          "road_class": "G",
+          "lanes": 4,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "43",
+          "from_node": "104",
+          "to_node": "97",
+          "length_m": 86.05803239504681,
+          "mode": 1,
+          "road_class": "G",
+          "lanes": 4,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "44",
+          "from_node": "77",
+          "to_node": "101",
+          "length_m": 42.04152908737215,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 1,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "45",
+          "from_node": "101",
+          "to_node": "77",
+          "length_m": 42.04152908737215,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 1,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "46",
+          "from_node": "12",
+          "to_node": "45",
+          "length_m": 78.98318043105186,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "47",
+          "from_node": "45",
+          "to_node": "12",
+          "length_m": 78.98318043105186,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "48",
+          "from_node": "1",
+          "to_node": "8",
+          "length_m": 87.93827130969271,
+          "mode": 1,
+          "road_class": "G",
+          "lanes": 3,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "49",
+          "from_node": "8",
+          "to_node": "1",
+          "length_m": 87.93827130969271,
+          "mode": 1,
+          "road_class": "G",
+          "lanes": 3,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "50",
+          "from_node": "68",
+          "to_node": "77",
+          "length_m": 55.656431241121126,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": 5258.393295542751
+        },
+        {
+          "id": "51",
+          "from_node": "77",
+          "to_node": "68",
+          "length_m": 55.656431241121126,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": 5258.393295542751
+        },
+        {
+          "id": "52",
+          "from_node": "27",
+          "to_node": "36",
+          "length_m": 56.132105548210006,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "53",
+          "from_node": "36",
+          "to_node": "27",
+          "length_m": 56.132105548210006,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "54",
+          "from_node": "32",
+          "to_node": "87",
+          "length_m": 64.34402969127693,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 1,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": 6838.896768844812
+        },
+        {
+          "id": "55",
+          "from_node": "87",
+          "to_node": "32",
+          "length_m": 64.34402969127693,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 1,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": 6838.896768844812
+        },
+        {
+          "id": "56",
+          "from_node": "62",
+          "to_node": "85",
+          "length_m": 81.54337269497411,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": 6308.749867494505
+        },
+        {
+          "id": "57",
+          "from_node": "85",
+          "to_node": "62",
+          "length_m": 81.54337269497411,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": 6308.749867494505
+        },
+        {
+          "id": "58",
+          "from_node": "124",
+          "to_node": "133",
+          "length_m": 64.92995159400024,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "59",
+          "from_node": "133",
+          "to_node": "124",
+          "length_m": 64.92995159400024,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "60",
+          "from_node": "90",
+          "to_node": "110",
+          "length_m": 75.7240882399325,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "61",
+          "from_node": "110",
+          "to_node": "90",
+          "length_m": 75.7240882399325,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "62",
+          "from_node": "118",
+          "to_node": "126",
+          "length_m": 12.217135857431705,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": 6593.635982594549
+        },
+        {
+          "id": "63",
+          "from_node": "126",
+          "to_node": "118",
+          "length_m": 12.217135857431705,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": 6593.635982594549
+        },
+        {
+          "id": "64",
+          "from_node": "20",
+          "to_node": "33",
+          "length_m": 11.934453594448282,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 1,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "65",
+          "from_node": "33",
+          "to_node": "20",
+          "length_m": 11.934453594448282,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 1,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "66",
+          "from_node": "39",
+          "to_node": "46",
+          "length_m": 51.21751973083207,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "67",
+          "from_node": "46",
+          "to_node": "39",
+          "length_m": 51.21751973083207,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "68",
+          "from_node": "37",
+          "to_node": "83",
+          "length_m": 65.17701628826484,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "69",
+          "from_node": "83",
+          "to_node": "37",
+          "length_m": 65.17701628826484,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "70",
+          "from_node": "57",
+          "to_node": "61",
+          "length_m": 74.8789871109049,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 1,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "71",
+          "from_node": "61",
+          "to_node": "57",
+          "length_m": 74.8789871109049,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 1,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "72",
+          "from_node": "129",
+          "to_node": "132",
+          "length_m": 84.97935997119885,
+          "mode": 1,
+          "road_class": "G",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "73",
+          "from_node": "132",
+          "to_node": "129",
+          "length_m": 84.97935997119885,
+          "mode": 1,
+          "road_class": "G",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "74",
+          "from_node": "29",
+          "to_node": "109",
+          "length_m": 85.67778197833204,
+          "mode": 1,
+          "road_class": "G",
+          "lanes": 3,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "75",
+          "from_node": "109",
+          "to_node": "29",
+          "length_m": 85.67778197833204,
+          "mode": 1,
+          "road_class": "G",
+          "lanes": 3,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "76",
+          "from_node": "12",
+          "to_node": "38",
+          "length_m": 65.99671790100263,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": 7152.595292270318
+        },
+        {
+          "id": "77",
+          "from_node": "38",
+          "to_node": "12",
+          "length_m": 65.99671790100263,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": 7152.595292270318
+        },
+        {
+          "id": "78",
+          "from_node": "89",
+          "to_node": "93",
+          "length_m": 72.00817938331593,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 1,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "79",
+          "from_node": "93",
+          "to_node": "89",
+          "length_m": 72.00817938331593,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 1,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "80",
+          "from_node": "66",
+          "to_node": "73",
+          "length_m": 89.28586069096221,
+          "mode": 1,
+          "road_class": "G",
+          "lanes": 4,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "81",
+          "from_node": "73",
+          "to_node": "66",
+          "length_m": 89.28586069096221,
+          "mode": 1,
+          "road_class": "G",
+          "lanes": 4,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "82",
+          "from_node": "61",
+          "to_node": "86",
+          "length_m": 74.29537057131976,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "83",
+          "from_node": "86",
+          "to_node": "61",
+          "length_m": 74.29537057131976,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "84",
+          "from_node": "78",
+          "to_node": "102",
+          "length_m": 74.80711928512095,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": 4992.859113244471
+        },
+        {
+          "id": "85",
+          "from_node": "102",
+          "to_node": "78",
+          "length_m": 74.80711928512095,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": 4992.859113244471
+        },
+        {
+          "id": "86",
+          "from_node": "75",
+          "to_node": "85",
+          "length_m": 90.22586762586928,
+          "mode": 1,
+          "road_class": "G",
+          "lanes": 4,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "87",
+          "from_node": "85",
+          "to_node": "75",
+          "length_m": 90.22586762586928,
+          "mode": 1,
+          "road_class": "G",
+          "lanes": 4,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "88",
+          "from_node": "57",
+          "to_node": "82",
+          "length_m": 88.10222820350297,
+          "mode": 1,
+          "road_class": "G",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "89",
+          "from_node": "55",
+          "to_node": "109",
+          "length_m": 68.22372297764453,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "90",
+          "from_node": "109",
+          "to_node": "55",
+          "length_m": 68.22372297764453,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "91",
+          "from_node": "52",
+          "to_node": "92",
+          "length_m": 67.21108239951168,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "92",
+          "from_node": "92",
+          "to_node": "52",
+          "length_m": 67.21108239951168,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "93",
+          "from_node": "119",
+          "to_node": "121",
+          "length_m": 74.49338162064046,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "94",
+          "from_node": "121",
+          "to_node": "119",
+          "length_m": 74.49338162064046,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "95",
+          "from_node": "16",
+          "to_node": "26",
+          "length_m": 77.6789342715735,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "96",
+          "from_node": "26",
+          "to_node": "16",
+          "length_m": 77.6789342715735,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "97",
+          "from_node": "18",
+          "to_node": "23",
+          "length_m": 44.449283301098355,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "98",
+          "from_node": "23",
+          "to_node": "18",
+          "length_m": 44.449283301098355,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "99",
+          "from_node": "71",
+          "to_node": "81",
+          "length_m": 82.55679230381917,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "100",
+          "from_node": "81",
+          "to_node": "71",
+          "length_m": 82.55679230381917,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "101",
+          "from_node": "107",
+          "to_node": "110",
+          "length_m": 92.44566191201685,
+          "mode": 1,
+          "road_class": "G",
+          "lanes": 3,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "102",
+          "from_node": "110",
+          "to_node": "107",
+          "length_m": 92.44566191201685,
+          "mode": 1,
+          "road_class": "G",
+          "lanes": 3,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "103",
+          "from_node": "59",
+          "to_node": "70",
+          "length_m": 88.1778375601788,
+          "mode": 1,
+          "road_class": "G",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "104",
+          "from_node": "94",
+          "to_node": "119",
+          "length_m": 66.9932175158713,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 1,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "105",
+          "from_node": "119",
+          "to_node": "94",
+          "length_m": 66.9932175158713,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 1,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "106",
+          "from_node": "29",
+          "to_node": "38",
+          "length_m": 68.61890627712427,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 1,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "107",
+          "from_node": "38",
+          "to_node": "29",
+          "length_m": 68.61890627712427,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 1,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "108",
+          "from_node": "49",
+          "to_node": "50",
+          "length_m": 8.44963363970669,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": 4444.734330706661
+        },
+        {
+          "id": "109",
+          "from_node": "50",
+          "to_node": "49",
+          "length_m": 8.44963363970669,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": 4444.734330706661
+        },
+        {
+          "id": "110",
+          "from_node": "78",
+          "to_node": "86",
+          "length_m": 69.69633807012296,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 1,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": 5721.392924954545
+        },
+        {
+          "id": "111",
+          "from_node": "86",
+          "to_node": "78",
+          "length_m": 69.69633807012296,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 1,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": 5721.392924954545
+        },
+        {
+          "id": "112",
+          "from_node": "6",
+          "to_node": "109",
+          "length_m": 79.57881864901962,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 1,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "113",
+          "from_node": "109",
+          "to_node": "6",
+          "length_m": 79.57881864901962,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 1,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "114",
+          "from_node": "70",
+          "to_node": "91",
+          "length_m": 78.80123422225087,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "115",
+          "from_node": "91",
+          "to_node": "70",
+          "length_m": 78.80123422225087,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "116",
+          "from_node": "113",
+          "to_node": "126",
+          "length_m": 16.525613021578888,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "117",
+          "from_node": "126",
+          "to_node": "113",
+          "length_m": 16.525613021578888,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "118",
+          "from_node": "78",
+          "to_node": "104",
+          "length_m": 79.52561017081808,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": 4014.0095746027437
+        },
+        {
+          "id": "119",
+          "from_node": "104",
+          "to_node": "78",
+          "length_m": 79.52561017081808,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": 4014.0095746027437
+        },
+        {
+          "id": "120",
+          "from_node": "45",
+          "to_node": "46",
+          "length_m": 72.20130945823807,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "121",
+          "from_node": "46",
+          "to_node": "45",
+          "length_m": 72.20130945823807,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "122",
+          "from_node": "53",
+          "to_node": "59",
+          "length_m": 68.81182779545121,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "123",
+          "from_node": "59",
+          "to_node": "53",
+          "length_m": 68.81182779545121,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "124",
+          "from_node": "62",
+          "to_node": "71",
+          "length_m": 66.9499035445325,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "125",
+          "from_node": "100",
+          "to_node": "119",
+          "length_m": 70.01673263486263,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 1,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "126",
+          "from_node": "119",
+          "to_node": "100",
+          "length_m": 70.01673263486263,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 1,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "127",
+          "from_node": "62",
+          "to_node": "80",
+          "length_m": 68.20552382766905,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 1,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "128",
+          "from_node": "80",
+          "to_node": "62",
+          "length_m": 68.20552382766905,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 1,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "129",
+          "from_node": "65",
+          "to_node": "106",
+          "length_m": 88.83862430181802,
+          "mode": 1,
+          "road_class": "G",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "130",
+          "from_node": "106",
+          "to_node": "65",
+          "length_m": 88.83862430181802,
+          "mode": 1,
+          "road_class": "G",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "131",
+          "from_node": "120",
+          "to_node": "140",
+          "length_m": 53.933286731553224,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 1,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": 4707.751674515028
+        },
+        {
+          "id": "132",
+          "from_node": "140",
+          "to_node": "120",
+          "length_m": 53.933286731553224,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 1,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": 4707.751674515028
+        },
+        {
+          "id": "133",
+          "from_node": "6",
+          "to_node": "29",
+          "length_m": 90.13814143157845,
+          "mode": 1,
+          "road_class": "G",
+          "lanes": 3,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "134",
+          "from_node": "29",
+          "to_node": "6",
+          "length_m": 90.13814143157845,
+          "mode": 1,
+          "road_class": "G",
+          "lanes": 3,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "135",
+          "from_node": "4",
+          "to_node": "11",
+          "length_m": 70.04305154330225,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "136",
+          "from_node": "11",
+          "to_node": "4",
+          "length_m": 70.04305154330225,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "137",
+          "from_node": "67",
+          "to_node": "79",
+          "length_m": 115.68949344842135,
+          "mode": 1,
+          "road_class": "G",
+          "lanes": 3,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "138",
+          "from_node": "79",
+          "to_node": "67",
+          "length_m": 115.68949344842135,
+          "mode": 1,
+          "road_class": "G",
+          "lanes": 3,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "139",
+          "from_node": "43",
+          "to_node": "66",
+          "length_m": 0.5923035964206219,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "140",
+          "from_node": "66",
+          "to_node": "43",
+          "length_m": 0.5923035964206219,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "141",
+          "from_node": "14",
+          "to_node": "30",
+          "length_m": 20.652599646528277,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "142",
+          "from_node": "30",
+          "to_node": "14",
+          "length_m": 20.652599646528277,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "143",
+          "from_node": "138",
+          "to_node": "139",
+          "length_m": 64.70125256610676,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 1,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "144",
+          "from_node": "139",
+          "to_node": "138",
+          "length_m": 64.70125256610676,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 1,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "145",
+          "from_node": "1",
+          "to_node": "5",
+          "length_m": 74.62592831376867,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": 4014.9580411518277
+        },
+        {
+          "id": "146",
+          "from_node": "5",
+          "to_node": "1",
+          "length_m": 74.62592831376867,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": 4014.9580411518277
+        },
+        {
+          "id": "147",
+          "from_node": "7",
+          "to_node": "9",
+          "length_m": 66.21057457474292,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": 6115.268944499524
+        },
+        {
+          "id": "148",
+          "from_node": "9",
+          "to_node": "7",
+          "length_m": 66.21057457474292,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": 6115.268944499524
+        },
+        {
+          "id": "149",
+          "from_node": "53",
+          "to_node": "61",
+          "length_m": 66.72231678938749,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 1,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "150",
+          "from_node": "61",
+          "to_node": "53",
+          "length_m": 66.72231678938749,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 1,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "151",
+          "from_node": "93",
+          "to_node": "97",
+          "length_m": 80.99311381597964,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "152",
+          "from_node": "97",
+          "to_node": "93",
+          "length_m": 80.99311381597964,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "153",
+          "from_node": "37",
+          "to_node": "44",
+          "length_m": 82.65797790223947,
+          "mode": 1,
+          "road_class": "G",
+          "lanes": 3,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "154",
+          "from_node": "44",
+          "to_node": "37",
+          "length_m": 82.65797790223947,
+          "mode": 1,
+          "road_class": "G",
+          "lanes": 3,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "155",
+          "from_node": "36",
+          "to_node": "54",
+          "length_m": 33.9254938876987,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "156",
+          "from_node": "54",
+          "to_node": "36",
+          "length_m": 33.9254938876987,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "157",
+          "from_node": "53",
+          "to_node": "70",
+          "length_m": 87.80577414392808,
+          "mode": 1,
+          "road_class": "G",
+          "lanes": 3,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "158",
+          "from_node": "70",
+          "to_node": "53",
+          "length_m": 87.80577414392808,
+          "mode": 1,
+          "road_class": "G",
+          "lanes": 3,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "159",
+          "from_node": "136",
+          "to_node": "141",
+          "length_m": 22.28848923514966,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "160",
+          "from_node": "141",
+          "to_node": "136",
+          "length_m": 22.28848923514966,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "161",
+          "from_node": "100",
+          "to_node": "121",
+          "length_m": 70.19076851192382,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": 4848.462758904731
+        },
+        {
+          "id": "162",
+          "from_node": "121",
+          "to_node": "100",
+          "length_m": 70.19076851192382,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": 4848.462758904731
+        },
+        {
+          "id": "163",
+          "from_node": "47",
+          "to_node": "63",
+          "length_m": 45.42129714616283,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": 6751.340437368157
+        },
+        {
+          "id": "164",
+          "from_node": "63",
+          "to_node": "47",
+          "length_m": 45.42129714616283,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": 6751.340437368157
+        },
+        {
+          "id": "165",
+          "from_node": "68",
+          "to_node": "95",
+          "length_m": 58.698390105140085,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 1,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "166",
+          "from_node": "95",
+          "to_node": "68",
+          "length_m": 58.698390105140085,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 1,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "167",
+          "from_node": "67",
+          "to_node": "81",
+          "length_m": 76.44728440895267,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "168",
+          "from_node": "81",
+          "to_node": "67",
+          "length_m": 76.44728440895267,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "169",
+          "from_node": "23",
+          "to_node": "26",
+          "length_m": 80.78805828883964,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "170",
+          "from_node": "26",
+          "to_node": "23",
+          "length_m": 80.78805828883964,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "171",
+          "from_node": "35",
+          "to_node": "55",
+          "length_m": 70.85532391075817,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "172",
+          "from_node": "55",
+          "to_node": "35",
+          "length_m": 70.85532391075817,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "173",
+          "from_node": "49",
+          "to_node": "54",
+          "length_m": 73.85995304222264,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "174",
+          "from_node": "54",
+          "to_node": "49",
+          "length_m": 73.85995304222264,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "175",
+          "from_node": "132",
+          "to_node": "134",
+          "length_m": 71.4097546313283,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 1,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "176",
+          "from_node": "134",
+          "to_node": "132",
+          "length_m": 71.4097546313283,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 1,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "177",
+          "from_node": "19",
+          "to_node": "22",
+          "length_m": 65.25598427489795,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": 3836.1874382193446
+        },
+        {
+          "id": "178",
+          "from_node": "22",
+          "to_node": "19",
+          "length_m": 65.25598427489795,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": 3836.1874382193446
+        },
+        {
+          "id": "179",
+          "from_node": "27",
+          "to_node": "35",
+          "length_m": 75.14190610459916,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "180",
+          "from_node": "35",
+          "to_node": "27",
+          "length_m": 75.14190610459916,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "181",
+          "from_node": "7",
+          "to_node": "11",
+          "length_m": 81.09002395754992,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "182",
+          "from_node": "11",
+          "to_node": "7",
+          "length_m": 81.09002395754992,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "183",
+          "from_node": "105",
+          "to_node": "110",
+          "length_m": 97.94140761185213,
+          "mode": 1,
+          "road_class": "G",
+          "lanes": 4,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "184",
+          "from_node": "110",
+          "to_node": "105",
+          "length_m": 97.94140761185213,
+          "mode": 1,
+          "road_class": "G",
+          "lanes": 4,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "185",
+          "from_node": "75",
+          "to_node": "112",
+          "length_m": 90.70115749410999,
+          "mode": 1,
+          "road_class": "G",
+          "lanes": 4,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "186",
+          "from_node": "112",
+          "to_node": "75",
+          "length_m": 90.70115749410999,
+          "mode": 1,
+          "road_class": "G",
+          "lanes": 4,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "187",
+          "from_node": "72",
+          "to_node": "88",
+          "length_m": 64.74773451560462,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": 5937.413960005144
+        },
+        {
+          "id": "188",
+          "from_node": "88",
+          "to_node": "72",
+          "length_m": 64.74773451560462,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": 5937.413960005144
+        },
+        {
+          "id": "189",
+          "from_node": "5",
+          "to_node": "13",
+          "length_m": 65.10846531189614,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": 5550.529121764495
+        },
+        {
+          "id": "190",
+          "from_node": "13",
+          "to_node": "5",
+          "length_m": 65.10846531189614,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": 5550.529121764495
+        },
+        {
+          "id": "191",
+          "from_node": "76",
+          "to_node": "119",
+          "length_m": 86.74877963984703,
+          "mode": 1,
+          "road_class": "G",
+          "lanes": 3,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "192",
+          "from_node": "119",
+          "to_node": "76",
+          "length_m": 86.74877963984703,
+          "mode": 1,
+          "road_class": "G",
+          "lanes": 3,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "193",
+          "from_node": "123",
+          "to_node": "124",
+          "length_m": 74.37911674758948,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "194",
+          "from_node": "124",
+          "to_node": "123",
+          "length_m": 74.37911674758948,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "195",
+          "from_node": "10",
+          "to_node": "12",
+          "length_m": 89.77570945779188,
+          "mode": 1,
+          "road_class": "G",
+          "lanes": 4,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "196",
+          "from_node": "12",
+          "to_node": "10",
+          "length_m": 89.77570945779188,
+          "mode": 1,
+          "road_class": "G",
+          "lanes": 4,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "197",
+          "from_node": "123",
+          "to_node": "133",
+          "length_m": 46.00624615530782,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "198",
+          "from_node": "133",
+          "to_node": "123",
+          "length_m": 46.00624615530782,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "199",
+          "from_node": "113",
+          "to_node": "141",
+          "length_m": 9.326599507642651,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 1,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "200",
+          "from_node": "141",
+          "to_node": "113",
+          "length_m": 9.326599507642651,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 1,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "201",
+          "from_node": "102",
+          "to_node": "104",
+          "length_m": 64.73753127774059,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "202",
+          "from_node": "104",
+          "to_node": "102",
+          "length_m": 64.73753127774059,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "203",
+          "from_node": "85",
+          "to_node": "88",
+          "length_m": 88.11339269214545,
+          "mode": 1,
+          "road_class": "G",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "204",
+          "from_node": "88",
+          "to_node": "85",
+          "length_m": 88.11339269214545,
+          "mode": 1,
+          "road_class": "G",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "205",
+          "from_node": "76",
+          "to_node": "94",
+          "length_m": 89.90266267780738,
+          "mode": 1,
+          "road_class": "G",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "206",
+          "from_node": "94",
+          "to_node": "76",
+          "length_m": 89.90266267780738,
+          "mode": 1,
+          "road_class": "G",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "207",
+          "from_node": "117",
+          "to_node": "141",
+          "length_m": 80.55272772503021,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": 6255.4531329366255
+        },
+        {
+          "id": "208",
+          "from_node": "141",
+          "to_node": "117",
+          "length_m": 80.55272772503021,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": 6255.4531329366255
+        },
+        {
+          "id": "209",
+          "from_node": "100",
+          "to_node": "108",
+          "length_m": 89.16416301356327,
+          "mode": 1,
+          "road_class": "G",
+          "lanes": 4,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "210",
+          "from_node": "108",
+          "to_node": "100",
+          "length_m": 89.16416301356327,
+          "mode": 1,
+          "road_class": "G",
+          "lanes": 4,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "211",
+          "from_node": "58",
+          "to_node": "64",
+          "length_m": 83.47643454060443,
+          "mode": 1,
+          "road_class": "G",
+          "lanes": 4,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "212",
+          "from_node": "64",
+          "to_node": "58",
+          "length_m": 83.47643454060443,
+          "mode": 1,
+          "road_class": "G",
+          "lanes": 4,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "213",
+          "from_node": "53",
+          "to_node": "86",
+          "length_m": 71.91645044235459,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": 5128.731167529116
+        },
+        {
+          "id": "214",
+          "from_node": "86",
+          "to_node": "53",
+          "length_m": 71.91645044235459,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": 5128.731167529116
+        },
+        {
+          "id": "215",
+          "from_node": "95",
+          "to_node": "101",
+          "length_m": 45.28002080161537,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 1,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": 5349.7649013721775
+        },
+        {
+          "id": "216",
+          "from_node": "101",
+          "to_node": "95",
+          "length_m": 45.28002080161537,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 1,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": 5349.7649013721775
+        },
+        {
+          "id": "217",
+          "from_node": "97",
+          "to_node": "98",
+          "length_m": 75.7754247693252,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": 4399.299085678843
+        },
+        {
+          "id": "218",
+          "from_node": "98",
+          "to_node": "97",
+          "length_m": 75.7754247693252,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": 4399.299085678843
+        },
+        {
+          "id": "219",
+          "from_node": "129",
+          "to_node": "133",
+          "length_m": 85.90127237277025,
+          "mode": 1,
+          "road_class": "G",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "220",
+          "from_node": "133",
+          "to_node": "129",
+          "length_m": 85.90127237277025,
+          "mode": 1,
+          "road_class": "G",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "221",
+          "from_node": "26",
+          "to_node": "56",
+          "length_m": 66.04528466780711,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "222",
+          "from_node": "56",
+          "to_node": "26",
+          "length_m": 66.04528466780711,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "223",
+          "from_node": "1",
+          "to_node": "2",
+          "length_m": 68.2421118730046,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "224",
+          "from_node": "2",
+          "to_node": "1",
+          "length_m": 68.2421118730046,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "225",
+          "from_node": "130",
+          "to_node": "132",
+          "length_m": 87.5688814733622,
+          "mode": 1,
+          "road_class": "G",
+          "lanes": 3,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "226",
+          "from_node": "132",
+          "to_node": "130",
+          "length_m": 87.5688814733622,
+          "mode": 1,
+          "road_class": "G",
+          "lanes": 3,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "227",
+          "from_node": "34",
+          "to_node": "36",
+          "length_m": 76.41516213750526,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": 6917.423955874776
+        },
+        {
+          "id": "228",
+          "from_node": "36",
+          "to_node": "34",
+          "length_m": 76.41516213750526,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": 6917.423955874776
+        },
+        {
+          "id": "229",
+          "from_node": "107",
+          "to_node": "139",
+          "length_m": 76.03533718925283,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": 5060.245014896768
+        },
+        {
+          "id": "230",
+          "from_node": "139",
+          "to_node": "107",
+          "length_m": 76.03533718925283,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": 5060.245014896768
+        },
+        {
+          "id": "231",
+          "from_node": "42",
+          "to_node": "83",
+          "length_m": 68.98475219674808,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "232",
+          "from_node": "83",
+          "to_node": "42",
+          "length_m": 68.98475219674808,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "233",
+          "from_node": "19",
+          "to_node": "26",
+          "length_m": 64.22538137539692,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": 6492.043584134239
+        },
+        {
+          "id": "234",
+          "from_node": "26",
+          "to_node": "19",
+          "length_m": 64.22538137539692,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": 6492.043584134239
+        },
+        {
+          "id": "235",
+          "from_node": "34",
+          "to_node": "54",
+          "length_m": 73.24499596682885,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "236",
+          "from_node": "54",
+          "to_node": "34",
+          "length_m": 73.24499596682885,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "237",
+          "from_node": "88",
+          "to_node": "89",
+          "length_m": 74.39852879258997,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 1,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "238",
+          "from_node": "89",
+          "to_node": "88",
+          "length_m": 74.39852879258997,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 1,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "239",
+          "from_node": "63",
+          "to_node": "87",
+          "length_m": 54.10155550514026,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 1,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "240",
+          "from_node": "87",
+          "to_node": "63",
+          "length_m": 54.10155550514026,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 1,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "241",
+          "from_node": "68",
+          "to_node": "101",
+          "length_m": 67.63738247513083,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "242",
+          "from_node": "101",
+          "to_node": "68",
+          "length_m": 67.63738247513083,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "243",
+          "from_node": "32",
+          "to_node": "47",
+          "length_m": 54.285026748752934,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "244",
+          "from_node": "47",
+          "to_node": "32",
+          "length_m": 54.285026748752934,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "245",
+          "from_node": "52",
+          "to_node": "59",
+          "length_m": 68.8496859635444,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": 7468.523624856256
+        },
+        {
+          "id": "246",
+          "from_node": "59",
+          "to_node": "52",
+          "length_m": 68.8496859635444,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": 7468.523624856256
+        },
+        {
+          "id": "247",
+          "from_node": "67",
+          "to_node": "87",
+          "length_m": 77.20093409397738,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 1,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "248",
+          "from_node": "84",
+          "to_node": "103",
+          "length_m": 67.58579337444941,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "249",
+          "from_node": "103",
+          "to_node": "84",
+          "length_m": 67.58579337444941,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "250",
+          "from_node": "98",
+          "to_node": "120",
+          "length_m": 74.7700081155043,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "251",
+          "from_node": "120",
+          "to_node": "98",
+          "length_m": 74.7700081155043,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "252",
+          "from_node": "127",
+          "to_node": "135",
+          "length_m": 83.9104082773478,
+          "mode": 1,
+          "road_class": "G",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "253",
+          "from_node": "135",
+          "to_node": "127",
+          "length_m": 83.9104082773478,
+          "mode": 1,
+          "road_class": "G",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "254",
+          "from_node": "89",
+          "to_node": "96",
+          "length_m": 69.86513815006174,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "255",
+          "from_node": "96",
+          "to_node": "89",
+          "length_m": 69.86513815006174,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "256",
+          "from_node": "130",
+          "to_node": "134",
+          "length_m": 80.89612788955776,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "257",
+          "from_node": "134",
+          "to_node": "130",
+          "length_m": 80.89612788955776,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "258",
+          "from_node": "59",
+          "to_node": "92",
+          "length_m": 81.7917601722551,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": 7198.201312108515
+        },
+        {
+          "id": "259",
+          "from_node": "92",
+          "to_node": "59",
+          "length_m": 81.7917601722551,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": 7198.201312108515
+        },
+        {
+          "id": "260",
+          "from_node": "64",
+          "to_node": "106",
+          "length_m": 30.709080780200033,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "261",
+          "from_node": "106",
+          "to_node": "64",
+          "length_m": 30.709080780200033,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "262",
+          "from_node": "93",
+          "to_node": "96",
+          "length_m": 76.78545594185034,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "263",
+          "from_node": "96",
+          "to_node": "93",
+          "length_m": 76.78545594185034,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "264",
+          "from_node": "71",
+          "to_node": "75",
+          "length_m": 77.13926862709377,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": 5820.6313149066045
+        },
+        {
+          "id": "265",
+          "from_node": "75",
+          "to_node": "71",
+          "length_m": 77.13926862709377,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": 5820.6313149066045
+        },
+        {
+          "id": "266",
+          "from_node": "117",
+          "to_node": "136",
+          "length_m": 79.69416892166751,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 1,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "267",
+          "from_node": "136",
+          "to_node": "117",
+          "length_m": 79.69416892166751,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 1,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "268",
+          "from_node": "92",
+          "to_node": "116",
+          "length_m": 32.53121183678317,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 1,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "269",
+          "from_node": "116",
+          "to_node": "92",
+          "length_m": 32.53121183678317,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 1,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "270",
+          "from_node": "15",
+          "to_node": "24",
+          "length_m": 19.750709859317908,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "271",
+          "from_node": "24",
+          "to_node": "15",
+          "length_m": 19.750709859317908,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "272",
+          "from_node": "24",
+          "to_node": "27",
+          "length_m": 52.60571616809208,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "273",
+          "from_node": "27",
+          "to_node": "24",
+          "length_m": 52.60571616809208,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "274",
+          "from_node": "6",
+          "to_node": "21",
+          "length_m": 54.345346856969684,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "275",
+          "from_node": "21",
+          "to_node": "6",
+          "length_m": 54.345346856969684,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "276",
+          "from_node": "111",
+          "to_node": "129",
+          "length_m": 54.97226872338016,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": 4976.257286162976
+        },
+        {
+          "id": "277",
+          "from_node": "129",
+          "to_node": "111",
+          "length_m": 54.97226872338016,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": 4976.257286162976
+        },
+        {
+          "id": "278",
+          "from_node": "3",
+          "to_node": "4",
+          "length_m": 71.64693522725783,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 1,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "279",
+          "from_node": "4",
+          "to_node": "3",
+          "length_m": 71.64693522725783,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 1,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "280",
+          "from_node": "32",
+          "to_node": "40",
+          "length_m": 93.81031330695171,
+          "mode": 1,
+          "road_class": "G",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "281",
+          "from_node": "40",
+          "to_node": "32",
+          "length_m": 93.81031330695171,
+          "mode": 1,
+          "road_class": "G",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "282",
+          "from_node": "67",
+          "to_node": "80",
+          "length_m": 71.59140544686275,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 1,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "283",
+          "from_node": "80",
+          "to_node": "67",
+          "length_m": 71.59140544686275,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 1,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "284",
+          "from_node": "41",
+          "to_node": "61",
+          "length_m": 81.9464636922281,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 1,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "285",
+          "from_node": "61",
+          "to_node": "41",
+          "length_m": 81.9464636922281,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 1,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "286",
+          "from_node": "35",
+          "to_node": "54",
+          "length_m": 66.43604885038864,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "287",
+          "from_node": "54",
+          "to_node": "35",
+          "length_m": 66.43604885038864,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "288",
+          "from_node": "127",
+          "to_node": "137",
+          "length_m": 97.86211085635703,
+          "mode": 1,
+          "road_class": "G",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "289",
+          "from_node": "137",
+          "to_node": "127",
+          "length_m": 97.86211085635703,
+          "mode": 1,
+          "road_class": "G",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "290",
+          "from_node": "17",
+          "to_node": "24",
+          "length_m": 28.560985918826965,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": 3629.2902732498524
+        },
+        {
+          "id": "291",
+          "from_node": "24",
+          "to_node": "17",
+          "length_m": 28.560985918826965,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": 3629.2902732498524
+        },
+        {
+          "id": "292",
+          "from_node": "74",
+          "to_node": "76",
+          "length_m": 68.03848137719662,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "293",
+          "from_node": "76",
+          "to_node": "74",
+          "length_m": 68.03848137719662,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "294",
+          "from_node": "122",
+          "to_node": "125",
+          "length_m": 66.2510180989656,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "295",
+          "from_node": "125",
+          "to_node": "122",
+          "length_m": 66.2510180989656,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "296",
+          "from_node": "68",
+          "to_node": "69",
+          "length_m": 17.008557793947034,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "297",
+          "from_node": "69",
+          "to_node": "68",
+          "length_m": 17.008557793947034,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "298",
+          "from_node": "34",
+          "to_node": "49",
+          "length_m": 19.847896523184687,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "299",
+          "from_node": "49",
+          "to_node": "34",
+          "length_m": 19.847896523184687,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "300",
+          "from_node": "28",
+          "to_node": "33",
+          "length_m": 27.730990892407466,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": 6746.649575185678
+        },
+        {
+          "id": "301",
+          "from_node": "33",
+          "to_node": "28",
+          "length_m": 27.730990892407466,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": 6746.649575185678
+        },
+        {
+          "id": "302",
+          "from_node": "114",
+          "to_node": "121",
+          "length_m": 74.4285263268928,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": 5097.717753548164
+        },
+        {
+          "id": "303",
+          "from_node": "121",
+          "to_node": "114",
+          "length_m": 74.4285263268928,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": 5097.717753548164
+        },
+        {
+          "id": "304",
+          "from_node": "15",
+          "to_node": "17",
+          "length_m": 22.09832556059553,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "305",
+          "from_node": "17",
+          "to_node": "15",
+          "length_m": 22.09832556059553,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "306",
+          "from_node": "111",
+          "to_node": "122",
+          "length_m": 26.45316084745154,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "307",
+          "from_node": "122",
+          "to_node": "111",
+          "length_m": 26.45316084745154,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "308",
+          "from_node": "74",
+          "to_node": "103",
+          "length_m": 64.01778436454394,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "309",
+          "from_node": "103",
+          "to_node": "74",
+          "length_m": 64.01778436454394,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "310",
+          "from_node": "69",
+          "to_node": "116",
+          "length_m": 29.732559081371846,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": 4472.274684773478
+        },
+        {
+          "id": "311",
+          "from_node": "116",
+          "to_node": "69",
+          "length_m": 29.732559081371846,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": 4472.274684773478
+        },
+        {
+          "id": "312",
+          "from_node": "16",
+          "to_node": "25",
+          "length_m": 79.8304101952986,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "313",
+          "from_node": "25",
+          "to_node": "16",
+          "length_m": 79.8304101952986,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "314",
+          "from_node": "18",
+          "to_node": "22",
+          "length_m": 61.79779577004184,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "315",
+          "from_node": "22",
+          "to_node": "18",
+          "length_m": 61.79779577004184,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "316",
+          "from_node": "7",
+          "to_node": "22",
+          "length_m": 69.43306091875132,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "317",
+          "from_node": "22",
+          "to_node": "7",
+          "length_m": 69.43306091875132,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "318",
+          "from_node": "43",
+          "to_node": "51",
+          "length_m": 4.895258090958393,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "319",
+          "from_node": "51",
+          "to_node": "43",
+          "length_m": 4.895258090958393,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "320",
+          "from_node": "124",
+          "to_node": "125",
+          "length_m": 71.41636519111766,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": 4653.721720753327
+        },
+        {
+          "id": "321",
+          "from_node": "125",
+          "to_node": "124",
+          "length_m": 71.41636519111766,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": 4653.721720753327
+        },
+        {
+          "id": "322",
+          "from_node": "90",
+          "to_node": "102",
+          "length_m": 65.76029614894848,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "323",
+          "from_node": "102",
+          "to_node": "90",
+          "length_m": 65.76029614894848,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "324",
+          "from_node": "78",
+          "to_node": "82",
+          "length_m": 73.81679669275121,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "325",
+          "from_node": "82",
+          "to_node": "78",
+          "length_m": 73.81679669275121,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "326",
+          "from_node": "101",
+          "to_node": "111",
+          "length_m": 49.38565503409109,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "327",
+          "from_node": "111",
+          "to_node": "101",
+          "length_m": 49.38565503409109,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "328",
+          "from_node": "0",
+          "to_node": "1",
+          "length_m": 66.06026360099754,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": 5929.797687898066
+        },
+        {
+          "id": "329",
+          "from_node": "1",
+          "to_node": "0",
+          "length_m": 66.06026360099754,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": 5929.797687898066
+        },
+        {
+          "id": "330",
+          "from_node": "9",
+          "to_node": "22",
+          "length_m": 33.61626751026347,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 1,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": 4346.648174024533
+        },
+        {
+          "id": "331",
+          "from_node": "22",
+          "to_node": "9",
+          "length_m": 33.61626751026347,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 1,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": 4346.648174024533
+        },
+        {
+          "id": "332",
+          "from_node": "131",
+          "to_node": "139",
+          "length_m": 72.43585124871545,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": 6384.557470935331
+        },
+        {
+          "id": "333",
+          "from_node": "139",
+          "to_node": "131",
+          "length_m": 72.43585124871545,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": 6384.557470935331
+        },
+        {
+          "id": "334",
+          "from_node": "84",
+          "to_node": "128",
+          "length_m": 26.38479575280384,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "335",
+          "from_node": "128",
+          "to_node": "84",
+          "length_m": 26.38479575280384,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "336",
+          "from_node": "111",
+          "to_node": "124",
+          "length_m": 59.84384052697317,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "337",
+          "from_node": "124",
+          "to_node": "111",
+          "length_m": 59.84384052697317,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "338",
+          "from_node": "115",
+          "to_node": "140",
+          "length_m": 64.39707290224771,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "339",
+          "from_node": "140",
+          "to_node": "115",
+          "length_m": 64.39707290224771,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "340",
+          "from_node": "41",
+          "to_node": "56",
+          "length_m": 80.99932171640317,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "341",
+          "from_node": "56",
+          "to_node": "41",
+          "length_m": 80.99932171640317,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "342",
+          "from_node": "73",
+          "to_node": "88",
+          "length_m": 71.67967648805481,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "343",
+          "from_node": "88",
+          "to_node": "73",
+          "length_m": 71.67967648805481,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "344",
+          "from_node": "5",
+          "to_node": "8",
+          "length_m": 81.1033665249959,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "345",
+          "from_node": "8",
+          "to_node": "5",
+          "length_m": 81.1033665249959,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "346",
+          "from_node": "47",
+          "to_node": "87",
+          "length_m": 56.60681361055565,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "347",
+          "from_node": "87",
+          "to_node": "47",
+          "length_m": 56.60681361055565,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "348",
+          "from_node": "48",
+          "to_node": "52",
+          "length_m": 92.04461725500168,
+          "mode": 1,
+          "road_class": "G",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "349",
+          "from_node": "52",
+          "to_node": "48",
+          "length_m": 92.04461725500168,
+          "mode": 1,
+          "road_class": "G",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "350",
+          "from_node": "10",
+          "to_node": "13",
+          "length_m": 64.06120970952122,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "351",
+          "from_node": "13",
+          "to_node": "10",
+          "length_m": 64.06120970952122,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "352",
+          "from_node": "107",
+          "to_node": "138",
+          "length_m": 66.8531208058144,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 1,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "353",
+          "from_node": "138",
+          "to_node": "107",
+          "length_m": 66.8531208058144,
+          "mode": 1,
+          "road_class": "L",
+          "lanes": 1,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "354",
+          "from_node": "2",
+          "to_node": "9",
+          "length_m": 83.73347038805815,
+          "mode": 1,
+          "road_class": "G",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "355",
+          "from_node": "9",
+          "to_node": "2",
+          "length_m": 83.73347038805815,
+          "mode": 1,
+          "road_class": "G",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "356",
+          "from_node": "20",
+          "to_node": "109",
+          "length_m": 83.65238657098365,
+          "mode": 1,
+          "road_class": "G",
+          "lanes": 2,
+          "max_speed_kph": 50.0,
+          "weight_limit_kg": null
+        },
+        {
+          "id": "357",
+          "from_node": "85",
+          "to_node": "89",
+          "length_m": 80.83876685882909,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": 7346.624718152101
+        },
+        {
+          "id": "358",
+          "from_node": "89",
+          "to_node": "85",
+          "length_m": 80.83876685882909,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": 7346.624718152101
+        },
+        {
+          "id": "359",
+          "from_node": "123",
+          "to_node": "137",
+          "length_m": 54.31265564552221,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": 6691.671224116528
+        },
+        {
+          "id": "360",
+          "from_node": "137",
+          "to_node": "123",
+          "length_m": 54.31265564552221,
+          "mode": 1,
+          "road_class": "D",
+          "lanes": 1,
+          "max_speed_kph": 20.0,
+          "weight_limit_kg": 6691.671224116528
+        }
+      ]
+    }
+  }
+}

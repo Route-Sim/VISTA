@@ -73,6 +73,7 @@ update(frame: SimFrame): void {
 
 - Cylindrical nodes align with style guide; factories disable shadows to keep visuals soft.
 - Roads sit slightly above ground (`GRAPH_ROAD_ELEVATION`) to avoid z-fighting with the ground plane.
+- Roads receive a deterministic Y-offset based on road class priority (e.g., highways `A` sit above local roads `L`) to resolve z-fighting at intersections.
 - Bounding-box centering keeps the graph around the world origin, while a global ×0.1 scale keeps distances manageable for the camera rig.
 - Defensive guards skip roads if referenced nodes are missing, preventing runtime errors during partial updates.
 
@@ -94,7 +95,8 @@ update(frame: SimFrame): void {
 ## References
 
 - `src/view/index.ts`
-- `src/engine/objects/graph-primitives.ts`
+- `src/engine/objects/node.ts`
+- `src/engine/objects/road.ts`
 - `src/view/graph/graph-transform.ts`
 - `src/sim/store/snapshot.ts`
 - `docs/style-guide.md`

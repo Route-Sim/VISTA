@@ -67,5 +67,6 @@ export const Colors = {
 
 - `docs/style-guide.md`
 - `src/engine/scene-manager.ts`
-- `src/engine/objects/graph-primitives.ts`
+- `src/engine/objects/node.ts`
+- `src/engine/objects/road.ts`
 - `src/view/graph/graph-view.ts`

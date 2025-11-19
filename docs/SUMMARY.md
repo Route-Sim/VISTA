@@ -20,7 +20,8 @@
       - [orbit-move-controls](modules/engine/controls/orbit-move-controls.md)
     - objects
       - [ground](modules/engine/objects/ground.md)
-      - [graph-primitives](modules/engine/objects/graph-primitives.md)
+      - [node](modules/engine/objects/node.md)
+      - [road](modules/engine/objects/road.md)
 
   - config
     - [docker](modules/config/docker.md)

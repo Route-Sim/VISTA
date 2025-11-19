@@ -13,7 +13,8 @@ links:
     - '../scene-manager.md'
     - '../camera-rig.md'
     - '../objects/ground.md'
-    - '../objects/graph-primitives.md'
+    - '../objects/node.md'
+    - '../objects/road.md'
 ---
 
 # Orbit Move Controls

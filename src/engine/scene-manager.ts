@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 
 import { createGround } from '@/engine/objects/ground';
+import { createTruckMesh } from '@/engine/objects/truck';
 import { Colors } from '@/app/colors';
 
 export class SceneManager {
@@ -20,5 +21,9 @@ export class SceneManager {
 
     const ground = createGround({ width: 500, height: 500 });
     this.scene.add(ground);
+
+    const truck = createTruckMesh();
+    truck.position.set(0, 0, 0);
+    this.scene.add(truck);
   }
 }

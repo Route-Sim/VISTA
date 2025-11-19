@@ -13,7 +13,8 @@ links:
     - 'camera-rig.md'
     - 'controls/orbit-move-controls.md'
     - 'objects/ground.md'
-    - 'objects/graph-primitives.md'
+    - 'objects/node.md'
+    - 'objects/road.md'
 ---
 
 # Scene Manager

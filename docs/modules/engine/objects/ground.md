@@ -13,7 +13,8 @@ links:
     - '../scene-manager.md'
     - '../camera-rig.md'
     - '../controls/orbit-move-controls.md'
-    - 'graph-primitives.md'
+    - 'node.md'
+    - 'road.md'
 ---
 
 # Ground Object

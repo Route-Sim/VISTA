@@ -1,9 +1,9 @@
 ---
 title: 'Graph View'
-summary: 'Renders simulation nodes and roads as low-poly primitives in the three.js scene, keeping geometry lifecycle in sync with buffered snapshots.'
+summary: 'Renders simulation nodes, roads, and associated buildings (parking lots and delivery sites) as low-poly primitives in the three.js scene, keeping geometry lifecycle in sync with buffered snapshots.'
 source_paths:
   - 'src/view/graph/graph-view.ts'
-last_updated: '2025-11-09'
+last_updated: '2025-11-20'
 owner: 'Mateusz Nędzi'
 tags: ['module', 'view', 'engine', 'graph']
 links:
@@ -13,11 +13,11 @@ links:
 
 # Graph View
 
-> Purpose: Maintain a dedicated scene subtree that visualizes the simulation road network. GraphView translates immutable snapshot data into node meshes and road lines while preserving the low-poly warm-world style foundations.
+> Purpose: Maintain a dedicated scene subtree that visualizes the simulation road network and attached infrastructure. GraphView translates immutable snapshot data into node meshes, road lines, parking lots, and delivery sites while preserving the low-poly warm-world style foundations.
 
 ## Context & Motivation
 
-- Problem solved: show the underlying logistics graph (nodes + roads) inside the three.js world.
+- Problem solved: show the underlying logistics graph (nodes + roads + buildings) inside the three.js world.
 - Requirements and constraints:
   - Read-only access to snapshots; no mutations back into the store.
   - Efficient diffing between successive frames to minimize allocations.
@@ -30,29 +30,32 @@ links:
 ## Responsibilities & Boundaries
 
 - In-scope:
-  - Maintain `THREE.Group` hierarchy for nodes and roads.
+  - Maintain `THREE.Group` hierarchy for nodes, roads, parking lots, and delivery sites.
   - Create/destroy meshes and lines as the snapshot graph changes.
   - Update transforms for existing objects per frame.
+  - Handle procedural placement of buildings (parking lots and delivery sites) relative to connected roads.
 - Out-of-scope:
   - Higher-level layout decisions (handled by simulation data).
-  - Animated agents, buildings, or HUD overlays.
+  - Animated agents or HUD overlays.
 
 ## Architecture & Design
 
 - Key structures:
-  - `root` group containing `roadGroup` and `nodeGroup` child groups.
-  - Maps from IDs to meshes/lines (`nodeMeshes`, `roadLines`).
+  - `root` group containing `roadGroup`, `intersectionGroup`, and `siteGroup`.
+  - Maps from IDs to meshes/groups (`intersectionMeshes`, `roadMeshes`, `siteMeshes`).
 - Data flow:
-  - `GraphView.update(frame)` selects `frame.snapshotB` (latest), computes `GraphTransform` (center + scale), then synchronizes nodes and roads.
-  - Node positions map to 3D using normalized `x → x`, `y → z`, with a small Y elevation to avoid z-fighting.
+  - `GraphView.update(frame)` selects `frame.snapshotB` (latest), computes `GraphTransform` (center + scale), then synchronizes nodes, roads, and buildings.
+  - Node positions map to 3D using normalized `x → x`, `y → z`, with a small Y elevation.
+  - Buildings (parking lots and delivery sites) are positioned by finding a connected road and calculating an offset to place them adjacent to the road near the intersection.
 - Resource handling:
   - Uses graph primitive factories, ensuring shared material parameters and dimensions.
-  - Buffer attributes reused for road line segments; positions array updated each frame.
+  - Buildings use `THREE.Group` instances created by the object factories.
 
 ## Algorithms & Complexity
 
 - Node sync: O(|nodes|) creation/update plus O(|stale|) removals.
 - Road sync: O(|roads|) creation/update plus O(|stale|) removals.
+- Building sync (parking lots and sites): O(|buildings|) creation/update plus O(|stale|) removals. Requires O(1) adjacency lookup per building.
 - Normalization runs in O(|nodes|) to compute bounding center.
 
 ## Public API / Usage
@@ -61,8 +64,11 @@ links:
 update(frame: SimFrame): void {
   const snapshot = frame.snapshotB;
   const transform = computeGraphTransform(snapshot);
-  this.syncRoads(snapshot, transform);
-  this.syncNodes(snapshot, transform);
+  // ... adjacency build ...
+  // Internally handles intersections, roads, and buildings
+  this.syncNodes(snapshot, transform, adjacency); 
+  this.syncRoads(snapshot, transform, offsets);
+  this.syncSites(snapshot, transform, adjacency);
 }
 ```
 
@@ -74,18 +80,24 @@ update(frame: SimFrame): void {
 - Cylindrical nodes align with style guide; factories disable shadows to keep visuals soft.
 - Roads sit slightly above ground (`GRAPH_ROAD_ELEVATION`) to avoid z-fighting with the ground plane.
 - Roads receive a deterministic Y-offset based on road class priority (e.g., highways `A` sit above local roads `L`) to resolve z-fighting at intersections.
-- Bounding-box centering keeps the graph around the world origin, while a global ×0.1 scale keeps distances manageable for the camera rig.
-- Defensive guards skip roads if referenced nodes are missing, preventing runtime errors during partial updates.
+- Buildings (parking lots and delivery sites) are procedurally placed:
+  - They align with the first connected road found for their node.
+  - They are offset sideways and along the road to avoid overlapping the intersection or the road itself.
+  - They are scaled to match the graph visualization scale.
+  - Delivery sites account for their internal 0.375 scale factor when applying the graph transform scale.
+- Bounding-box centering keeps the graph around the world origin, while a global scale keeps distances manageable for the camera rig.
+- Defensive guards skip roads/buildings if referenced nodes are missing.
 
 ## Tests (If Applicable)
 
-- Manual QA: connect to live simulation feed and verify nodes/roads appear and disappear correctly.
-- Future automated tests could render to an off-screen WebGL context and assert group contents.
+- Manual QA: connect to live simulation feed and verify nodes/roads/buildings appear and disappear correctly.
+- Verify buildings (parking lots and delivery sites) are placed next to roads and not on top of them.
 
 ## Performance
 
 - Buffer attribute reuse keeps GC pressure low.
 - Maps provide O(1) lookup for incremental updates.
+- Adjacency list rebuilt per frame (cheap for typical graph sizes).
 
 ## Security & Reliability
 
@@ -97,6 +109,8 @@ update(frame: SimFrame): void {
 - `src/view/index.ts`
 - `src/engine/objects/node.ts`
 - `src/engine/objects/road.ts`
+- `src/engine/objects/parking.ts`
+- `src/engine/objects/delivery-site.ts`
 - `src/view/graph/graph-transform.ts`
 - `src/sim/store/snapshot.ts`
 - `docs/style-guide.md`

@@ -24,6 +24,7 @@
       - [node](modules/engine/objects/node.md)
       - [parking](modules/engine/objects/parking.md)
       - [road](modules/engine/objects/road.md)
+      - [tree](modules/engine/objects/tree.md)
 
   - config
     - [docker](modules/config/docker.md)

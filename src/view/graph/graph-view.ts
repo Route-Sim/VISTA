@@ -1,6 +1,14 @@
 import * as THREE from 'three';
 
-import type { Node, NodeId, RoadId, SimSnapshot } from '@/sim';
+import type {
+  BuildingId,
+  Node,
+  NodeId,
+  Parking,
+  RoadId,
+  Site,
+  SimSnapshot,
+} from '@/sim';
 import type { SimFrame } from '@/sim/systems/interpolation';
 import { createIntersectionMesh } from '@/engine/objects/node';
 import {
@@ -11,6 +19,13 @@ import {
   getRoadZOffset,
   getRoadWidth,
 } from '@/engine/objects/road';
+import { createDeliverySite } from '@/engine/objects/delivery-site';
+import {
+  createParkingLot,
+  PARKING_SPOT_WIDTH,
+  PARKING_SPOT_DEPTH,
+  PARKING_CORRIDOR_WIDTH,
+} from '@/engine/objects/parking';
 import {
   type GraphTransform,
   computeGraphTransform,
@@ -35,6 +50,15 @@ function disposeMaterial(material: THREE.Material | THREE.Material[]): void {
   }
 }
 
+function disposeObject3D(obj: THREE.Object3D): void {
+  obj.traverse((child) => {
+    if (child instanceof THREE.Mesh) {
+      child.geometry.dispose();
+      disposeMaterial(child.material);
+    }
+  });
+}
+
 interface ConnectedRoad {
   roadId: RoadId;
   angle: number;
@@ -51,8 +75,12 @@ export class GraphView {
   private readonly root = new THREE.Group();
   private readonly intersectionGroup = new THREE.Group();
   private readonly roadGroup = new THREE.Group();
+  private readonly siteGroup = new THREE.Group();
+  private readonly parkingGroup = new THREE.Group();
   private readonly intersectionMeshes = new Map<NodeId, THREE.Mesh>();
   private readonly roadMeshes = new Map<RoadId, THREE.Mesh>();
+  private readonly siteMeshes = new Map<BuildingId, THREE.Group>();
+  private readonly parkingMeshes = new Map<BuildingId, THREE.Group>();
   private readonly nodePosition = new THREE.Vector3();
   private readonly tempStart = new THREE.Vector3();
   private readonly tempEnd = new THREE.Vector3();
@@ -62,9 +90,13 @@ export class GraphView {
     this.root.name = 'GraphView.Root';
     this.intersectionGroup.name = 'GraphView.Intersections';
     this.roadGroup.name = 'GraphView.Roads';
+    this.siteGroup.name = 'GraphView.Sites';
+    this.parkingGroup.name = 'GraphView.Parkings';
 
     this.root.add(this.roadGroup);
     this.root.add(this.intersectionGroup);
+    this.root.add(this.siteGroup);
+    this.root.add(this.parkingGroup);
     this.scene.add(this.root);
   }
 
@@ -211,6 +243,227 @@ export class GraphView {
 
     // 3. Sync Roads
     this.syncRoads(snapshot, transform, roadOffsets);
+
+    // 4. Sync Buildings (parking lots and sites)
+    this.syncBuildings(snapshot, transform, adjacency);
+  }
+
+  private syncBuildings(
+    snapshot: SimSnapshot,
+    transform: GraphTransform,
+    adjacency: Map<NodeId, ConnectedRoad[]>,
+  ): void {
+    const seenSites = new Set<BuildingId>();
+    const seenParkings = new Set<BuildingId>();
+
+    // Group buildings by node to handle conflicts
+    const buildingsByNode = new Map<
+      NodeId,
+      Array<{ building: Parking | Site; index: number }>
+    >();
+
+    for (const building of Object.values(snapshot.buildings)) {
+      if (building.kind !== 'site' && building.kind !== 'parking') continue;
+
+      if (!buildingsByNode.has(building.nodeId)) {
+        buildingsByNode.set(building.nodeId, []);
+      }
+      buildingsByNode.get(building.nodeId)!.push({
+        building,
+        index: buildingsByNode.get(building.nodeId)!.length,
+      });
+    }
+
+    // Process each building, assigning different roads when multiple buildings share a node
+    for (const [nodeId, buildings] of buildingsByNode) {
+      const connections = adjacency.get(nodeId);
+      if (!connections || connections.length === 0) continue;
+
+      for (const { building, index } of buildings) {
+        // Select a different road for each building on the same node
+        const connIndex = index % connections.length;
+        const conn = connections[connIndex];
+
+        // Determine the sector angle on the right side of this connection
+        // We place buildings on the right side of the road (relative to direction from node)
+        // The "previous" connection in the sorted list bounds this sector
+        const prevConnIndex =
+          (connIndex - 1 + connections.length) % connections.length;
+        const prevConn = connections[prevConnIndex];
+
+        // Angle from prevConn to conn (CCW)
+        let sectorAngle = conn.angle - prevConn.angle;
+        if (sectorAngle <= 0) sectorAngle += Math.PI * 2;
+
+        // Calculate minimum distance from node center to avoid collision with the previous road
+        // We model the corner as a wedge.
+        // We need to fit the building at 'distSide' from our road's centerline.
+        // Simple heuristic:
+        // If sectorAngle < 180, the roads form a corner.
+        // The available width at distance 'd' is roughly d * sin(sectorAngle).
+        // We want to ensure we are far enough to clear the other road's half-width + margin.
+
+        // A safer check: ensure we don't cross the bisector, or just push out if sharp.
+        // Let's use a simple "push" factor for sharp corners (< 90 deg)
+        let cornerPush = 0;
+        if (sectorAngle < Math.PI / 2) {
+          // The sharper the angle, the further we push out.
+          // factor goes from 0 (at 90) to high (at 0).
+          // cot(angle) might work, or just 1/sin.
+          const factor = 1.0 / Math.sin(sectorAngle / 2);
+          cornerPush = factor * (conn.width + 2 * transform.scale);
+        }
+
+        if (building.kind === 'site') {
+          seenSites.add(building.id);
+          this.syncSite(
+            building,
+            snapshot,
+            transform,
+            nodeId,
+            conn,
+            cornerPush,
+          );
+        } else if (building.kind === 'parking') {
+          seenParkings.add(building.id);
+          this.syncParking(
+            building,
+            snapshot,
+            transform,
+            nodeId,
+            conn,
+            cornerPush,
+          );
+        }
+      }
+    }
+
+    // Cleanup unseen buildings
+    for (const [id, mesh] of this.siteMeshes) {
+      if (!seenSites.has(id)) {
+        this.siteGroup.remove(mesh);
+        disposeObject3D(mesh);
+        this.siteMeshes.delete(id);
+      }
+    }
+
+    for (const [id, mesh] of this.parkingMeshes) {
+      if (!seenParkings.has(id)) {
+        this.parkingGroup.remove(mesh);
+        disposeObject3D(mesh);
+        this.parkingMeshes.delete(id);
+      }
+    }
+  }
+
+  private syncSite(
+    building: Site,
+    snapshot: SimSnapshot,
+    transform: GraphTransform,
+    nodeId: NodeId,
+    conn: ConnectedRoad,
+    cornerPush: number,
+  ): void {
+    let mesh = this.siteMeshes.get(building.id);
+    if (!mesh) {
+      mesh = createDeliverySite();
+      mesh.userData = { buildingId: building.id };
+      // Scale the site group to match graph scale, but make it 3x smaller
+      // Note: createDeliverySite already applies 0.375 scale
+      // So: (transform.scale / 0.375) / 3 = transform.scale / 1.125
+      mesh.scale.multiplyScalar(transform.scale / 1.125);
+      this.siteMeshes.set(building.id, mesh);
+      this.siteGroup.add(mesh);
+    }
+
+    const node = snapshot.nodes[nodeId];
+    if (!node) return;
+
+    toVector3(node, transform, this.nodePosition);
+
+    const dirX = Math.cos(conn.angle);
+    const dirZ = Math.sin(conn.angle);
+
+    // Right vector (rotated -90 deg in XZ plane)
+    const perpX = dirZ;
+    const perpZ = -dirX;
+
+    // Site dimensions after createDeliverySite's 0.375 scale, then divided by 3
+    // apronWidth = 60 * 0.375 / 3 = 7.5, apronDepth = 45 * 0.375 / 3 = 5.625
+    const siteWidth = 7.5 * (transform.scale / 0.375);
+    const siteDepth = 5.625 * (transform.scale / 0.375);
+
+    // Offsets
+    // Move along road enough to clear intersection + half site width + corner push
+    const distAlong =
+      conn.width + 2 * transform.scale + siteWidth / 2 + cornerPush;
+
+    // Move sideways to clear road half-width + half site depth
+    const roadHalfWidth = conn.width / 2;
+    const distSide = roadHalfWidth + 1 * transform.scale + siteDepth / 2;
+
+    mesh.position.x = this.nodePosition.x + dirX * distAlong + perpX * distSide;
+    mesh.position.z = this.nodePosition.z + dirZ * distAlong + perpZ * distSide;
+    // Use graph road elevation so it sits on same plane
+    mesh.position.y = GRAPH_ROAD_ELEVATION;
+
+    // Align rotation with road (negative angle because of coordinate system)
+    mesh.rotation.y = -conn.angle;
+  }
+
+  private syncParking(
+    building: Parking,
+    snapshot: SimSnapshot,
+    transform: GraphTransform,
+    nodeId: NodeId,
+    conn: ConnectedRoad,
+    cornerPush: number,
+  ): void {
+    let mesh = this.parkingMeshes.get(building.id);
+    if (!mesh) {
+      mesh = createParkingLot({ spots: building.capacity });
+      mesh.userData = { buildingId: building.id };
+      // Scale the parking lot group to match graph scale
+      mesh.scale.setScalar(transform.scale);
+      this.parkingMeshes.set(building.id, mesh);
+      this.parkingGroup.add(mesh);
+    }
+
+    const node = snapshot.nodes[nodeId];
+    if (!node) return;
+
+    toVector3(node, transform, this.nodePosition);
+
+    const dirX = Math.cos(conn.angle);
+    const dirZ = Math.sin(conn.angle);
+
+    // Right vector (rotated -90 deg in XZ plane)
+    const perpX = dirZ;
+    const perpZ = -dirX;
+
+    const spotsPerRow = Math.ceil(building.capacity / 2);
+    const pWidth = spotsPerRow * PARKING_SPOT_WIDTH;
+    const pDepth = PARKING_SPOT_DEPTH * 2 + PARKING_CORRIDOR_WIDTH;
+
+    const sWidth = pWidth * transform.scale;
+    const sDepth = pDepth * transform.scale;
+
+    // Offsets
+    // Move along road enough to clear intersection + half parking width + corner push
+    const distAlong =
+      conn.width + 2 * transform.scale + sWidth / 2 + cornerPush;
+
+    // Move sideways to clear road half-width + half parking depth
+    const roadHalfWidth = conn.width / 2;
+    const distSide = roadHalfWidth + 1 * transform.scale + sDepth / 2;
+
+    mesh.position.x = this.nodePosition.x + dirX * distAlong + perpX * distSide;
+    mesh.position.z = this.nodePosition.z + dirZ * distAlong + perpZ * distSide;
+    // Use graph road elevation so it sits on same plane
+    mesh.position.y = GRAPH_ROAD_ELEVATION;
+
+    // Align rotation with road (negative angle because of coordinate system)
+    mesh.rotation.y = -conn.angle;
   }
 
   private syncRoads(
@@ -300,5 +553,17 @@ export class GraphView {
       disposeMaterial(mesh.material);
     }
     this.roadMeshes.clear();
+
+    for (const mesh of this.siteMeshes.values()) {
+      this.siteGroup.remove(mesh);
+      disposeObject3D(mesh);
+    }
+    this.siteMeshes.clear();
+
+    for (const mesh of this.parkingMeshes.values()) {
+      this.parkingGroup.remove(mesh);
+      disposeObject3D(mesh);
+    }
+    this.parkingMeshes.clear();
   }
 }

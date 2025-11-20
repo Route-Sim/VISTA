@@ -37,6 +37,10 @@ export const Colors = {
   crateWood: 0xd4ac6e as ColorHex, // wood
   crateBlue: 0x3498db as ColorHex,
   crateRed: 0xe74c3c as ColorHex,
+
+  // Nature
+  treeTrunk: 0x8b5a2b as ColorHex, // warm wood brown
+  treeFoliage: 0x6b8c42 as ColorHex, // olive green
 } as const;
 
 export type AppColorKey = keyof typeof Colors;

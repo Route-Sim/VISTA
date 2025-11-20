@@ -63,10 +63,34 @@ export type ActionParams = {
 
 // Shared types for signals
 const RoadClass = z.enum(['A', 'S', 'GP', 'G', 'Z', 'L', 'D']);
+
+const ParkingData = z
+  .object({
+    id: z.string(),
+    type: z.literal('parking'),
+    capacity: z.number().int().min(0),
+    current_agents: z.array(z.string()).default([]),
+  })
+  .catchall(z.unknown());
+
+const SiteData = z
+  .object({
+    id: z.string(),
+    // Sites in map.created don't have a type discriminator
+    name: z.string().optional(),
+    activity_rate: z.number().min(0).optional(),
+    active_packages: z.array(z.string()).default([]),
+    // Capture other complex fields as unknown for now to match strict() or just catchall
+  })
+  .catchall(z.unknown());
+
+const BuildingData = z.union([ParkingData, SiteData]);
+
 const GraphNode = z.object({
   id: z.string(),
   x: z.number(),
   y: z.number(),
+  buildings: z.array(BuildingData).default([]),
 });
 const GraphEdge = z.object({
   id: z.string(),

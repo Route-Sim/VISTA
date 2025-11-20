@@ -13,6 +13,7 @@ const mapCreated = (
   draft.nodes = evt.nodes;
   draft.edges = evt.edges;
   draft.roads = evt.roads;
+  draft.buildings = evt.buildings;
 };
 
 const agentCreated = (

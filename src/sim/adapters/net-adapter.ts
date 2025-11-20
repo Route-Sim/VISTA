@@ -7,6 +7,7 @@ import type {
   NodeMap,
   EdgeMap,
   RoadMap,
+  BuildingMap,
   Truck,
   Parking,
   Site,
@@ -17,6 +18,7 @@ import {
   asRoadId,
   asTruckId,
   asBuildingId,
+  asPackageId,
   asAgentId,
 } from '../domain/ids';
 
@@ -55,14 +57,54 @@ export function mapNetEvent(payload: unknown): SimEvent | undefined {
 
   if (mapData) {
     const nodes: NodeMap = {};
+    const buildings: BuildingMap = {};
+
     for (const n of mapData.graph.nodes) {
-      nodes[asNodeId(n.id)] = {
-        id: asNodeId(n.id),
+      const nodeId = asNodeId(n.id);
+      const nodeBuildingIds: any[] = []; // temporary to collect IDs
+
+      if (n.buildings) {
+        for (const b of n.buildings) {
+          const bId = asBuildingId(b.id);
+          nodeBuildingIds.push(bId);
+
+          // Parking has type='parking'; Site has no type (or 'site' implicit)
+          // schema.ts defines ParkingData with type: 'parking'
+          if ((b as any).type === 'parking') {
+            const p = b as any;
+            const parking: Parking = {
+              id: bId,
+              nodeId,
+              kind: 'parking',
+              capacity: p.capacity || 0,
+              truckIds: [],
+            };
+            buildings[bId] = parking;
+          } else {
+            // Site
+            const s = b as any;
+            const site: Site = {
+              id: bId,
+              nodeId,
+              kind: 'site',
+              packageIds: (s.active_packages || []).map((pid: string) =>
+                asPackageId(pid),
+              ),
+              truckIds: [],
+            };
+            buildings[bId] = site;
+          }
+        }
+      }
+
+      nodes[nodeId] = {
+        id: nodeId,
         x: n.x,
         y: n.y,
-        buildingIds: [],
+        buildingIds: nodeBuildingIds,
       };
     }
+
     const edges: EdgeMap = {};
     const roads: RoadMap = {};
     for (const e of mapData.graph.edges) {
@@ -93,6 +135,7 @@ export function mapNetEvent(payload: unknown): SimEvent | undefined {
       nodes,
       edges,
       roads,
+      buildings,
     };
   }
 
@@ -145,7 +188,7 @@ export function mapNetEvent(payload: unknown): SimEvent | undefined {
     // Generic Agent fallback
     return {
       type: 'agent.created',
-      agent: { id: asAgentId(data.id) },
+      agent: { id: asAgentId((data as any).id) },
     };
   }
 

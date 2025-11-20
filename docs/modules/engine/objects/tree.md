@@ -1,16 +1,16 @@
 ---
-title: "Tree Object"
-summary: "Procedural low-poly tree generator with randomized foliage and height."
+title: 'Tree Object'
+summary: 'Procedural low-poly tree generator with randomized foliage and height.'
 source_paths:
-  - "src/engine/objects/tree.ts"
-last_updated: "2025-11-20"
-owner: "Mateusz Nędzi"
-tags: ["engine", "objects", "procedural", "three.js"]
+  - 'src/engine/objects/tree.ts'
+last_updated: '2025-11-20'
+owner: 'Mateusz Nędzi'
+tags: ['engine', 'objects', 'procedural', 'three.js']
 links:
-  parent: "../../scene-manager.md"
+  parent: '../../scene-manager.md'
   siblings:
-    - "ground.md"
-    - "truck.md"
+    - 'ground.md'
+    - 'truck.md'
 ---
 
 # Tree Object
@@ -61,4 +61,3 @@ scene.add(tree);
 
 - [Style Guide](../../../../style-guide.md)
 - [Colors](../../app/colors.md)
-

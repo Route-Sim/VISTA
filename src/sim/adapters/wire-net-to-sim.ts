@@ -33,12 +33,16 @@ export function wireNetToSim(
     }),
   );
 
-  off.push(
-    net.on('map.created', (data) => {
-      const evt = mapNetEvent({ signal: 'map.created', data });
-      if (evt) store.ingest(evt);
-    }),
-  );
+  const forward = (signal: string, data: unknown) => {
+    const evt = mapNetEvent({ signal, data });
+    if (evt) store.ingest(evt);
+  };
+
+  off.push(net.on('map.created', (data) => forward('map.created', data)));
+
+  off.push(net.on('agent.created', (data) => forward('agent.created', data)));
+  off.push(net.on('agent.updated', (data) => forward('agent.updated', data)));
+  off.push(net.on('agent.deleted', (data) => forward('agent.deleted', data)));
 
   return () => {
     for (const fn of off) fn();

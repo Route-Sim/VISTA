@@ -1,11 +1,5 @@
-import type { AgentId, BuildingId } from './domain/ids';
-import type {
-  Agent,
-  Building,
-  Depot,
-  GasStation,
-  Site,
-} from './domain/entities';
+import type { AgentId } from './domain/ids';
+import type { Agent } from './domain/entities';
 import type { EdgeMap, NodeMap, RoadMap } from './domain/entities';
 
 // Event envelope used by SimStore. The server guarantees ordering within the
@@ -19,16 +13,8 @@ export type SimEvent =
       edges: EdgeMap;
       roads: RoadMap;
     }
-  | { type: 'agent.updated'; id: AgentId; patch: Partial<Agent> }
-  | {
-      type: 'building.updated';
-      id: BuildingId;
-      patch: Partial<Building | Depot | GasStation>;
-    }
-  | {
-      type: 'site.updated';
-      id: BuildingId /* SiteId alias */;
-      patch: Partial<Site>;
-    };
+  | { type: 'agent.created'; agent: Agent }
+  | { type: 'agent.updated'; id: AgentId; patch: Record<string, unknown> }
+  | { type: 'agent.deleted'; id: AgentId };
 
 export type SimEventType = SimEvent['type'];

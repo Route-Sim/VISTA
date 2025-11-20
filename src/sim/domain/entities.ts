@@ -44,22 +44,12 @@ export interface Road extends Edge {
 export interface BuildingBase {
   id: BuildingId;
   nodeId: NodeId;
-  kind: BuildingKind; // "building" | "depot" | "gas-station" | "site"
+  kind: BuildingKind; // "parking" | "site"
   truckIds: TruckId[];
 }
 
-export interface Building extends BuildingBase {
-  kind: 'building';
-}
-
-export interface Depot extends BuildingBase {
-  kind: 'depot';
-  capacity: number;
-  packageIds: PackageId[];
-}
-
-export interface GasStation extends BuildingBase {
-  kind: 'gas-station';
+export interface Parking extends BuildingBase {
+  kind: 'parking';
   capacity: number;
 }
 
@@ -95,10 +85,7 @@ export interface Agent {
 export type NodeMap = Record<NodeId, Node>;
 export type EdgeMap = Record<EdgeId, Edge>;
 export type RoadMap = Record<RoadId, Road>;
-export type BuildingMap = Record<
-  BuildingId,
-  Building | Depot | GasStation | Site
->;
+export type BuildingMap = Record<BuildingId, Parking | Site>;
 export type TruckMap = Record<TruckId, Truck>;
 export type PackageMap = Record<PackageId, Package>;
 export type AgentMap = Record<AgentId, Agent>;

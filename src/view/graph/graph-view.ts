@@ -19,7 +19,7 @@ import {
   getRoadZOffset,
   getRoadWidth,
 } from '@/engine/objects/road';
-import { createDeliverySite } from '@/engine/objects/delivery-site';
+import { createSite } from '@/engine/objects/site';
 import {
   createParkingLot,
   PARKING_SPOT_WIDTH,
@@ -256,11 +256,8 @@ export class GraphView {
     const seenSites = new Set<BuildingId>();
     const seenParkings = new Set<BuildingId>();
 
-    // Group buildings by node to handle conflicts
-    const buildingsByNode = new Map<
-      NodeId,
-      Array<{ building: Parking | Site; index: number }>
-    >();
+    // Group buildings by node
+    const buildingsByNode = new Map<NodeId, Array<Parking | Site>>();
 
     for (const building of Object.values(snapshot.buildings)) {
       if (building.kind !== 'site' && building.kind !== 'parking') continue;
@@ -268,50 +265,75 @@ export class GraphView {
       if (!buildingsByNode.has(building.nodeId)) {
         buildingsByNode.set(building.nodeId, []);
       }
-      buildingsByNode.get(building.nodeId)!.push({
-        building,
-        index: buildingsByNode.get(building.nodeId)!.length,
-      });
+      buildingsByNode.get(building.nodeId)!.push(building);
     }
 
-    // Process each building, assigning different roads when multiple buildings share a node
+    // Process each building group
     for (const [nodeId, buildings] of buildingsByNode) {
       const connections = adjacency.get(nodeId);
       if (!connections || connections.length === 0) continue;
 
-      for (const { building, index } of buildings) {
-        // Select a different road for each building on the same node
-        const connIndex = index % connections.length;
-        const conn = connections[connIndex];
+      // Create slots for this node
+      // A slot is a position next to a road (left or right) within a sector
+      const slots: Array<{
+        conn: ConnectedRoad;
+        side: 'left' | 'right';
+        sectorAngle: number;
+        neighborWidth: number;
+      }> = [];
 
-        // Determine the sector angle on the right side of this connection
-        // We place buildings on the right side of the road (relative to direction from node)
-        // The "previous" connection in the sorted list bounds this sector
-        const prevConnIndex =
-          (connIndex - 1 + connections.length) % connections.length;
-        const prevConn = connections[prevConnIndex];
+      const count = connections.length;
+      for (let i = 0; i < count; i++) {
+        const curr = connections[i];
+        const next = connections[(i + 1) % count];
 
-        // Angle from prevConn to conn (CCW)
-        let sectorAngle = conn.angle - prevConn.angle;
-        if (sectorAngle <= 0) sectorAngle += Math.PI * 2;
+        // Sector angle (CCW from curr to next)
+        let angle = next.angle - curr.angle;
+        if (angle <= 0) angle += Math.PI * 2;
 
-        // Calculate minimum distance from node center to avoid collision with the previous road
-        // We model the corner as a wedge.
-        // We need to fit the building at 'distSide' from our road's centerline.
-        // Simple heuristic:
-        // If sectorAngle < 180, the roads form a corner.
-        // The available width at distance 'd' is roughly d * sin(sectorAngle).
-        // We want to ensure we are far enough to clear the other road's half-width + margin.
+        // Slot 1: Left of Current Road (start of sector)
+        slots.push({
+          conn: curr,
+          side: 'left',
+          sectorAngle: angle,
+          neighborWidth: next.width,
+        });
 
-        // A safer check: ensure we don't cross the bisector, or just push out if sharp.
-        // Let's use a simple "push" factor for sharp corners (< 90 deg)
+        // Slot 2: Right of Next Road (end of sector)
+        slots.push({
+          conn: next,
+          side: 'right',
+          sectorAngle: angle,
+          neighborWidth: curr.width,
+        });
+      }
+
+      // Sort slots: prioritize large sectors, then right side
+      slots.sort((a, b) => {
+        if (Math.abs(b.sectorAngle - a.sectorAngle) > 0.01) {
+          return b.sectorAngle - a.sectorAngle;
+        }
+        return a.side === 'right' ? -1 : 1;
+      });
+
+      // Sort buildings: Sites first (larger)
+      buildings.sort((a, b) => {
+        const scoreA = a.kind === 'site' ? 2 : 1;
+        const scoreB = b.kind === 'site' ? 2 : 1;
+        return scoreB - scoreA;
+      });
+
+      // Assign buildings to slots
+      for (let i = 0; i < buildings.length; i++) {
+        const building = buildings[i];
+        const slot = slots[i % slots.length];
+
+        // Calculate corner push
+        // If sector is sharp (< 90 deg), push out
         let cornerPush = 0;
-        if (sectorAngle < Math.PI / 2) {
-          // The sharper the angle, the further we push out.
-          // factor goes from 0 (at 90) to high (at 0).
-          // cot(angle) might work, or just 1/sin.
-          const factor = 1.0 / Math.sin(sectorAngle / 2);
-          cornerPush = factor * (conn.width + 2 * transform.scale);
+        if (slot.sectorAngle < Math.PI / 2) {
+          const factor = 1.0 / Math.sin(slot.sectorAngle / 2);
+          cornerPush = factor * (slot.neighborWidth + 2 * transform.scale);
         }
 
         if (building.kind === 'site') {
@@ -321,8 +343,9 @@ export class GraphView {
             snapshot,
             transform,
             nodeId,
-            conn,
+            slot.conn,
             cornerPush,
+            slot.side,
           );
         } else if (building.kind === 'parking') {
           seenParkings.add(building.id);
@@ -331,8 +354,9 @@ export class GraphView {
             snapshot,
             transform,
             nodeId,
-            conn,
+            slot.conn,
             cornerPush,
+            slot.side,
           );
         }
       }
@@ -363,10 +387,11 @@ export class GraphView {
     nodeId: NodeId,
     conn: ConnectedRoad,
     cornerPush: number,
+    side: 'left' | 'right',
   ): void {
     let mesh = this.siteMeshes.get(building.id);
     if (!mesh) {
-      mesh = createDeliverySite();
+      mesh = createSite();
       mesh.userData = { buildingId: building.id };
       // Scale the site group to match graph scale, but make it 3x smaller
       // Note: createDeliverySite already applies 0.375 scale
@@ -385,8 +410,15 @@ export class GraphView {
     const dirZ = Math.sin(conn.angle);
 
     // Right vector (rotated -90 deg in XZ plane)
-    const perpX = dirZ;
-    const perpZ = -dirX;
+    // or Left (rotated +90 deg)
+    let perpX, perpZ;
+    if (side === 'right') {
+      perpX = dirZ;
+      perpZ = -dirX;
+    } else {
+      perpX = -dirZ;
+      perpZ = dirX;
+    }
 
     // Site dimensions after createDeliverySite's 0.375 scale, then divided by 3
     // apronWidth = 60 * 0.375 / 3 = 7.5, apronDepth = 45 * 0.375 / 3 = 5.625
@@ -407,8 +439,10 @@ export class GraphView {
     // Use graph road elevation so it sits on same plane
     mesh.position.y = GRAPH_ROAD_ELEVATION;
 
-    // Align rotation with road (negative angle because of coordinate system)
-    mesh.rotation.y = -conn.angle;
+    // Align rotation with road
+    // If right: -conn.angle
+    // If left: -conn.angle + PI
+    mesh.rotation.y = -conn.angle + (side === 'left' ? Math.PI : 0);
   }
 
   private syncParking(
@@ -418,6 +452,7 @@ export class GraphView {
     nodeId: NodeId,
     conn: ConnectedRoad,
     cornerPush: number,
+    side: 'left' | 'right',
   ): void {
     let mesh = this.parkingMeshes.get(building.id);
     if (!mesh) {
@@ -438,8 +473,15 @@ export class GraphView {
     const dirZ = Math.sin(conn.angle);
 
     // Right vector (rotated -90 deg in XZ plane)
-    const perpX = dirZ;
-    const perpZ = -dirX;
+    // or Left (rotated +90 deg)
+    let perpX, perpZ;
+    if (side === 'right') {
+      perpX = dirZ;
+      perpZ = -dirX;
+    } else {
+      perpX = -dirZ;
+      perpZ = dirX;
+    }
 
     const spotsPerRow = Math.ceil(building.capacity / 2);
     const pWidth = spotsPerRow * PARKING_SPOT_WIDTH;
@@ -462,8 +504,10 @@ export class GraphView {
     // Use graph road elevation so it sits on same plane
     mesh.position.y = GRAPH_ROAD_ELEVATION;
 
-    // Align rotation with road (negative angle because of coordinate system)
-    mesh.rotation.y = -conn.angle;
+    // Align rotation with road
+    // If right: -conn.angle
+    // If left: -conn.angle + PI
+    mesh.rotation.y = -conn.angle + (side === 'left' ? Math.PI : 0);
   }
 
   private syncRoads(

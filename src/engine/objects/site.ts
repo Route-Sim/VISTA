@@ -1,9 +1,9 @@
 import * as THREE from 'three';
 import { Colors } from '@/app/colors';
 
-export function createDeliverySite(): THREE.Group {
+export function createSite(): THREE.Group {
   const site = new THREE.Group();
-  site.name = 'DeliverySite';
+  site.name = 'Site';
 
   // --- Dimensions ---
   const apronWidth = 60;

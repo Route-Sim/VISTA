@@ -9,6 +9,7 @@ import type {
   SimSnapshot,
 } from '@/sim';
 import type { SimFrame } from '@/sim/systems/interpolation';
+import { createTree } from '@/engine/objects/tree';
 import { createIntersectionMesh } from '@/engine/objects/node';
 import {
   GRAPH_ROAD_ELEVATION,
@@ -66,10 +67,14 @@ export class GraphView {
   private readonly roadGroup = new THREE.Group();
   private readonly siteGroup = new THREE.Group();
   private readonly parkingGroup = new THREE.Group();
+  private readonly treeGroup = new THREE.Group();
   private readonly intersectionMeshes = new Map<NodeId, THREE.Mesh>();
   private readonly roadMeshes = new Map<RoadId, THREE.Mesh>();
   private readonly siteMeshes = new Map<BuildingId, THREE.Group>();
   private readonly parkingMeshes = new Map<BuildingId, THREE.Group>();
+  // Store tree Sim-Coordinates to keep them stable when transform changes
+  private readonly trees: Array<{ mesh: THREE.Group; x: number; y: number }> =
+    [];
   private readonly nodePosition = new THREE.Vector3();
   private readonly tempStart = new THREE.Vector3();
   private readonly tempEnd = new THREE.Vector3();
@@ -81,11 +86,13 @@ export class GraphView {
     this.roadGroup.name = 'GraphView.Roads';
     this.siteGroup.name = 'GraphView.Sites';
     this.parkingGroup.name = 'GraphView.Parkings';
+    this.treeGroup.name = 'GraphView.Trees';
 
     this.root.add(this.roadGroup);
     this.root.add(this.intersectionGroup);
     this.root.add(this.siteGroup);
     this.root.add(this.parkingGroup);
+    this.root.add(this.treeGroup);
     this.scene.add(this.root);
   }
 
@@ -235,6 +242,174 @@ export class GraphView {
 
     // 4. Sync Buildings (parking lots and sites)
     this.syncBuildings(snapshot, transform, adjacency);
+
+    // 5. Sync Trees (once populated, just update positions)
+    if (this.trees.length === 0 && Object.keys(snapshot.nodes).length > 0) {
+      this.generateTrees(snapshot, transform);
+    }
+    this.syncTrees(transform);
+  }
+
+  private generateTrees(
+    snapshot: SimSnapshot,
+    transform: GraphTransform,
+  ): void {
+    // Determine bounds from nodes
+    const nodes = Object.values(snapshot.nodes);
+    if (nodes.length === 0) return;
+
+    let minX = Infinity,
+      maxX = -Infinity,
+      minY = Infinity,
+      maxY = -Infinity;
+    for (const n of nodes) {
+      minX = Math.min(minX, n.x);
+      maxX = Math.max(maxX, n.x);
+      minY = Math.min(minY, n.y);
+      maxY = Math.max(maxY, n.y);
+    }
+
+    // Add padding to bounds
+    const PAD = 30;
+    minX -= PAD;
+    maxX += PAD;
+    minY -= PAD;
+    maxY += PAD;
+
+    const width = maxX - minX;
+    const height = maxY - minY;
+    const area = width * height;
+
+    // Pre-calc building boxes in Graph Space to prevent overlap
+    const obstacles: THREE.Box2[] = [];
+
+    // Helper to add obstacles from meshes
+    const addObstacle = (mesh: THREE.Object3D) => {
+      // Box3 from mesh (in Graph Space)
+      const box = new THREE.Box3().setFromObject(mesh);
+      // Expand by tree radius (approx 1.5 scaled units)
+      const margin = 1.5 * transform.scale;
+      obstacles.push(
+        new THREE.Box2(
+          new THREE.Vector2(box.min.x - margin, box.min.z - margin),
+          new THREE.Vector2(box.max.x + margin, box.max.z + margin),
+        ),
+      );
+    };
+
+    this.siteMeshes.forEach(addObstacle);
+    this.parkingMeshes.forEach(addObstacle);
+
+    // Tree density: e.g. 1 tree per 300 sqm (tunable)
+    const density = 100;
+    const targetCount = Math.floor(area / density);
+    const MAX_TREES = 1000; // Cap to avoid perf issues
+    const count = Math.min(targetCount, MAX_TREES);
+
+    const newTrees: Array<{ x: number; y: number }> = [];
+
+    // Try to place trees
+    // Attempt 2x count trials
+    for (let i = 0; i < count * 4; i++) {
+      if (newTrees.length >= count) break;
+
+      const tx = minX + Math.random() * width;
+      const ty = minY + Math.random() * height;
+
+      if (
+        this.isTreePosValid(tx, ty, snapshot, newTrees, transform, obstacles)
+      ) {
+        newTrees.push({ x: tx, y: ty });
+
+        const mesh = createTree();
+        // Initial sync handled in syncTrees loop
+        this.treeGroup.add(mesh);
+        this.trees.push({ mesh, x: tx, y: ty });
+      }
+    }
+  }
+
+  private isTreePosValid(
+    x: number,
+    y: number,
+    snapshot: SimSnapshot,
+    existingTrees: Array<{ x: number; y: number }>,
+    transform: GraphTransform,
+    obstacles: THREE.Box2[],
+  ): boolean {
+    // 1. Check vs Existing Trees (spacing)
+    const TREE_SPACING_SQ = 4 * 4; // 4m min spacing
+    for (const t of existingTrees) {
+      const d2 = (t.x - x) ** 2 + (t.y - y) ** 2;
+      if (d2 < TREE_SPACING_SQ) return false;
+    }
+
+    // 2. Check vs Buildings (Precise Mesh Overlap Check)
+    // Convert candidate (Sim Space) -> Graph Space
+    const gx = (x - transform.centerX) * transform.scale;
+    const gz = (y - transform.centerY) * transform.scale; // sim y -> graph z
+    const p = new THREE.Vector2(gx, gz);
+
+    for (const ob of obstacles) {
+      if (ob.containsPoint(p)) return false;
+    }
+
+    // 3. Check vs Roads
+    // Road width varies, but max is roughly 4 lanes * 4m = 16m.
+    // Half width = 8m. Margin 4m. Total 12m.
+    const ROAD_CLEARANCE = 12;
+    const ROAD_CLEARANCE_SQ = ROAD_CLEARANCE * ROAD_CLEARANCE;
+
+    for (const road of Object.values(snapshot.roads)) {
+      const start = snapshot.nodes[road.startNodeId];
+      const end = snapshot.nodes[road.endNodeId];
+      if (!start || !end) continue;
+
+      const d2 = this.distToSegmentSquared(
+        x,
+        y,
+        start.x,
+        start.y,
+        end.x,
+        end.y,
+      );
+      if (d2 < ROAD_CLEARANCE_SQ) return false;
+    }
+
+    // 4. Check vs Intersections (Nodes)
+    // Just in case building check missed the intersection itself
+    const NODE_CLEARANCE_SQ = 15 * 15;
+    for (const node of Object.values(snapshot.nodes)) {
+      const d2 = (node.x - x) ** 2 + (node.y - y) ** 2;
+      if (d2 < NODE_CLEARANCE_SQ) return false;
+    }
+
+    return true;
+  }
+
+  private distToSegmentSquared(
+    px: number,
+    py: number,
+    x1: number,
+    y1: number,
+    x2: number,
+    y2: number,
+  ): number {
+    const l2 = (x2 - x1) ** 2 + (y2 - y1) ** 2;
+    if (l2 === 0) return (px - x1) ** 2 + (py - y1) ** 2;
+    let t = ((px - x1) * (x2 - x1) + (py - y1) * (y2 - y1)) / l2;
+    t = Math.max(0, Math.min(1, t));
+    return (px - (x1 + t * (x2 - x1))) ** 2 + (py - (y1 + t * (y2 - y1))) ** 2;
+  }
+
+  private syncTrees(transform: GraphTransform): void {
+    for (const tree of this.trees) {
+      const normalizedX = (tree.x - transform.centerX) * transform.scale;
+      const normalizedZ = (tree.y - transform.centerY) * transform.scale;
+
+      tree.mesh.position.set(normalizedX, 0, normalizedZ);
+      tree.mesh.scale.setScalar(transform.scale);
+    }
   }
 
   private syncBuildings(

@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 
+import type { SimSnapshot } from '@/sim';
 import type { SimFrame } from '@/sim/systems/interpolation';
 import type { TruckId } from '@/sim/domain/ids';
 import type { Truck } from '@/sim/domain/entities';
@@ -33,7 +34,8 @@ export class AgentsView {
   // Reusable vectors to avoid allocation
   private readonly tempStart = new THREE.Vector3();
   private readonly tempEnd = new THREE.Vector3();
-  private readonly tempPos = new THREE.Vector3();
+  private readonly tempPosA = new THREE.Vector3();
+  private readonly tempPosB = new THREE.Vector3();
 
   constructor(scene: THREE.Scene) {
     this.scene = scene;
@@ -45,24 +47,35 @@ export class AgentsView {
   }
 
   update(frame: SimFrame, transform: GraphTransform): void {
-    const snapshot = frame.snapshotB;
+    const { snapshotA, snapshotB, alpha } = frame;
     const seenTrucks = new Set<TruckId>();
 
     // Update Trucks
-    for (const truck of Object.values(snapshot.trucks)) {
-      seenTrucks.add(truck.id);
-      let mesh = this.truckMeshes.get(truck.id);
+    for (const truckB of Object.values(snapshotB.trucks)) {
+      if (!truckB.currentEdgeId) continue;
+
+      seenTrucks.add(truckB.id);
+      let mesh = this.truckMeshes.get(truckB.id);
 
       if (!mesh) {
         mesh = createTruckMesh();
-        mesh.name = `Truck.${truck.id}`;
+        mesh.name = `Truck.${truckB.id}`;
         // Scale truck to match graph scale
         mesh.scale.setScalar(transform.scale);
-        this.truckMeshes.set(truck.id, mesh);
+        this.truckMeshes.set(truckB.id, mesh);
         this.truckGroup.add(mesh);
       }
 
-      this.updateTruckPosition(truck, mesh, frame, transform);
+      const truckA = snapshotA.trucks[truckB.id];
+      this.updateTruckPosition(
+        truckB,
+        truckA,
+        alpha,
+        mesh,
+        snapshotB,
+        snapshotA,
+        transform,
+      );
     }
 
     // Cleanup invisible trucks
@@ -75,20 +88,14 @@ export class AgentsView {
     }
   }
 
-  private updateTruckPosition(
+  private computePosition(
     truck: Truck,
-    mesh: THREE.Group,
-    frame: SimFrame,
+    snapshot: SimSnapshot,
     transform: GraphTransform,
-  ): void {
-    const snapshot = frame.snapshotB;
-
+    target: THREE.Vector3,
+  ): boolean {
     // 1. Edge traversal (moving on road)
     if (truck.currentEdgeId) {
-      // In this system, usually we have current_edge + progress.
-      // Or current_node if stationary/at intersection.
-      // Let's rely on edge + progress first.
-
       const road = snapshot.roads[truck.currentEdgeId];
       if (road) {
         const startNode = snapshot.nodes[road.startNodeId];
@@ -106,16 +113,10 @@ export class AgentsView {
           );
 
           // Interpolate position
-          this.tempPos.lerpVectors(this.tempStart, this.tempEnd, ratio);
-
-          // Height adjustment: Road elevation + thickness + slight offset
-          this.tempPos.y = GRAPH_ROAD_ELEVATION + ROAD_THICKNESS;
-
-          mesh.position.copy(this.tempPos);
-
-          // Orientation: Look at end node
-          mesh.lookAt(this.tempEnd.x, mesh.position.y, this.tempEnd.z);
-          return;
+          target.lerpVectors(this.tempStart, this.tempEnd, ratio);
+          // Height adjustment: Road elevation + thickness
+          target.y = GRAPH_ROAD_ELEVATION + ROAD_THICKNESS;
+          return true;
         }
       }
     }
@@ -124,11 +125,82 @@ export class AgentsView {
     if (truck.currentNodeId) {
       const node = snapshot.nodes[truck.currentNodeId];
       if (node) {
-        toVector3(node, transform, this.tempPos);
-        this.tempPos.y = GRAPH_ROAD_ELEVATION + ROAD_THICKNESS;
-        mesh.position.copy(this.tempPos);
-        // Rotation? Maybe keep last, or zero.
-        return;
+        toVector3(node, transform, target);
+        target.y = GRAPH_ROAD_ELEVATION + ROAD_THICKNESS;
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  private updateTruckPosition(
+    truckB: Truck,
+    truckA: Truck | undefined,
+    alpha: number,
+    mesh: THREE.Group,
+    snapshotB: SimSnapshot,
+    snapshotA: SimSnapshot,
+    transform: GraphTransform,
+  ): void {
+    // 1. Compute Target Position (B)
+    const hasPosB = this.computePosition(
+      truckB,
+      snapshotB,
+      transform,
+      this.tempPosB,
+    );
+    if (!hasPosB) return;
+
+    // 2. Compute Start Position (A)
+    let hasPosA = false;
+    if (truckA) {
+      hasPosA = this.computePosition(
+        truckA,
+        snapshotA,
+        transform,
+        this.tempPosA,
+      );
+    }
+
+    // 3. Interpolate or Snap
+    if (hasPosA) {
+      mesh.position.lerpVectors(this.tempPosA, this.tempPosB, alpha);
+
+      // 4. Orientation: Look in direction of movement
+      const distSq = this.tempPosA.distanceToSquared(this.tempPosB);
+      if (distSq > 0.000001) {
+        // Face direction A -> B
+        // clone() to avoid mutating temp vectors
+        const lookTarget = mesh.position
+          .clone()
+          .add(this.tempPosB.clone().sub(this.tempPosA));
+        mesh.lookAt(lookTarget.x, mesh.position.y, lookTarget.z);
+      } else {
+        // Stationary
+        this.applyStaticOrientation(truckB, mesh, snapshotB, transform);
+      }
+    } else {
+      // Snap to B
+      mesh.position.copy(this.tempPosB);
+      this.applyStaticOrientation(truckB, mesh, snapshotB, transform);
+    }
+  }
+
+  private applyStaticOrientation(
+    truck: Truck,
+    mesh: THREE.Group,
+    snapshot: SimSnapshot,
+    transform: GraphTransform,
+  ): void {
+    if (truck.currentEdgeId) {
+      const road = snapshot.roads[truck.currentEdgeId];
+      if (road) {
+        const endNode = snapshot.nodes[road.endNodeId];
+        if (endNode) {
+          toVector3(endNode, transform, this.tempEnd);
+          mesh.lookAt(this.tempEnd.x, mesh.position.y, this.tempEnd.z);
+        }
       }
     }
   }

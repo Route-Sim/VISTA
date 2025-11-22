@@ -9,6 +9,7 @@ import {
 import { SnapshotBuffer } from './snapshot-buffer';
 import { ReducerRegistry } from './reducer-registry';
 import { createDefaultReducerRegistry } from './reducers';
+import { MovementSystem } from '../systems/movement-system';
 
 export interface SimStoreOptions {
   buffer?: SnapshotBuffer;
@@ -19,6 +20,7 @@ export interface SimStoreOptions {
 export class SimStore {
   private readonly buffer: SnapshotBuffer;
   private readonly reducers: ReducerRegistry;
+  private readonly movementSystem = new MovementSystem();
   private working: SimDraft;
   private lastCommitted: SimSnapshot;
 
@@ -35,8 +37,18 @@ export class SimStore {
     console.log('[sim] Ingesting event:', evt);
 
     if (evt.type === 'tick.start') {
+      // Calculate delta time since last tick
+      const lastTime = this.working.timeMs;
+      const newTime = typeof evt.timeMs === 'number' ? evt.timeMs : lastTime;
+      const deltaMs = newTime - lastTime;
+
       this.working.tick = evt.tick;
       if (typeof evt.timeMs === 'number') this.working.timeMs = evt.timeMs;
+
+      // Run movement system
+      if (deltaMs > 0) {
+        this.movementSystem.update(this.working, deltaMs);
+      }
       return;
     }
     if (evt.type === 'tick.end') {

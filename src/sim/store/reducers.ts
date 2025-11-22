@@ -55,6 +55,7 @@ const agentUpdated = (
       currentNodeId: (evt.patch.currentNodeId as any) || null,
       currentEdgeId: (evt.patch.currentEdgeId as any) || null,
       edgeProgress: (evt.patch.edgeProgress as number) || 0,
+      route: (evt.patch.route as any) || [],
       ...evt.patch,
     } as any;
   }

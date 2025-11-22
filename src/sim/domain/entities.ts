@@ -79,6 +79,8 @@ export interface Truck {
   currentNodeId: NodeId | null;
   currentEdgeId: RoadId | null;
   edgeProgress: number;
+  // Navigation state
+  route: EdgeId[];
 }
 
 export interface Agent {

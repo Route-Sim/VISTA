@@ -20,6 +20,7 @@ import {
   asBuildingId,
   asPackageId,
   asAgentId,
+  type EdgeId,
 } from '../domain/ids';
 
 // Wire → Domain mapping stubs. These will be implemented once the @net schema
@@ -154,9 +155,18 @@ export function mapNetEvent(payload: unknown): SimEvent | undefined {
         maxFuel: (tags.maxFuel as number) || 100,
         currentFuel: (tags.currentFuel as number) || 100,
         co2Emission: (tags.co2Emission as number) || 0,
-        currentNodeId: data.current_node !== null ? asNodeId(String(data.current_node)) : null,
-        currentEdgeId: data.current_edge !== null ? asRoadId(String(data.current_edge)) : null,
+        currentNodeId:
+          data.current_node !== null
+            ? asNodeId(String(data.current_node))
+            : null,
+        currentEdgeId:
+          data.current_edge !== null
+            ? asRoadId(String(data.current_edge))
+            : null,
         edgeProgress: data.edge_progress_m || 0,
+        route: (data.route || []).map((id: string | number) =>
+          asEdgeId(String(id)),
+        ),
       };
       return { type: 'truck.created', truck };
     } else if (data.kind === 'building') {
@@ -202,16 +212,23 @@ export function mapNetEvent(payload: unknown): SimEvent | undefined {
 
     // Remap fields to domain camelCase
     if ('current_node' in data) {
-      patch.currentNodeId = data.current_node !== null ? asNodeId(String(data.current_node)) : null;
+      patch.currentNodeId =
+        data.current_node !== null ? asNodeId(String(data.current_node)) : null;
     }
     if ('current_edge' in data) {
-      patch.currentEdgeId = data.current_edge !== null ? asRoadId(String(data.current_edge)) : null;
+      patch.currentEdgeId =
+        data.current_edge !== null ? asRoadId(String(data.current_edge)) : null;
     }
     if ('edge_progress_m' in data) {
       patch.edgeProgress = data.edge_progress_m;
     }
     if ('current_speed_kph' in data) {
       patch.currentSpeed = data.current_speed_kph;
+    }
+    if ('route' in data && Array.isArray(data.route)) {
+      patch.route = data.route.map((id: string | number) =>
+        asEdgeId(String(id)),
+      );
     }
 
     return {

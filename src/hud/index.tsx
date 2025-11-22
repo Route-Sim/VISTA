@@ -67,7 +67,6 @@ function PlaybackVisibilityManager() {
     setVisible('camera-help', isSimulationActive);
     setVisible('net-events', isSimulationActive);
     setVisible('agent-inspector', isSimulationActive);
-    setVisible('start-simulation', !isSimulationActive);
   }, [status, setVisible]);
 
   return null;
@@ -94,6 +93,9 @@ function SimulationPanels({
             <NetEventsPanel />
           </div>
         )}
+      </div>
+
+      <div className="fixed top-4 right-4 flex flex-col gap-4">
         {isVisible('agent-inspector') && <AgentInspector />}
       </div>
 
@@ -110,25 +112,6 @@ function CreatorPanels({
   controller?: ReturnType<typeof usePlaybackNetController>;
 }): React.ReactNode {
   const { status } = usePlaybackState();
-  const { setVisible } = useHudVisibility();
-
-  // Hide creator panels when simulation starts (playing or paused)
-  React.useEffect(() => {
-    if (status === 'playing' || status === 'paused') {
-      setVisible('map-creator', false);
-      setVisible('fleet-creator', false);
-      setVisible('start-simulation', false);
-    }
-  }, [status, setVisible]);
-
-  // Show creator panels when simulation stops/returns to idle
-  React.useEffect(() => {
-    if (status === 'idle' || status === 'stopped') {
-      setVisible('map-creator', true);
-      setVisible('fleet-creator', true);
-      setVisible('start-simulation', true);
-    }
-  }, [status, setVisible]);
 
   // Only render creator panels when idle or stopped
   if (status === 'playing' || status === 'paused') return null;

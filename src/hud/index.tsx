@@ -17,6 +17,7 @@ import { NetEventsPanel } from './containers/net-events';
 import { MapCreator } from './containers/map-creator';
 import { FleetCreator } from './containers/fleet-creator';
 import { StartSimulation } from './containers/start-simulation';
+import { AgentInspector } from './containers/agent-inspector';
 
 export type HudHandle = {
   element: HTMLDivElement;
@@ -65,6 +66,7 @@ function PlaybackVisibilityManager() {
     setVisible('play-controls', isSimulationActive);
     setVisible('camera-help', isSimulationActive);
     setVisible('net-events', isSimulationActive);
+    setVisible('agent-inspector', isSimulationActive);
     setVisible('start-simulation', !isSimulationActive);
   }, [status, setVisible]);
 
@@ -92,6 +94,7 @@ function SimulationPanels({
             <NetEventsPanel />
           </div>
         )}
+        {isVisible('agent-inspector') && <AgentInspector />}
       </div>
 
       <div className="fixed right-4 bottom-4">

@@ -19,6 +19,7 @@ const LABELS: Record<(typeof HUD_PANELS)[number], string> = {
   'map-creator': 'Map Creator',
   'fleet-creator': 'Fleet Creator',
   'start-simulation': 'Start Simulation',
+  'agent-inspector': 'Agent Inspector',
 };
 
 export function HudMenu(): React.ReactNode {

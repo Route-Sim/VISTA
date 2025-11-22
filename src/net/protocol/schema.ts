@@ -129,7 +129,7 @@ const TruckAgentSignalData = AgentSignalBase.extend({
   kind: z.literal('truck'),
   max_speed_kph: z.number().min(0),
   current_speed_kph: z.number().min(0),
-  current_node: GraphIndex,
+  current_node: GraphIndex.nullable(),
   current_edge: GraphIndex.nullable(),
   edge_progress_m: z.number().min(0),
   route: z.array(GraphIndex),

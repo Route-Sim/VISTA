@@ -4,9 +4,7 @@ export type HudPanelId =
   | 'play-controls'
   | 'camera-help'
   | 'net-events'
-  | 'map-creator'
-  | 'fleet-creator'
-  | 'start-simulation';
+  | 'agent-inspector';
 
 export type HudVisibilityState = Record<HudPanelId, boolean>;
 
@@ -16,18 +14,14 @@ export const HUD_PANELS: HudPanelId[] = [
   'play-controls',
   'camera-help',
   'net-events',
-  'map-creator',
-  'fleet-creator',
-  'start-simulation',
+  'agent-inspector',
 ];
 
 const defaultVisibility: HudVisibilityState = {
   'play-controls': true,
   'camera-help': true,
   'net-events': false,
-  'map-creator': true,
-  'fleet-creator': true,
-  'start-simulation': true,
+  'agent-inspector': false,
 };
 
 type HudVisibilityContextValue = {

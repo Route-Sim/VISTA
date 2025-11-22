@@ -1,0 +1,29 @@
+{
+  "signal": "agent.described",
+  "data": {
+    "id": "test2",
+    "kind": "truck",
+    "max_speed_kph": 100.0,
+    "current_speed_kph": 20.0,
+    "current_node": null,
+    "current_edge": 309,
+    "edge_progress_m": 10.000000000000004,
+    "route": [74, 76, 119, 100, 108, 77, 68, 69, 116, 92, 59, 52, 48, 42, 83],
+    "destination": 83,
+    "route_start_node": 84,
+    "route_end_node": 83,
+    "current_building_id": null,
+    "driving_time_s": 14.000000000000064,
+    "resting_time_s": 0.0,
+    "is_resting": false,
+    "required_rest_s": 0.0,
+    "balance_ducats": 0.0,
+    "risk_factor": 0.5,
+    "is_seeking_parking": false,
+    "original_destination": null,
+    "inbox_count": 0,
+    "outbox_count": 0,
+    "tags": {},
+    "tick": 397
+  }
+}

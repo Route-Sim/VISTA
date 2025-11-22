@@ -19,6 +19,7 @@ links:
       './containers/map-creator.md',
       './containers/fleet-creator.md',
       './containers/start-simulation.md',
+      './containers/agent-inspector.md',
     ]
 ---
 
@@ -64,5 +65,5 @@ hud.toggle(); // global HUD visibility handled in main.ts via the H key
 
 ## References
 
-- Containers: [`./containers/play-controls`](./containers/play-controls.md), [`./containers/camera-help`](./containers/camera-help.md), [`./containers/map-creator`](./containers/map-creator.md), [`./containers/fleet-creator`](./containers/fleet-creator.md), [`./containers/start-simulation`](./containers/start-simulation.md)
+- Containers: [`./containers/play-controls`](./containers/play-controls.md), [`./containers/camera-help`](./containers/camera-help.md), [`./containers/map-creator`](./containers/map-creator.md), [`./containers/fleet-creator`](./containers/fleet-creator.md), [`./containers/start-simulation`](./containers/start-simulation.md), [`./containers/agent-inspector`](./containers/agent-inspector.md)
 - State: [`./state/playback-state.md`](./state/playback-state.md)

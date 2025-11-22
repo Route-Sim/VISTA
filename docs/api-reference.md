@@ -254,7 +254,7 @@ type TruckAgentPayload = AgentEnvelopeBase & {
   kind: 'truck';
   max_speed_kph: number;      // >= 0
   current_speed_kph: number;  // >= 0
-  current_node: GraphIndex;
+  current_node: GraphIndex | null;
   current_edge: GraphIndex | null;
   edge_progress_m: number;    // >= 0
   route: GraphIndex[];

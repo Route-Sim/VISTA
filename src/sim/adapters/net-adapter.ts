@@ -154,6 +154,9 @@ export function mapNetEvent(payload: unknown): SimEvent | undefined {
         maxFuel: (tags.maxFuel as number) || 100,
         currentFuel: (tags.currentFuel as number) || 100,
         co2Emission: (tags.co2Emission as number) || 0,
+        currentNodeId: data.current_node !== null ? asNodeId(String(data.current_node)) : null,
+        currentEdgeId: data.current_edge !== null ? asRoadId(String(data.current_edge)) : null,
+        edgeProgress: data.edge_progress_m || 0,
       };
       return { type: 'truck.created', truck };
     } else if (data.kind === 'building') {
@@ -194,10 +197,27 @@ export function mapNetEvent(payload: unknown): SimEvent | undefined {
 
   // --- Agent Updated ---
   if (isSignalEnvelope(payload, 'agent.updated')) {
+    const data = payload.data;
+    const patch: Record<string, unknown> = { ...data };
+
+    // Remap fields to domain camelCase
+    if ('current_node' in data) {
+      patch.currentNodeId = data.current_node !== null ? asNodeId(String(data.current_node)) : null;
+    }
+    if ('current_edge' in data) {
+      patch.currentEdgeId = data.current_edge !== null ? asRoadId(String(data.current_edge)) : null;
+    }
+    if ('edge_progress_m' in data) {
+      patch.edgeProgress = data.edge_progress_m;
+    }
+    if ('current_speed_kph' in data) {
+      patch.currentSpeed = data.current_speed_kph;
+    }
+
     return {
       type: 'agent.updated',
-      id: asAgentId(payload.data.agent_id),
-      patch: payload.data, // pass full data as patch
+      id: asAgentId(data.agent_id),
+      patch,
     };
   }
 

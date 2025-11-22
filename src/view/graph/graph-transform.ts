@@ -1,3 +1,5 @@
+import * as THREE from 'three';
+import { GRAPH_ROAD_ELEVATION } from '@/engine/objects/road';
 import type { Node, SimSnapshot } from '@/sim';
 
 export interface GraphTransform {
@@ -7,6 +9,17 @@ export interface GraphTransform {
 }
 
 export const GRAPH_POSITION_SCALE = 0.3;
+
+export function toVector3(
+  node: Node,
+  transform: GraphTransform,
+  target: THREE.Vector3,
+): THREE.Vector3 {
+  const normalizedX = (node.x - transform.centerX) * transform.scale;
+  const normalizedZ = (node.y - transform.centerY) * transform.scale;
+  target.set(normalizedX, GRAPH_ROAD_ELEVATION, normalizedZ);
+  return target;
+}
 
 export function computeGraphTransform(snapshot: SimSnapshot): GraphTransform {
   const nodes = Object.values(snapshot.nodes) as Node[];

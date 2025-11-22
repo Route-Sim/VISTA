@@ -2,7 +2,6 @@ import * as THREE from 'three';
 
 import type {
   BuildingId,
-  Node,
   NodeId,
   Parking,
   RoadId,
@@ -29,18 +28,8 @@ import {
 import {
   type GraphTransform,
   computeGraphTransform,
+  toVector3,
 } from '@/view/graph/graph-transform';
-
-function toVector3(
-  node: Node,
-  transform: GraphTransform,
-  target: THREE.Vector3,
-): THREE.Vector3 {
-  const normalizedX = (node.x - transform.centerX) * transform.scale;
-  const normalizedZ = (node.y - transform.centerY) * transform.scale;
-  target.set(normalizedX, GRAPH_ROAD_ELEVATION, normalizedZ);
-  return target;
-}
 
 function disposeMaterial(material: THREE.Material | THREE.Material[]): void {
   if (Array.isArray(material)) {
@@ -100,9 +89,9 @@ export class GraphView {
     this.scene.add(this.root);
   }
 
-  update(frame: SimFrame): void {
+  update(frame: SimFrame, externalTransform?: GraphTransform): void {
     const snapshot = frame.snapshotB;
-    const transform = computeGraphTransform(snapshot);
+    const transform = externalTransform || computeGraphTransform(snapshot);
 
     // 1. Build adjacency list with geometry info
     const adjacency = new Map<NodeId, ConnectedRoad[]>();

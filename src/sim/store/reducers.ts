@@ -31,11 +31,34 @@ const agentUpdated = (
   if (draft.agents[evt.id]) {
     draft.agents[evt.id] = shallowMerge(draft.agents[evt.id], evt.patch);
   }
+
+  // Check if we need to promote a generic agent to a truck or building
+  // This happens if we received agent.created (generic) but now got more specific data
+  // OR if we just missed the creation event.
+
   // Try trucks
   const truckId = evt.id as any;
   if (draft.trucks[truckId]) {
     draft.trucks[truckId] = shallowMerge(draft.trucks[truckId], evt.patch);
+  } else if (evt.patch.kind === 'truck') {
+    // Create truck on the fly if it doesn't exist but patch says it is a truck
+    // This is a fallback for missing creation events or out-of-order delivery
+    draft.trucks[truckId] = {
+      id: truckId,
+      capacity: 0,
+      maxSpeed: (evt.patch.maxSpeed as number) || 100,
+      currentSpeed: (evt.patch.currentSpeed as number) || 0,
+      packageIds: [],
+      maxFuel: 100,
+      currentFuel: 100,
+      co2Emission: 0,
+      currentNodeId: (evt.patch.currentNodeId as any) || null,
+      currentEdgeId: (evt.patch.currentEdgeId as any) || null,
+      edgeProgress: (evt.patch.edgeProgress as number) || 0,
+      ...evt.patch,
+    } as any;
   }
+
   // Try buildings
   const buildingId = evt.id as any;
   if (draft.buildings[buildingId]) {

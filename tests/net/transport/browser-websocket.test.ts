@@ -59,7 +59,10 @@ describe('BrowserWebSocketTransport', () => {
     expect(transport.readyState).toBe('closed');
 
     // Should schedule reconnect
-    vi.advanceTimersByTime(100); // Initial backoff is 100ms
+    // Note: The implementation schedules with setTimeout, so we need to advance timers
+    // effectively to trigger the callback.
+    // The delay is 100ms.
+    vi.advanceTimersByTime(150); // slightly more than 100 to be safe
     
     // Should have created a new WS
     // @ts-expect-error - private

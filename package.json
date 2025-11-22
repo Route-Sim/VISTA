@@ -6,7 +6,9 @@
   "scripts": {
     "build": "bunx --bun vite build",
     "dev": "bunx --bun vite",
-    "preview": "bunx --bun vite preview"
+    "preview": "bunx --bun vite preview",
+    "test": "vitest",
+    "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
@@ -66,14 +68,17 @@
     "@types/react-dom": "^19.2.2",
     "@vercel/style-guide": "^6.0.0",
     "@vitejs/plugin-react": "^5.1.0",
+    "@vitest/coverage-v8": "^4.0.13",
     "autoprefixer": "^10.4.21",
     "eslint": "^9.39.1",
+    "happy-dom": "^20.0.10",
     "postcss": "^8.5.6",
     "prettier-plugin-tailwindcss": "^0.7.1",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "tailwindcss": "^4.1.17",
     "typescript": "~5.8.3",
-    "vite": "^7.2.2"
+    "vite": "^7.2.2",
+    "vitest": "^4.0.13"
   }
 }

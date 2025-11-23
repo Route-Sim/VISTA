@@ -60,6 +60,7 @@ export class AgentsView {
       if (!mesh) {
         mesh = createTruckMesh();
         mesh.name = `Truck.${truckB.id}`;
+        mesh.userData = { id: truckB.id, type: 'agent' };
         // Scale truck to match graph scale
         mesh.scale.setScalar(transform.scale);
         this.truckMeshes.set(truckB.id, mesh);

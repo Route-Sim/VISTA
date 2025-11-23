@@ -18,6 +18,7 @@ import { MapCreator } from './containers/map-creator';
 import { FleetCreator } from './containers/fleet-creator';
 import { StartSimulation } from './containers/start-simulation';
 import { AgentInspector } from './containers/agent-inspector';
+import { FocusStatus } from './components/focus-status';
 
 export type HudHandle = {
   element: HTMLDivElement;
@@ -101,6 +102,10 @@ function SimulationPanels({
 
       <div className="fixed right-4 bottom-4">
         <HudMenu />
+      </div>
+
+      <div className="fixed bottom-4 left-1/2 -translate-x-1/2">
+        <FocusStatus />
       </div>
     </>
   );

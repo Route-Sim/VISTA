@@ -212,6 +212,7 @@ export class GraphView {
         // Reverse points to maintain CCW winding after reflection (Z -> -Y)
         points.reverse();
         mesh = createIntersectionMesh(points);
+        mesh.userData = { id: nodeId, type: 'node' };
         const node = snapshot.nodes[nodeId];
         toVector3(node, transform, this.nodePosition);
         mesh.position.copy(this.nodePosition);
@@ -408,6 +409,8 @@ export class GraphView {
 
       tree.mesh.position.set(normalizedX, 0, normalizedZ);
       tree.mesh.scale.setScalar(transform.scale);
+
+      tree.mesh.userData = { id: 'tree', type: 'tree' };
     }
   }
 
@@ -555,7 +558,7 @@ export class GraphView {
     let mesh = this.siteMeshes.get(building.id);
     if (!mesh) {
       mesh = createSite();
-      mesh.userData = { buildingId: building.id };
+      mesh.userData = { id: building.id, type: 'building' };
       // Scale the site group to match graph scale, but make it 3x smaller
       // Note: createDeliverySite already applies 0.375 scale
       // So: (transform.scale / 0.375) / 3 = transform.scale / 1.125
@@ -620,7 +623,7 @@ export class GraphView {
     let mesh = this.parkingMeshes.get(building.id);
     if (!mesh) {
       mesh = createParkingLot({ spots: building.capacity });
-      mesh.userData = { buildingId: building.id };
+      mesh.userData = { id: building.id, type: 'building' };
       // Scale the parking lot group to match graph scale
       mesh.scale.setScalar(transform.scale);
       this.parkingMeshes.set(building.id, mesh);
@@ -690,6 +693,7 @@ export class GraphView {
       if (!mesh) {
         mesh = createRoadMesh(road.roadClass);
         mesh.name = `GraphView.Road.${road.id}`;
+        mesh.userData = { id: road.id, type: 'road' };
         this.roadMeshes.set(road.id, mesh);
         this.roadGroup.add(mesh);
       }

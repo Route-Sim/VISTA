@@ -16,6 +16,8 @@
     - [engine](modules/engine/engine.md)
     - [scene-manager](modules/engine/scene-manager.md)
     - [camera-rig](modules/engine/camera-rig.md)
+    - [camera-manager](modules/engine/camera-manager.md)
+    - [interaction](modules/engine/interaction.md)
     - controls
       - [orbit-move-controls](modules/engine/controls/orbit-move-controls.md)
     - objects
@@ -73,5 +75,7 @@
       - [agent-inspector](modules/hud/containers/agent-inspector.md)
     - components
       - [map-graph](modules/hud/components/map-graph.md)
+      - [focus-status](modules/hud/components/focus-status.md)
     - state
       - [playback-state](modules/hud/state/playback-state.md)
+      - [focus-state](modules/hud/state/focus-state.md)

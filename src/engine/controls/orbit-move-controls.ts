@@ -3,6 +3,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 export type OrbitMoveController = {
   update(deltaSeconds: number): void;
+  controls: OrbitControls;
 };
 
 type KeyState = Record<string, boolean>;
@@ -44,6 +45,7 @@ export function createOrbitMoveControls(
   const move = new THREE.Vector3();
 
   return {
+    controls,
     update(deltaSeconds: number): void {
       camera.up.set(0, 1, 0);
       controls.update();

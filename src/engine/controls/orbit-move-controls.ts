@@ -23,7 +23,7 @@ export function createOrbitMoveControls(
   controls.update();
 
   const movementSpeed = options.movementSpeed ?? 6;
-  const minY = options.minY ?? 5;
+  const minY = options.minY ?? 3;
 
   const keys: KeyState = {};
 
@@ -84,8 +84,15 @@ export function createOrbitMoveControls(
       }
 
       // Floor clamp to keep camera straight and above minY
-      if (camera.position.y < minY) camera.position.y = minY;
-      if (controls.target.y < minY) controls.target.y = minY;
+      const correction = Math.max(
+        0,
+        minY - camera.position.y,
+        minY - controls.target.y,
+      );
+      if (correction > 0) {
+        camera.position.y += correction;
+        controls.target.y += correction;
+      }
     },
   };
 }

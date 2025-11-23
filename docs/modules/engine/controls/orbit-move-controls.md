@@ -3,7 +3,7 @@ title: 'Orbit Move Controls'
 summary: 'Hybrid orbit/flight controller layering keyboard translation over Three.js OrbitControls for navigating the warm-world scene.'
 source_paths:
   - 'src/engine/controls/orbit-move-controls.ts'
-last_updated: '2025-11-09'
+last_updated: '2025-11-23'
 owner: 'Mateusz Nędzi'
 tags: ['module', 'engine', 'controls']
 links:
@@ -63,7 +63,7 @@ engine.onUpdate((t) => controls.update(t.deltaTimeMs / 1000));
 ## Implementation Notes
 
 - Movement speed defaults to 6 units/sec; options allow tuning.
-- `minY` prevents camera dipping below ground, maintaining pleasant viewing angles.
+- `minY` prevents camera dipping below ground. Clamping is synchronized between camera and orbit target to preserve look-at rotation when hitting the floor.
 - Keyboard listeners attached to `window`; teardown should remove them when controls are disposed (future todo).
 
 ## References

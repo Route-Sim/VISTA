@@ -23,8 +23,8 @@ const simStore = new SimStore();
 // Create controls
 // We reuse the OrbitControls instance created inside orbitMoveControls
 const orbitMoveControls = createOrbitMoveControls(camera, canvas, {
-  movementSpeed: 8,
-  minY: 5,
+  movementSpeed: 12,
+  minY: 3,
 });
 const orbitControls = orbitMoveControls.controls;
 

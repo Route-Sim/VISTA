@@ -22,29 +22,29 @@ describe('usePlaybackNetController', () => {
     expect(net.connect).toHaveBeenCalled();
   });
 
-  it('should send tick_rate.update on setTickRate', async () => {
+  it('should send simulation.update on update command', async () => {
     const { result } = renderHook(() => usePlaybackNetController());
     
-    await result.current.commandSink({ type: 'setTickRate', hz: 120 });
-    expect(net.sendAction).toHaveBeenCalledWith('tick_rate.update', { tick_rate: 120 });
+    await result.current.commandSink({ type: 'update', tickRate: 120, speed: 1.5 });
+    expect(net.sendAction).toHaveBeenCalledWith('simulation.update', { tick_rate: 120, speed: 1.5 });
   });
 
   it('should send simulation.start with cached tick rate on play', async () => {
     const { result } = renderHook(() => usePlaybackNetController());
 
-    // Set rate first
-    await result.current.commandSink({ type: 'setTickRate', hz: 30 });
+    // Set rate and speed first
+    await result.current.commandSink({ type: 'update', tickRate: 30, speed: 1.0 });
     
     // Play
     await result.current.commandSink({ type: 'play' });
-    expect(net.sendAction).toHaveBeenCalledWith('simulation.start', { tick_rate: 30 });
+    expect(net.sendAction).toHaveBeenCalledWith('simulation.start', { tick_rate: 30, speed: 1.0 });
   });
 
-  it('should default tick rate to 60 if local storage missing', async () => {
+  it('should default tick rate to 30 if local storage missing', async () => {
     const { result } = renderHook(() => usePlaybackNetController());
     
     await result.current.commandSink({ type: 'play' });
-    expect(net.sendAction).toHaveBeenCalledWith('simulation.start', { tick_rate: 60 });
+    expect(net.sendAction).toHaveBeenCalledWith('simulation.start', { tick_rate: 30, speed: 1.0 });
   });
 
   it('should send resume command', async () => {

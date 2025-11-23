@@ -20,7 +20,7 @@ describe('Protocol Schema', () => {
   it('should decode valid signals', () => {
     const raw = {
       signal: 'simulation.started',
-      data: { tick_rate: 30 },
+      data: { tick_rate: 30, speed: 1.0 },
       request_id: 'req-1',
     };
 
@@ -76,7 +76,7 @@ describe('Protocol Mapping', () => {
     // Should match simulation.started with same req id
     const validResponse = {
       signal: 'simulation.started',
-      data: { tick_rate: 30 },
+      data: { tick_rate: 30, speed: 1.0 },
       request_id: 'req-abc',
     } as const;
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -86,7 +86,7 @@ describe('Protocol Mapping', () => {
     // Should not match if request_id differs
     const wrongId = {
       signal: 'simulation.started',
-      data: { tick_rate: 30 },
+      data: { tick_rate: 30, speed: 1.0 },
       request_id: 'req-xyz',
     } as const;
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment

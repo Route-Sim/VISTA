@@ -98,7 +98,7 @@ describe('WebSocketClient', () => {
   });
 
   it('should send actions and resolve response', async () => {
-    const promise = client.sendAction('simulation.start', { tick_rate: 60 });
+    const promise = client.sendAction('simulation.start', { tick_rate: 60, speed: 1.0 });
 
     expect(transport.sent.length).toBe(1);
     const sent = JSON.parse(transport.sent[0]);
@@ -109,7 +109,7 @@ describe('WebSocketClient', () => {
     transport.emitMessage(
       JSON.stringify({
         signal: 'simulation.started',
-        data: { tick_rate: 60 },
+        data: { tick_rate: 60, speed: 1.0 },
         request_id: sent.request_id,
       }),
     );
@@ -122,7 +122,7 @@ describe('WebSocketClient', () => {
   });
 
   it('should handle errors in response', async () => {
-    const promise = client.sendAction('simulation.start', { tick_rate: 60 });
+    const promise = client.sendAction('simulation.start', { tick_rate: 60, speed: 1.0 });
     const sent = JSON.parse(transport.sent[0]);
 
     transport.emitMessage(
@@ -190,7 +190,7 @@ describe('WebSocketClient', () => {
   });
 
   it('should cancel pending requests on disconnect', async () => {
-    const promise = client.sendAction('simulation.start', { tick_rate: 60 });
+    const promise = client.sendAction('simulation.start', { tick_rate: 60, speed: 1.0 });
 
     client.disconnect();
 

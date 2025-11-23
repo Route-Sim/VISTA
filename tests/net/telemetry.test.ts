@@ -133,7 +133,7 @@ describe('Net Telemetry', () => {
 
     const signal: SignalUnion = {
       signal: 'simulation.started',
-      data: { tick_rate: 60 },
+      data: { tick_rate: 60, speed: 1.0 },
       request_id: 'req-1'
     };
 

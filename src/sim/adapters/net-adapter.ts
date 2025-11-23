@@ -20,7 +20,6 @@ import {
   asBuildingId,
   asPackageId,
   asAgentId,
-  type EdgeId,
 } from '../domain/ids';
 
 // Wire → Domain mapping stubs. These will be implemented once the @net schema
@@ -69,9 +68,7 @@ export function mapNetEvent(payload: unknown): SimEvent | undefined {
           const bId = asBuildingId(b.id);
           nodeBuildingIds.push(bId);
 
-          // Parking has type='parking'; Site has no type (or 'site' implicit)
-          // schema.ts defines ParkingData with type: 'parking'
-          if ((b as any).type === 'parking') {
+          if (b.type === 'parking') {
             const p = b as any;
             const parking: Parking = {
               id: bId,
@@ -81,13 +78,15 @@ export function mapNetEvent(payload: unknown): SimEvent | undefined {
               truckIds: [],
             };
             buildings[bId] = parking;
-          } else {
+          } else if (b.type === 'site') {
             // Site
             const s = b as any;
             const site: Site = {
               id: bId,
               nodeId,
               kind: 'site',
+              name: (s.name as string) || undefined,
+              activityRate: (s.activity_rate as number) || 0,
               packageIds: (s.active_packages || []).map((pid: string) =>
                 asPackageId(pid),
               ),
@@ -125,6 +124,7 @@ export function mapNetEvent(payload: unknown): SimEvent | undefined {
         endNodeId: end,
         lengthM: e.length_m,
         roadClass: e.road_class,
+        mode: e.mode,
         lanes: e.lanes,
         maxSpeedKph: e.max_speed_kph,
         weightLimitKg: e.weight_limit_kg,
@@ -155,6 +155,8 @@ export function mapNetEvent(payload: unknown): SimEvent | undefined {
         maxFuel: (tags.maxFuel as number) || 100,
         currentFuel: (tags.currentFuel as number) || 100,
         co2Emission: (tags.co2Emission as number) || 0,
+        inboxCount: data.inbox_count || 0,
+        outboxCount: data.outbox_count || 0,
         currentNodeId:
           data.current_node !== null
             ? asNodeId(String(data.current_node))
@@ -163,10 +165,24 @@ export function mapNetEvent(payload: unknown): SimEvent | undefined {
           data.current_edge !== null
             ? asRoadId(String(data.current_edge))
             : null,
+        currentBuildingId:
+          data.current_building_id !== null
+            ? asBuildingId(String(data.current_building_id))
+            : null,
         edgeProgress: data.edge_progress_m || 0,
         route: (data.route || []).map((id: string | number) =>
-          asEdgeId(String(id)),
+          asNodeId(String(id)),
         ),
+        destinationNodeId:
+          data.destination !== null ? asNodeId(String(data.destination)) : null,
+        routeStartNodeId:
+          data.route_start_node !== null
+            ? asNodeId(String(data.route_start_node))
+            : null,
+        routeEndNodeId:
+          data.route_end_node !== null
+            ? asNodeId(String(data.route_end_node))
+            : null,
       };
       return { type: 'truck.created', truck };
     } else if (data.kind === 'building') {
@@ -219,15 +235,43 @@ export function mapNetEvent(payload: unknown): SimEvent | undefined {
       patch.currentEdgeId =
         data.current_edge !== null ? asRoadId(String(data.current_edge)) : null;
     }
+    if ('current_building_id' in data) {
+      patch.currentBuildingId =
+        data.current_building_id !== null
+          ? asBuildingId(String(data.current_building_id))
+          : null;
+    }
     if ('edge_progress_m' in data) {
       patch.edgeProgress = data.edge_progress_m;
     }
     if ('current_speed_kph' in data) {
       patch.currentSpeed = data.current_speed_kph;
     }
+    if ('inbox_count' in data) {
+      patch.inboxCount = data.inbox_count;
+    }
+    if ('outbox_count' in data) {
+      patch.outboxCount = data.outbox_count;
+    }
+    if ('destination' in data) {
+      patch.destinationNodeId =
+        data.destination !== null ? asNodeId(String(data.destination)) : null;
+    }
+    if ('route_start_node' in data) {
+      patch.routeStartNodeId =
+        data.route_start_node !== null
+          ? asNodeId(String(data.route_start_node))
+          : null;
+    }
+    if ('route_end_node' in data) {
+      patch.routeEndNodeId =
+        data.route_end_node !== null
+          ? asNodeId(String(data.route_end_node))
+          : null;
+    }
     if ('route' in data && Array.isArray(data.route)) {
       patch.route = data.route.map((id: string | number) =>
-        asEdgeId(String(id)),
+        asNodeId(String(id)),
       );
     }
 

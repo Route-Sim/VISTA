@@ -34,6 +34,7 @@ export interface Road extends Edge {
   id: RoadId;
   // Transport/traffic attributes
   roadClass: RoadClass;
+  mode: number;
   lanes: number;
   maxSpeedKph: number;
   weightLimitKg: number | null;
@@ -55,6 +56,8 @@ export interface Parking extends BuildingBase {
 
 export interface Site extends BuildingBase {
   kind: 'site';
+  name?: string;
+  activityRate?: number;
   packageIds: PackageId[];
 }
 
@@ -75,14 +78,20 @@ export interface Truck {
   maxFuel: number;
   currentFuel: number;
   co2Emission: number;
+  inboxCount: number;
+  outboxCount: number;
 
   // Position state
   currentNodeId: NodeId | null;
   currentEdgeId: RoadId | null;
+  currentBuildingId: BuildingId | null;
   edgeProgress: number;
 
   // Navigation state
   route: NodeId[];
+  destinationNodeId: NodeId | null;
+  routeStartNodeId: NodeId | null;
+  routeEndNodeId: NodeId | null;
 }
 
 export interface Agent {

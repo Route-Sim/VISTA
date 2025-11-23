@@ -5,7 +5,7 @@ source_paths:
   - "src/sim/domain/entities.ts"
   - "src/sim/domain/enums.ts"
   - "src/sim/domain/ids.ts"
-last_updated: "2025-11-08"
+last_updated: "2025-11-23"
 owner: "Mateusz Nędzi"
 tags: ["module", "sim", "domain", "types"]
 links:
@@ -19,7 +19,7 @@ links:
 
 ## Responsibilities & Boundaries
 
-- In-scope: type definitions for `Node`, `Edge`, `Road`, `Building` hierarchy (`Building`, `Depot`, `GasStation`, `Site`), `Truck`, `Package`, `Agent`.
+- In-scope: type definitions for `Node`, `Edge`, `Road`, `Building` hierarchy (`Parking`, `Site`), `Truck`, `Package`, `Agent`.
 - Out-of-scope: network payloads, three.js objects, rendering.
 
 ## Highlights
@@ -28,16 +28,19 @@ links:
 - `Road` extends `Edge` functionally; we alias `RoadId = EdgeId` so the same identity can be used in both maps.
 - Relations use ID arrays (e.g., `Node.buildingIds`, `Road.truckIds`).
 - Nodes now carry planar coordinates (`x`, `y`) in meters.
-- `Edge` includes `lengthM` (meters). `Road` adds `roadClass`, `lanes`, `maxSpeedKph`, and `weightLimitKg`.
+- `Edge` includes `lengthM` (meters). `Road` adds `roadClass`, `mode`, `lanes`, `maxSpeedKph`, and `weightLimitKg`.
+- `Truck` includes rich state: fuel, CO2, message counters (`inboxCount`/`outboxCount`), and navigation state (`destination`, `routeStart`/`end`).
 
 ## Public Types (excerpt)
 
 ```ts
 // BuildingBase { id, nodeId, kind, truckIds }
-// Building | Depot {capacity, packageIds} | GasStation {capacity} | Site {packageIds}
+// Parking { kind: 'parking', capacity }
+// Site { kind: 'site', name?, activityRate?, packageIds }
 // Node { id, x, y, buildingIds }
 // Edge { id, startNodeId, endNodeId, lengthM }
-// Road { ...Edge, roadClass, lanes, maxSpeedKph, weightLimitKg, truckIds }
+// Road { ...Edge, roadClass, mode, lanes, maxSpeedKph, weightLimitKg, truckIds }
+// Truck { ...navState, inboxCount, outboxCount, currentBuildingId }
 ```
 
 ## Implementation Notes
@@ -50,5 +53,3 @@ links:
 - `src/sim/store/snapshot.ts`
 - `src/sim/store/reducers.ts`
 - `src/sim/selectors.ts`
-
-

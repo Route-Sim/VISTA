@@ -54,8 +54,14 @@ const agentUpdated = (
       co2Emission: 0,
       currentNodeId: (evt.patch.currentNodeId as any) || null,
       currentEdgeId: (evt.patch.currentEdgeId as any) || null,
+      currentBuildingId: (evt.patch.currentBuildingId as any) || null,
       edgeProgress: (evt.patch.edgeProgress as number) || 0,
+      inboxCount: (evt.patch.inboxCount as number) || 0,
+      outboxCount: (evt.patch.outboxCount as number) || 0,
       route: (evt.patch.route as any) || [],
+      destinationNodeId: (evt.patch.destinationNodeId as any) || null,
+      routeStartNodeId: (evt.patch.routeStartNodeId as any) || null,
+      routeEndNodeId: (evt.patch.routeEndNodeId as any) || null,
       ...evt.patch,
     } as any;
   }

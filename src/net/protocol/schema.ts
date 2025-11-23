@@ -84,7 +84,7 @@ const ParkingData = z
 const SiteData = z
   .object({
     id: z.string(),
-    // Sites in map.created don't have a type discriminator
+    type: z.literal('site'),
     name: z.string().optional(),
     activity_rate: z.number().min(0).optional(),
     active_packages: z.array(z.string()).default([]),

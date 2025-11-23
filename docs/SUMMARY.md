@@ -52,6 +52,7 @@
       - [enums](modules/sim/domain/enums.md)
     - adapters
       - [wire-net-to-sim](modules/sim/adapters/wire-net-to-sim.md)
+      - [net-adapter](modules/sim/adapters/net-adapter.md)
     - store
       - [sim-store](modules/sim/store/sim-store.md)
       - [reducers](modules/sim/store/reducers.md)

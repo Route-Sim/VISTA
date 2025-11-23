@@ -136,15 +136,15 @@ export function StartSimulation({
 
           <div className="space-y-2">
             <div className="flex items-center justify-between text-sm">
-              <span className="text-black/70">Tick Rate</span>
+              <span className="text-black/70">Speed</span>
               <span className="text-sm font-medium text-black/90 tabular-nums">
-                {displaySpeed}
+                x{displaySpeed.toFixed(1)}
               </span>
             </div>
             <Slider
-              min={1}
-              max={100}
-              step={1}
+              min={0.1}
+              max={10.0}
+              step={0.1}
               value={[displaySpeed]}
               onValueChange={(v) => setDragSpeed(v[0] ?? 1.0)}
               onPointerDown={() => void 0}

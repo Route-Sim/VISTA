@@ -39,7 +39,21 @@ const agentUpdated = (
   // Try trucks
   const truckId = evt.id as any;
   if (draft.trucks[truckId]) {
-    draft.trucks[truckId] = shallowMerge(draft.trucks[truckId], evt.patch);
+    // Detect edge change for trucks to reset predicted progress
+    const currentTruck = draft.trucks[truckId];
+    const patch = evt.patch;
+    const newEdgeId = patch.currentEdgeId;
+
+    // Only reset if edgeId is explicitly in the patch and different from current
+    if (
+      newEdgeId !== undefined &&
+      newEdgeId !== currentTruck.currentEdgeId &&
+      patch.edgeProgress === undefined
+    ) {
+      patch.edgeProgress = 0;
+    }
+
+    draft.trucks[truckId] = shallowMerge(currentTruck, patch);
   } else if (evt.patch.kind === 'truck') {
     // Create truck on the fly if it doesn't exist but patch says it is a truck
     // This is a fallback for missing creation events or out-of-order delivery

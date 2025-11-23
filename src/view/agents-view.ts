@@ -32,10 +32,8 @@ export class AgentsView {
   private readonly truckMeshes = new Map<TruckId, THREE.Group>();
 
   // Reusable vectors to avoid allocation
-  private readonly tempStart = new THREE.Vector3();
   private readonly tempEnd = new THREE.Vector3();
-  private readonly tempPosA = new THREE.Vector3();
-  private readonly tempPosB = new THREE.Vector3();
+  private readonly tempStart = new THREE.Vector3();
 
   constructor(scene: THREE.Scene) {
     this.scene = scene;
@@ -47,36 +45,33 @@ export class AgentsView {
   }
 
   update(frame: SimFrame, transform: GraphTransform): void {
-    const { snapshotA, snapshotB, alpha } = frame;
+    const { snapshotB } = frame;
     const seenTrucks = new Set<TruckId>();
 
     // Update Trucks
-    for (const truckB of Object.values(snapshotB.trucks)) {
-      if (!truckB.currentEdgeId) continue;
+    for (const truck of Object.values(snapshotB.trucks)) {
+      // Filter based on required states
+      const isAtNode =
+        truck.currentNodeId !== null && truck.currentBuildingId === null;
+      const isOnRoad =
+        truck.currentNodeId === null && truck.currentEdgeId !== null;
 
-      seenTrucks.add(truckB.id);
-      let mesh = this.truckMeshes.get(truckB.id);
+      if (!isAtNode && !isOnRoad) continue;
+
+      seenTrucks.add(truck.id);
+      let mesh = this.truckMeshes.get(truck.id);
 
       if (!mesh) {
         mesh = createTruckMesh();
-        mesh.name = `Truck.${truckB.id}`;
-        mesh.userData = { id: truckB.id, type: 'agent' };
+        mesh.name = `Truck.${truck.id}`;
+        mesh.userData = { id: truck.id, type: 'agent' };
         // Scale truck to match graph scale
         mesh.scale.setScalar(transform.scale);
-        this.truckMeshes.set(truckB.id, mesh);
+        this.truckMeshes.set(truck.id, mesh);
         this.truckGroup.add(mesh);
       }
 
-      const truckA = snapshotA.trucks[truckB.id];
-      this.updateTruckPosition(
-        truckB,
-        truckA,
-        alpha,
-        mesh,
-        snapshotB,
-        snapshotA,
-        transform,
-      );
+      this.updateTruckPosition(truck, mesh, snapshotB, transform);
     }
 
     // Cleanup invisible trucks
@@ -89,14 +84,31 @@ export class AgentsView {
     }
   }
 
-  private computePosition(
+  private updateTruckPosition(
     truck: Truck,
+    mesh: THREE.Group,
     snapshot: SimSnapshot,
     transform: GraphTransform,
-    target: THREE.Vector3,
-  ): boolean {
-    // 1. Edge traversal (moving on road)
-    if (truck.currentEdgeId) {
+  ): void {
+    if (truck.currentNodeId !== null && truck.currentBuildingId === null) {
+      // State 1: At Node
+      const node = snapshot.nodes[truck.currentNodeId];
+      if (node) {
+        toVector3(node, transform, mesh.position);
+        mesh.position.y = GRAPH_ROAD_ELEVATION + ROAD_THICKNESS;
+
+        // Orientation: Face route[0] (first node in route array)
+        if (truck.route && truck.route.length > 0) {
+          const nextNodeId = truck.route[0];
+          const nextNode = snapshot.nodes[nextNodeId];
+          if (nextNode) {
+            toVector3(nextNode, transform, this.tempEnd);
+            mesh.lookAt(this.tempEnd.x, mesh.position.y, this.tempEnd.z);
+          }
+        }
+      }
+    } else if (truck.currentNodeId === null && truck.currentEdgeId !== null) {
+      // State 2: On Road (Interpolated)
       const road = snapshot.roads[truck.currentEdgeId];
       if (road) {
         const startNode = snapshot.nodes[road.startNodeId];
@@ -106,101 +118,23 @@ export class AgentsView {
           toVector3(startNode, transform, this.tempStart);
           toVector3(endNode, transform, this.tempEnd);
 
-          // Calculate progress ratio (0..1)
-          // Clamp to ensure it stays on segment
+          // Calculate ratio
+          // Clamp ratio to [0, 1] just in case
           const ratio = Math.max(
             0,
             Math.min(1, truck.edgeProgress / road.lengthM),
           );
 
           // Interpolate position
-          target.lerpVectors(this.tempStart, this.tempEnd, ratio);
-          // Height adjustment: Road elevation + thickness
-          target.y = GRAPH_ROAD_ELEVATION + ROAD_THICKNESS;
-          return true;
-        }
-      }
-    }
+          mesh.position.lerpVectors(this.tempStart, this.tempEnd, ratio);
+          mesh.position.y = GRAPH_ROAD_ELEVATION + ROAD_THICKNESS;
 
-    // 2. Node stationary (or fallback)
-    if (truck.currentNodeId) {
-      const node = snapshot.nodes[truck.currentNodeId];
-      if (node) {
-        toVector3(node, transform, target);
-        target.y = GRAPH_ROAD_ELEVATION + ROAD_THICKNESS;
-        return true;
-      }
-    }
-
-    return false;
-  }
-
-  private updateTruckPosition(
-    truckB: Truck,
-    truckA: Truck | undefined,
-    alpha: number,
-    mesh: THREE.Group,
-    snapshotB: SimSnapshot,
-    snapshotA: SimSnapshot,
-    transform: GraphTransform,
-  ): void {
-    // 1. Compute Target Position (B)
-    const hasPosB = this.computePosition(
-      truckB,
-      snapshotB,
-      transform,
-      this.tempPosB,
-    );
-    if (!hasPosB) return;
-
-    // 2. Compute Start Position (A)
-    let hasPosA = false;
-    if (truckA) {
-      hasPosA = this.computePosition(
-        truckA,
-        snapshotA,
-        transform,
-        this.tempPosA,
-      );
-    }
-
-    // 3. Interpolate or Snap
-    if (hasPosA) {
-      mesh.position.lerpVectors(this.tempPosA, this.tempPosB, alpha);
-
-      // 4. Orientation: Look in direction of movement
-      const distSq = this.tempPosA.distanceToSquared(this.tempPosB);
-      if (distSq > 0.000001) {
-        // Face direction A -> B
-        // clone() to avoid mutating temp vectors
-        const lookTarget = mesh.position
-          .clone()
-          .add(this.tempPosB.clone().sub(this.tempPosA));
-        mesh.lookAt(lookTarget.x, mesh.position.y, lookTarget.z);
-      } else {
-        // Stationary
-        this.applyStaticOrientation(truckB, mesh, snapshotB, transform);
-      }
-    } else {
-      // Snap to B
-      mesh.position.copy(this.tempPosB);
-      this.applyStaticOrientation(truckB, mesh, snapshotB, transform);
-    }
-  }
-
-  private applyStaticOrientation(
-    truck: Truck,
-    mesh: THREE.Group,
-    snapshot: SimSnapshot,
-    transform: GraphTransform,
-  ): void {
-    if (truck.currentEdgeId) {
-      const road = snapshot.roads[truck.currentEdgeId];
-      if (road) {
-        const endNode = snapshot.nodes[road.endNodeId];
-        if (endNode) {
-          toVector3(endNode, transform, this.tempEnd);
+          // Face direction of the road (towards endNode)
           mesh.lookAt(this.tempEnd.x, mesh.position.y, this.tempEnd.z);
+        } else if (startNode) {
+          // Fallback if endNode missing (unlikely)
+          toVector3(startNode, transform, mesh.position);
+          mesh.position.y = GRAPH_ROAD_ELEVATION + ROAD_THICKNESS;
         }
       }
     }

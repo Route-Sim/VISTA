@@ -1,9 +1,9 @@
 ---
 title: "Agents View"
-summary: "Manages the visual representation and interpolation of dynamic agents (trucks) within the simulation scene."
+summary: "Manages the visual representation of dynamic agents (trucks) within the simulation scene using simplified static logic."
 source_paths:
   - "src/view/agents-view.ts"
-last_updated: "2025-11-22"
+last_updated: "2025-11-23"
 owner: "Mateusz Nędzi"
 tags: ["view", "agents", "trucks", "three.js"]
 links:
@@ -14,26 +14,29 @@ links:
 
 # Agents View
 
-> **Purpose:** Responsible for rendering and animating dynamic entities (primarily trucks) in the 3D scene, applying smooth interpolation between simulation snapshots.
+> **Purpose:** Responsible for rendering dynamic entities (primarily trucks) in the 3D scene. Currently uses a simplified static positioning logic based on discrete simulation states.
 
 ## Context & Motivation
 
-- **Problem solved:** The simulation runs at a different tick rate (or discrete steps) than the rendering loop (RAF). We need to visualize the state of agents smoothly.
+- **Problem solved:** Visualizing the state of agents on the graph.
 - **Requirements:**
   - Render trucks at correct positions based on graph topology.
-  - Interpolate position and rotation between two snapshots (`snapshotA` and `snapshotB`).
+  - Support two distinct display states:
+    1. **At Node:** Stationary at a node, facing the first step of their route.
+    2. **On Road:** Placed at the beginning of an edge, facing the destination node.
   - Manage lifecycle (create/destroy) of truck meshes.
-  - **Constraint:** Only render trucks when they are actively traversing a road (edge). Trucks stationary at nodes are currently hidden.
+  - **Constraint:** Interpolation and smooth movement are temporarily disabled for debugging purposes.
 
 ## Responsibilities & Boundaries
 
 - **In-scope:**
   - Creating and disposing `THREE.Group` instances for trucks.
-  - Updating truck transforms (position, rotation) every frame.
-  - calculating 3D coordinates from graph data (`edgeId`, `progress`).
+  - Updating truck transforms (position, rotation) every frame based on the latest snapshot.
+  - Calculating 3D coordinates from graph data (`currentNodeId`, `currentEdgeId`).
 - **Out-of-scope:**
   - Simulation logic (pathfinding, movement physics).
   - Static map rendering (handled by `GraphView`).
+  - Interpolation between simulation ticks (currently disabled).
 
 ## Architecture & Design
 
@@ -42,22 +45,21 @@ The `AgentsView` class maintains a mapping of `TruckId` to `THREE.Group` (the vi
 ### Data Flow
 
 1. `update(frame: SimFrame, transform: GraphTransform)` is called by the main view loop.
-2. It iterates through trucks in the current snapshot (`snapshotB`).
-3. **Filter:** Checks if the truck is on an edge (`currentEdgeId` is present).
+2. It uses only the latest snapshot (`snapshotB`) from the frame; `snapshotA` and `alpha` are ignored.
+3. **Filter:** Checks if the truck is in a valid display state:
+   - **State 1:** `currentNodeId` is set (and not in a building).
+   - **State 2:** `currentEdgeId` is set (and `currentNodeId` is null).
 4. **Lifecycle:** Creates a new mesh if one doesn't exist.
-5. **Interpolation:**
-   - Computes 3D position for state A (previous) and state B (current).
-   - Lerps between them using `frame.alpha`.
-   - Orients the truck to face the direction of movement.
-6. **Cleanup:** Removes meshes for trucks that are no longer present or valid (e.g. reached destination and disappeared, or moved to a node and became hidden).
+5. **Positioning:**
+   - **At Node:** Position = Node coordinates. Orientation = Towards `route[0]`.
+   - **On Road:** Position = Start Node of the road. Orientation = Towards End Node.
+6. **Cleanup:** Removes meshes for trucks that are no longer in a valid display state.
 
 ### Position Calculation
 
-The view transforms abstract graph coordinates (Edge ID + Progress) into 3D world coordinates:
-1. Retrieve `Road` from snapshot.
-2. Get Start and End `Node` positions.
-3. Interpolate between Start and End nodes based on `edgeProgress` / `roadLength`.
-4. Apply height offset (`GRAPH_ROAD_ELEVATION` + `ROAD_THICKNESS`).
+The view transforms abstract graph coordinates into 3D world coordinates using `GraphTransform`:
+- Uses `toVector3(node, transform, target)` to map simulation coordinates (meters) to scene coordinates.
+- Applies a Y-offset (`GRAPH_ROAD_ELEVATION` + `ROAD_THICKNESS`) to place trucks on top of roads.
 
 ## Algorithms & Complexity
 
@@ -77,12 +79,11 @@ export class AgentsView {
 
 ## Implementation Notes
 
-- **Interpolation Logic:** Supports interpolating from a "Node" state to an "Edge" state (e.g., just leaving a depot) to prevent jumping, even though trucks strictly at nodes are not rendered in the target state.
-- **Orientation:** Calculated dynamically based on the movement vector between interpolated frames.
+- **Static Logic:** The current implementation deliberately avoids interpolation (`lerp`) to isolate display logic from simulation timing issues.
+- **Orientation:** Calculated statically based on the graph topology (Node -> Next Node) rather than movement vectors.
 - **Materials:** Uses standard low-poly assets from `src/engine/objects/truck.ts`.
 
 ## References
 
 - [Graph View](graph/graph-view.md)
 - [Graph Transform](graph/graph-transform.md)
-

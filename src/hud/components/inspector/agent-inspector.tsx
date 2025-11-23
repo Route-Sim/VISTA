@@ -1,8 +1,10 @@
 import { Car } from 'lucide-react';
+import { useSimSnapshot } from '@/hud/hooks/use-sim-snapshot';
 import { CardContent } from '@/hud/ui/card';
 import { Separator } from '@/hud/ui/separator';
 import { KeyValue, InspectorHeader, SectionHeader } from './common';
 import type { Truck } from '@/sim/domain/entities';
+import { getRoadById } from '@/sim/selectors';
 
 interface AgentInspectorProps {
   id: string;
@@ -10,7 +12,12 @@ interface AgentInspectorProps {
 }
 
 export function AgentInspector({ id, data }: AgentInspectorProps) {
-  const progressPercent = Math.round(data.edgeProgress * 100);
+  const snapshot = useSimSnapshot();
+  const currentRoad = data.currentEdgeId
+    ? getRoadById(snapshot, data.currentEdgeId)
+    : undefined;
+  const edgeLength = currentRoad?.lengthM ?? 1;
+  const progressPercent = Math.round((data.edgeProgress / edgeLength) * 100);
   const fuelPercent = Math.round((data.currentFuel / data.maxFuel) * 100);
   const loadPercent = Math.round(
     (data.packageIds.length / data.capacity) * 100,

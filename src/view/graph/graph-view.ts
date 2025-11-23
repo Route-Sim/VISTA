@@ -13,7 +13,6 @@ import { createTree } from '@/engine/objects/tree';
 import { createIntersectionMesh } from '@/engine/objects/node';
 import {
   GRAPH_ROAD_ELEVATION,
-  LANE_WIDTH_METERS,
   ROAD_THICKNESS,
   createRoadMesh,
   getRoadZOffset,
@@ -725,7 +724,7 @@ export class GraphView {
         endVec.copy(startVec);
       }
 
-      const width = road.lanes * LANE_WIDTH_METERS * transform.scale;
+      const width = getRoadWidth(road.lanes) * transform.scale;
 
       // Position at midpoint of NEW segment
       mesh.position.lerpVectors(startVec, endVec, 0.5);

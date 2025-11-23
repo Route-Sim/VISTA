@@ -22,8 +22,8 @@ const ROAD_CLASS_PRIORITY: Record<RoadClass, number> = {
 // Shared geometry for all roads
 const sharedRoadGeometry = new THREE.BoxGeometry(1, 1, 1);
 
-export function getRoadWidth(lanes: number): number {
-  return lanes * LANE_WIDTH_METERS;
+export function getRoadWidth(_lanes: number): number {
+  return LANE_WIDTH_METERS;
 }
 
 export function getRoadColor(_roadClass: RoadClass): number {

@@ -3,7 +3,7 @@ title: "Road"
 summary: "Factory for graph road meshes and constants, ensuring consistent lane width, elevation, and road classification colors."
 source_paths:
   - "src/engine/objects/road.ts"
-last_updated: "2025-11-19"
+last_updated: "2025-11-23"
 owner: "Mateusz Nędzi"
 tags: ["module", "engine", "objects", "graph", "road"]
 links:
@@ -25,7 +25,7 @@ links:
 - Requirements and constraints:
   - Support multiple road classes with distinct colors (`A`, `S`, `GP`, etc.).
   - Maintain low-poly aesthetics (flat shading).
-  - Standardize lane width and road thickness.
+  - Standardize lane width and road thickness (constant width for all roads).
 - Dependencies and assumptions:
   - Used primarily by `src/view/graph/graph-view.ts`.
   - Colors provided by `app/colors`.

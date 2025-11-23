@@ -10,6 +10,7 @@ import { cn } from '../lib/utils';
 import { MapGraph } from '@/hud/components/map-graph';
 
 type MapCreateParams = ActionParams['map.create'];
+type MapCreatedData = SignalData['map.created'];
 
 const DEFAULTS: MapCreateParams = {
   map_width: 1000,
@@ -27,8 +28,10 @@ const DEFAULTS: MapCreateParams = {
   ring_road_prob: 0.5,
   highway_curviness: 0.2,
   rural_settlement_prob: 0.15,
-  urban_sites_per_km2: 5.0,
-  rural_sites_per_km2: 1.0,
+  urban_sites_per_km2: 2.0,
+  rural_sites_per_km2: 0.5,
+  urban_parkings_per_km2: 2.0,
+  rural_parkings_per_km2: 0.5,
   urban_activity_rate_range: [5.0, 20.0],
   rural_activity_rate_range: [1.0, 8.0],
   seed: 42,
@@ -42,9 +45,7 @@ export function MapCreator({
   const { status } = usePlaybackState();
   const [params, setParams] = React.useState<MapCreateParams>({ ...DEFAULTS });
   const [sending, setSending] = React.useState<boolean>(false);
-  const [mapData, setMapData] = React.useState<
-    SignalData['map.created'] | null
-  >(null);
+  const [mapData, setMapData] = React.useState<MapCreatedData | null>(null);
 
   const canCreate = status === 'idle' || status === 'stopped';
 
@@ -52,6 +53,30 @@ export function MapCreator({
   React.useEffect(() => {
     const unsubscribe = net.on('map.created', (data) => {
       setMapData(data);
+      setParams({
+        map_width: data.map_width,
+        map_height: data.map_height,
+        num_major_centers: data.num_major_centers,
+        minor_per_major: data.minor_per_major,
+        center_separation: data.center_separation,
+        urban_sprawl: data.urban_sprawl,
+        local_density: data.local_density,
+        rural_density: data.rural_density,
+        intra_connectivity: data.intra_connectivity,
+        inter_connectivity: data.inter_connectivity,
+        arterial_ratio: data.arterial_ratio,
+        gridness: data.gridness,
+        ring_road_prob: data.ring_road_prob,
+        highway_curviness: data.highway_curviness,
+        rural_settlement_prob: data.rural_settlement_prob,
+        urban_sites_per_km2: data.urban_sites_per_km2,
+        rural_sites_per_km2: data.rural_sites_per_km2,
+        urban_parkings_per_km2: data.urban_parkings_per_km2,
+        rural_parkings_per_km2: data.rural_parkings_per_km2,
+        urban_activity_rate_range: data.urban_activity_rate_range,
+        rural_activity_rate_range: data.rural_activity_rate_range,
+        seed: data.seed,
+      });
     });
     return unsubscribe;
   }, []);
@@ -515,6 +540,55 @@ export function MapCreator({
                     onChange={(e) =>
                       setNumber(
                         'rural_sites_per_km2',
+                        Math.max(0, Number(e.target.value) || 0),
+                      )
+                    }
+                  />
+                </div>
+              </div>
+            </section>
+
+            {/* Parkings */}
+            <section className="space-y-2">
+              <h3 className="text-sm font-medium text-black/80">Parkings</h3>
+              <div className="grid grid-cols-2 gap-2">
+                <div className="space-y-2 text-black/70">
+                  <Label
+                    htmlFor="urban_sites_per_km2"
+                    className="ml-0.5 text-xs"
+                  >
+                    Urban Parkings (per km²)
+                  </Label>
+                  <Input
+                    id="urban_parkings_per_km2"
+                    type="number"
+                    min={0}
+                    step={0.1}
+                    value={params.urban_parkings_per_km2}
+                    onChange={(e) =>
+                      setNumber(
+                        'urban_parkings_per_km2',
+                        Math.max(0, Number(e.target.value) || 0),
+                      )
+                    }
+                  />
+                </div>
+                <div className="space-y-2 text-black/70">
+                  <Label
+                    htmlFor="rural_sites_per_km2"
+                    className="ml-0.5 text-xs"
+                  >
+                    Rural Parkings (per km²)
+                  </Label>
+                  <Input
+                    id="rural_parkings_per_km2"
+                    type="number"
+                    min={0}
+                    step={0.1}
+                    value={params.rural_parkings_per_km2}
+                    onChange={(e) =>
+                      setNumber(
+                        'rural_parkings_per_km2',
                         Math.max(0, Number(e.target.value) || 0),
                       )
                     }

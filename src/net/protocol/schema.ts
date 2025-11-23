@@ -38,6 +38,8 @@ export const ActionSchemas = {
       rural_settlement_prob: z.number().min(0).max(1),
       urban_sites_per_km2: z.number().min(0),
       rural_sites_per_km2: z.number().min(0),
+      urban_parkings_per_km2: z.number().min(0),
+      rural_parkings_per_km2: z.number().min(0),
       urban_activity_rate_range: z.tuple([
         z.number().min(0),
         z.number().min(0),
@@ -185,6 +187,8 @@ export const SignalSchemas = {
       rural_settlement_prob: z.number().min(0).max(1),
       urban_sites_per_km2: z.number().min(0),
       rural_sites_per_km2: z.number().min(0),
+      urban_parkings_per_km2: z.number().min(0),
+      rural_parkings_per_km2: z.number().min(0),
       urban_activity_rate_range: z.tuple([
         z.number().min(0),
         z.number().min(0),

@@ -1,6 +1,9 @@
 import * as React from 'react';
 
 export type HudPanelId =
+  | 'start-simulation'
+  | 'map-creator'
+  | 'fleet-creator'
   | 'play-controls'
   | 'camera-help'
   | 'net-events'
@@ -18,6 +21,9 @@ export const HUD_PANELS: HudPanelId[] = [
 ];
 
 const defaultVisibility: HudVisibilityState = {
+  'start-simulation': true,
+  'map-creator': true,
+  'fleet-creator': true,
   'play-controls': true,
   'camera-help': true,
   'net-events': false,

@@ -5,11 +5,12 @@ export type PlaybackCommand =
   | { type: 'pause' }
   | { type: 'resume' }
   | { type: 'stop' }
-  | { type: 'setTickRate'; hz: number };
+  | { type: 'update'; tickRate: number; speed: number };
 
 export type PlaybackState = {
   status: PlaybackStatus;
-  tickRateHz: number;
+  tickRate: number;
+  speed: number;
 };
 
 export interface PlaybackController {

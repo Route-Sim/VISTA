@@ -8,10 +8,17 @@ const BuildingAgentData = z.object({});
 
 // Action schemas: exact params per action
 export const ActionSchemas = {
-  'simulation.start': z.object({ tick_rate: z.number().int().min(1) }),
+  'simulation.start': z.object({
+    tick_rate: z.number().int().min(1),
+    speed: z.number().min(0),
+  }),
   'simulation.stop': z.object({}),
   'simulation.resume': z.object({}),
   'simulation.pause': z.object({}),
+  'simulation.update': z.object({
+    tick_rate: z.number().int().min(1),
+    speed: z.number().min(0),
+  }),
   'map.create': z
     .object({
       map_width: z.number().positive(),
@@ -42,7 +49,6 @@ export const ActionSchemas = {
       seed: z.number().int(),
     })
     .strict(),
-  'tick_rate.update': z.object({ tick_rate: z.number().int().min(1) }),
   'agent.create': z
     .object({
       agent_id: z.string(),
@@ -146,10 +152,17 @@ const AgentSignalData = z.union([
 
 // Signal schemas: exact data per signal
 export const SignalSchemas = {
-  'simulation.started': z.object({ tick_rate: z.number().int().min(1) }),
+  'simulation.started': z.object({
+    tick_rate: z.number().int().min(1),
+    speed: z.number().min(0),
+  }),
   'simulation.stopped': z.object({}),
   'simulation.resumed': z.object({}),
   'simulation.paused': z.object({}),
+  'simulation.updated': z.object({
+    tick_rate: z.number().int().min(1),
+    speed: z.number().min(0),
+  }),
   'tick.start': z.object({ tick: z.number().int().min(0) }),
   'tick.end': z.object({ tick: z.number().int().min(0) }),
   'map.created': z
@@ -191,7 +204,6 @@ export const SignalSchemas = {
       }),
     })
     .strict(),
-  'tick_rate.updated': z.object({ tick_rate: z.number().int().min(1) }),
   'agent.created': AgentSignalData,
   'agent.updated': z.object({ agent_id: z.string() }).catchall(z.unknown()),
   'agent.deleted': z.object({ agent_id: z.string() }),

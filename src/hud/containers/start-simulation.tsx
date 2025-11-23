@@ -7,7 +7,8 @@ import type { PlaybackController } from '@/hud/api/playback';
 import { usePlaybackState } from '@/hud/state/playback-state';
 import { cn } from '../lib/utils';
 
-const TICK_RATE_STORAGE_KEY = 'hud:tickRateHz';
+const TICK_RATE_STORAGE_KEY = 'hud:tickRate';
+const SPEED_STORAGE_KEY = 'hud:speed';
 
 function readInitialTickRate(): number {
   try {
@@ -18,9 +19,25 @@ function readInitialTickRate(): number {
   return 30;
 }
 
+function readInitialSpeed(): number {
+  try {
+    const raw = localStorage.getItem(SPEED_STORAGE_KEY);
+    const parsed = raw ? Number(raw) : NaN;
+    if (Number.isFinite(parsed) && parsed >= 0.1 && parsed <= 10.0)
+      return parsed;
+  } catch {}
+  return 1.0;
+}
+
 function persistTickRate(hz: number): void {
   try {
     localStorage.setItem(TICK_RATE_STORAGE_KEY, String(hz));
+  } catch {}
+}
+
+function persistSpeed(speed: number): void {
+  try {
+    localStorage.setItem(SPEED_STORAGE_KEY, String(speed));
   } catch {}
 }
 
@@ -34,32 +51,55 @@ export function StartSimulation({
   className,
 }: StartSimulationProps): React.ReactNode {
   const { setStatus } = usePlaybackState();
-  const [tickRateHz, setTickRateHz] = React.useState<number>(
-    readInitialTickRate(),
-  );
-  const [dragHz, setDragHz] = React.useState<number | null>(null);
 
-  const commitTickRate = React.useCallback(
-    (hz: number) => {
-      const clamped = Math.max(1, Math.min(100, Math.round(hz)));
-      setTickRateHz(clamped);
-      persistTickRate(clamped);
-      controller?.commandSink?.({ type: 'setTickRate', hz: clamped });
+  const [tickRate, setTickRate] = React.useState<number>(readInitialTickRate());
+  const [dragTickRate, setDragTickRate] = React.useState<number | null>(null);
+
+  const [speed, setSpeed] = React.useState<number>(readInitialSpeed());
+  const [dragSpeed, setDragSpeed] = React.useState<number | null>(null);
+
+  const commitUpdate = React.useCallback(
+    (tickRate: number, speed: number) => {
+      const clampedTickRate = Math.max(1, Math.min(100, Math.round(tickRate)));
+      const clampedSpeed = Math.max(0.1, Math.min(10.0, speed));
+
+      setTickRate(clampedTickRate);
+      persistTickRate(clampedTickRate);
+      setSpeed(clampedSpeed);
+      persistSpeed(clampedSpeed);
+      controller?.commandSink?.({
+        type: 'update',
+        tickRate: clampedTickRate,
+        speed: clampedSpeed,
+      });
     },
     [controller],
   );
 
   const handleStart = React.useCallback(() => {
     // Ensure tick rate is set before starting
-    const currentHz = dragHz ?? tickRateHz;
-    commitTickRate(currentHz);
+    const currentTickRate = dragTickRate ?? tickRate;
+    const currentSpeed = dragSpeed ?? speed;
+
+    commitUpdate(currentTickRate, currentSpeed);
+
     // Update playback state immediately
     setStatus('playing');
+
     // Send command to network (will use the tick rate from controller's ref)
     controller?.commandSink?.({ type: 'play' });
-  }, [controller, setStatus, tickRateHz, dragHz, commitTickRate]);
+  }, [
+    controller,
+    setStatus,
+    tickRate,
+    speed,
+    dragTickRate,
+    dragSpeed,
+    commitUpdate,
+  ]);
 
-  const displayHz = dragHz ?? tickRateHz;
+  const displayTickRate = dragTickRate ?? tickRate;
+  const displaySpeed = dragSpeed ?? speed;
 
   return (
     <HudContainer
@@ -75,22 +115,45 @@ export function StartSimulation({
             <div className="flex items-center justify-between text-sm">
               <span className="text-black/70">Tick Rate</span>
               <span className="text-sm font-medium text-black/90 tabular-nums">
-                {displayHz} Hz
+                {displayTickRate} Hz
               </span>
             </div>
             <Slider
               min={1}
               max={100}
               step={1}
-              value={[displayHz]}
-              onValueChange={(v) => setDragHz(v[0] ?? 60)}
+              value={[displayTickRate]}
+              onValueChange={(v) => setDragTickRate(v[0] ?? 30)}
               onPointerDown={() => void 0}
               onPointerUp={() => {
-                const next = dragHz ?? tickRateHz;
-                setDragHz(null);
-                commitTickRate(next);
+                const nextTickRate = dragTickRate ?? tickRate;
+                setDragTickRate(null);
+                commitUpdate(nextTickRate, speed);
               }}
               aria-label="Tick rate"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <div className="flex items-center justify-between text-sm">
+              <span className="text-black/70">Tick Rate</span>
+              <span className="text-sm font-medium text-black/90 tabular-nums">
+                {displaySpeed}
+              </span>
+            </div>
+            <Slider
+              min={1}
+              max={100}
+              step={1}
+              value={[displaySpeed]}
+              onValueChange={(v) => setDragSpeed(v[0] ?? 1.0)}
+              onPointerDown={() => void 0}
+              onPointerUp={() => {
+                const nextSpeed = dragSpeed ?? speed;
+                setDragSpeed(null);
+                commitUpdate(tickRate, nextSpeed);
+              }}
+              aria-label="Speed"
             />
           </div>
 

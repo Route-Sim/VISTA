@@ -23,6 +23,7 @@ export class SimStore {
   private readonly movementSystem = new MovementSystem();
   private working: SimDraft;
   private lastCommitted: SimSnapshot;
+  private listeners = new Set<(snapshot: SimSnapshot) => void>();
 
   constructor(opts: SimStoreOptions = {}) {
     this.buffer = opts.buffer ?? new SnapshotBuffer(64);
@@ -75,6 +76,8 @@ export class SimStore {
     this.lastCommitted = committed;
     this.working = cloneSnapshot(committed);
 
+    this.notifyListeners(committed);
+
     return committed;
   }
 
@@ -84,5 +87,18 @@ export class SimStore {
 
   getBuffer(): SnapshotBuffer {
     return this.buffer;
+  }
+
+  subscribe(callback: (snapshot: SimSnapshot) => void): () => void {
+    this.listeners.add(callback);
+    return () => {
+      this.listeners.delete(callback);
+    };
+  }
+
+  private notifyListeners(snapshot: SimSnapshot): void {
+    for (const listener of this.listeners) {
+      listener(snapshot);
+    }
   }
 }

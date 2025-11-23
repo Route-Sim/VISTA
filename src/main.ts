@@ -41,7 +41,7 @@ const cameraManager = new CameraManager(
 const interaction = new InteractionManager(camera, scenes.scene, canvas);
 
 // Mount HUD
-const hud = mountHud();
+const hud = mountHud(document.body, simStore);
 
 // Toggle HUD with H key
 window.addEventListener('keydown', (e) => {

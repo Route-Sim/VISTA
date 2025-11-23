@@ -73,9 +73,12 @@
       - [fleet-creator](modules/hud/containers/fleet-creator.md)
       - [start-simulation](modules/hud/containers/start-simulation.md)
       - [agent-inspector](modules/hud/containers/agent-inspector.md)
+      - [focus-inspector](modules/hud/containers/focus-inspector.md)
     - components
       - [map-graph](modules/hud/components/map-graph.md)
-      - [focus-status](modules/hud/components/focus-status.md)
+    - hooks
+      - [use-sim-snapshot](modules/hud/hooks/use-sim-snapshot.md)
     - state
       - [playback-state](modules/hud/state/playback-state.md)
       - [focus-state](modules/hud/state/focus-state.md)
+      - [sim-context](modules/hud/state/sim-context.md)

@@ -17,8 +17,9 @@ import { NetEventsPanel } from './containers/net-events';
 import { MapCreator } from './containers/map-creator';
 import { FleetCreator } from './containers/fleet-creator';
 import { StartSimulation } from './containers/start-simulation';
-import { AgentInspector } from './containers/agent-inspector';
-import { FocusStatus } from './components/focus-status';
+import { FocusInspector } from './containers/focus-inspector';
+import { SimStore } from '@/sim';
+import { SimStoreProvider } from './state/sim-context';
 
 export type HudHandle = {
   element: HTMLDivElement;
@@ -33,7 +34,7 @@ function HudHotkeysMount() {
   return null;
 }
 
-function HudRoot() {
+function HudRoot({ store }: { store: SimStore }) {
   const playbackController = usePlaybackNetController();
   return (
     <div
@@ -44,14 +45,16 @@ function HudRoot() {
         zIndex: 9999,
       }}
     >
-      <PlaybackStateProvider>
-        <HudVisibilityProvider>
-          <HudHotkeysMount />
-          <PlaybackVisibilityManager />
-          <CreatorPanels controller={playbackController} />
-          <SimulationPanels controller={playbackController} />
-        </HudVisibilityProvider>
-      </PlaybackStateProvider>
+      <SimStoreProvider store={store}>
+        <PlaybackStateProvider>
+          <HudVisibilityProvider>
+            <HudHotkeysMount />
+            <PlaybackVisibilityManager />
+            <CreatorPanels controller={playbackController} />
+            <SimulationPanels controller={playbackController} />
+          </HudVisibilityProvider>
+        </PlaybackStateProvider>
+      </SimStoreProvider>
     </div>
   );
 }
@@ -67,7 +70,6 @@ function PlaybackVisibilityManager() {
     setVisible('play-controls', isSimulationActive);
     setVisible('camera-help', isSimulationActive);
     setVisible('net-events', isSimulationActive);
-    setVisible('agent-inspector', isSimulationActive);
   }, [status, setVisible]);
 
   return null;
@@ -97,15 +99,11 @@ function SimulationPanels({
       </div>
 
       <div className="fixed top-4 right-4 flex flex-col gap-4">
-        {isVisible('agent-inspector') && <AgentInspector />}
+        <FocusInspector />
       </div>
 
       <div className="fixed right-4 bottom-4">
         <HudMenu />
-      </div>
-
-      <div className="fixed bottom-4 left-1/2 -translate-x-1/2">
-        <FocusStatus />
       </div>
     </>
   );
@@ -130,11 +128,14 @@ function CreatorPanels({
   );
 }
 
-export function mountHud(root: HTMLElement = document.body): HudHandle {
+export function mountHud(
+  root: HTMLElement = document.body,
+  store: SimStore,
+): HudHandle {
   const container = document.createElement('div');
   root.appendChild(container);
   const reactRoot = createRoot(container);
-  reactRoot.render(<HudRoot />);
+  reactRoot.render(<HudRoot store={store} />);
 
   const handle: HudHandle = {
     element: container,

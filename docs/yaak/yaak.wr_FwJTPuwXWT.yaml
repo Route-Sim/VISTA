@@ -2,7 +2,7 @@ type: websocket_request
 model: websocket_request
 id: wr_FwJTPuwXWT
 createdAt: 2025-11-03T11:10:33.766484
-updatedAt: 2025-11-09T12:05:27.804550
+updatedAt: 2025-11-23T16:08:12.674103
 workspaceId: wk_BJkwK7RGqy
 folderId: fl_V57ekqotsu
 authentication: {}
@@ -13,8 +13,8 @@ message: |-
   {
     "action": "map.create",
     "params": {
-      "map_width": 1000,
-      "map_height": 1000,
+      "map_width": 500,
+      "map_height": 500,
       "num_major_centers": 3,
       "minor_per_major": 2.0,
       "center_separation": 2500.0,
@@ -28,8 +28,10 @@ message: |-
       "ring_road_prob": 0.5,
       "highway_curviness": 0.2,
       "rural_settlement_prob": 0.15,
-      "urban_sites_per_km2": 5.0,
-      "rural_sites_per_km2": 1.0,
+      "urban_sites_per_km2": 2.0,
+      "rural_sites_per_km2": 0.5,
+      "urban_parkings_per_km2": 2.0,
+      "rural_parkings_per_km2": 0.5,
       "urban_activity_rate_range": [
         5.0,
         20.0

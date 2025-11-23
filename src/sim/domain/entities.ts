@@ -75,12 +75,14 @@ export interface Truck {
   maxFuel: number;
   currentFuel: number;
   co2Emission: number;
+
   // Position state
   currentNodeId: NodeId | null;
   currentEdgeId: RoadId | null;
   edgeProgress: number;
+
   // Navigation state
-  route: EdgeId[];
+  route: NodeId[];
 }
 
 export interface Agent {

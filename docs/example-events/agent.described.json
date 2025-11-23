@@ -1,19 +1,21 @@
 {
   "signal": "agent.described",
   "data": {
-    "id": "test2",
+    "id": "bde39c08-4fa8-43b2-8f6b-7ffddb675a34",
     "kind": "truck",
-    "max_speed_kph": 100.0,
+    "max_speed_kph": 80.0,
     "current_speed_kph": 20.0,
     "current_node": null,
-    "current_edge": 309,
-    "edge_progress_m": 10.000000000000004,
-    "route": [74, 76, 119, 100, 108, 77, 68, 69, 116, 92, 59, 52, 48, 42, 83],
-    "destination": 83,
-    "route_start_node": 84,
-    "route_end_node": 83,
+    "current_edge": 172,
+    "edge_progress_m": 11.11111111111111,
+    "route": [
+      35, 54, 49, 50, 52, 59, 92, 116, 69, 68, 77, 101, 111, 122, 125, 137, 127
+    ],
+    "destination": 127,
+    "route_start_node": 109,
+    "route_end_node": 127,
     "current_building_id": null,
-    "driving_time_s": 14.000000000000064,
+    "driving_time_s": 470.0,
     "resting_time_s": 0.0,
     "is_resting": false,
     "required_rest_s": 0.0,
@@ -24,6 +26,6 @@
     "inbox_count": 0,
     "outbox_count": 0,
     "tags": {},
-    "tick": 397
+    "tick": 542
   }
 }

@@ -4,19 +4,19 @@
     "total": 1,
     "agents": [
       {
-        "id": "test2",
+        "id": "bde39c08-4fa8-43b2-8f6b-7ffddb675a34",
         "kind": "truck",
-        "max_speed_kph": 100.0,
-        "current_speed_kph": 20.0,
+        "max_speed_kph": 80.0,
+        "current_speed_kph": 50.0,
         "current_node": null,
-        "current_edge": 36,
-        "edge_progress_m": 10.277777777777782,
-        "route": [40, 32],
-        "destination": 32,
-        "route_start_node": 31,
-        "route_end_node": 32,
+        "current_edge": 0,
+        "edge_progress_m": 55.55555555555556,
+        "route": [52, 59, 92, 116, 69, 68, 77, 101, 111, 122, 125, 137, 127],
+        "destination": 127,
+        "route_start_node": 109,
+        "route_end_node": 127,
         "current_building_id": null,
-        "driving_time_s": 1.850000000000001,
+        "driving_time_s": 497.0,
         "resting_time_s": 0.0,
         "is_resting": false,
         "required_rest_s": 0.0,
@@ -27,9 +27,9 @@
         "inbox_count": 0,
         "outbox_count": 0,
         "tags": {},
-        "agent_id": "test2"
+        "agent_id": "bde39c08-4fa8-43b2-8f6b-7ffddb675a34"
       }
     ],
-    "tick": 317
+    "tick": 573
   }
 }

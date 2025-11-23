@@ -4,18 +4,18 @@ export type ColorHex = number;
 // Keep domain independent; use only primitive types here
 export const Colors = {
   // Backgrounds
-  background: 0xfffcf7 as ColorHex, // warm peachy sky
-  fog: 0xfffcf7 as ColorHex,
+  background: 0x9ee3fa as ColorHex, // warm peachy sky
+  fog: 0x9ee3fa as ColorHex,
 
   // Ground
-  ground: 0x77966d as ColorHex, // sand / dry grass tone
+  ground: 0x5ab552 as ColorHex, // sand / dry grass tone
 
   // Graph primitives
-  graphNode: 0x5e5b52 as ColorHex, // silver / light gray
-  graphRoad: 0x5e5b52 as ColorHex,
+  graphNode: 0x4d3533 as ColorHex, // silver / light gray
+  graphRoad: 0x4d3533 as ColorHex,
 
   // Parking
-  parkingBase: 0x504d46 as ColorHex, // slightly darker than road
+  parkingBase: 0x4d3533 as ColorHex, // slightly darker than road
   parkingLine: 0xece6d6 as ColorHex, // warm white
 
   // Lights
@@ -40,7 +40,7 @@ export const Colors = {
 
   // Nature
   treeTrunk: 0x8b5a2b as ColorHex, // warm wood brown
-  treeFoliage: 0x6b8c42 as ColorHex, // olive green
+  treeFoliage: 0x26854c as ColorHex, // olive green
 } as const;
 
 export type AppColorKey = keyof typeof Colors;

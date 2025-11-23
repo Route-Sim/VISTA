@@ -73,10 +73,10 @@
       - [map-creator](modules/hud/containers/map-creator.md)
       - [fleet-creator](modules/hud/containers/fleet-creator.md)
       - [start-simulation](modules/hud/containers/start-simulation.md)
-      - [agent-inspector](modules/hud/containers/agent-inspector.md)
       - [focus-inspector](modules/hud/containers/focus-inspector.md)
     - components
       - [map-graph](modules/hud/components/map-graph.md)
+      - [inspector](modules/hud/components/inspector/index.md)
     - hooks
       - [use-sim-snapshot](modules/hud/hooks/use-sim-snapshot.md)
     - state

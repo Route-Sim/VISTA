@@ -43,9 +43,12 @@ export class CameraManager {
       this.currentMode = 'focused';
       // When entering focus mode, ensure controls are enabled but we'll manage the target
       this.controls.enabled = true;
+      // Prevent rotating below the ground (approx 85 degrees max)
+      this.controls.maxPolarAngle = Math.PI / 2 - 0.1;
     } else {
       this.currentMode = 'free';
       // Reset to free move controller behavior
+      this.controls.maxPolarAngle = Math.PI / 2 - 0.1;
     }
   }
 

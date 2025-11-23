@@ -1,22 +1,22 @@
 ---
-title: "Focus Inspector"
-summary: "A detailed HUD panel that displays real-time properties of the currently focused object."
+title: 'Focus Inspector'
+summary: 'A detailed HUD panel that displays real-time properties of the currently focused object.'
 source_paths:
-  - "src/hud/containers/focus-inspector.tsx"
-  - "src/hud/components/inspector/agent-inspector.tsx"
-  - "src/hud/components/inspector/road-inspector.tsx"
-  - "src/hud/components/inspector/node-inspector.tsx"
-  - "src/hud/components/inspector/building-inspector.tsx"
-  - "src/hud/hooks/use-selected-object.ts"
-last_updated: "2025-11-23"
-owner: "Mateusz Nędzi"
-tags: ["hud", "inspector", "focus", "sim-store"]
+  - 'src/hud/containers/focus-inspector.tsx'
+  - 'src/hud/components/inspector/agent-inspector.tsx'
+  - 'src/hud/components/inspector/road-inspector.tsx'
+  - 'src/hud/components/inspector/node-inspector.tsx'
+  - 'src/hud/components/inspector/building-inspector.tsx'
+  - 'src/hud/hooks/use-selected-object.ts'
+last_updated: '2025-11-23'
+owner: 'Mateusz Nędzi'
+tags: ['hud', 'inspector', 'focus', 'sim-store']
 links:
-  parent: "../../SUMMARY.md"
+  parent: '../../SUMMARY.md'
   siblings:
-    - "../state/focus-state.md"
-    - "../state/sim-context.md"
-    - "../../components/inspector/index.md"
+    - '../state/focus-state.md'
+    - '../state/sim-context.md'
+    - '../../components/inspector/index.md'
 ---
 
 # Focus Inspector

@@ -1,20 +1,20 @@
 ---
-title: "Inspector Components"
-summary: "Specialized UI components for displaying detailed simulation entity data in the HUD."
+title: 'Inspector Components'
+summary: 'Specialized UI components for displaying detailed simulation entity data in the HUD.'
 source_paths:
-  - "src/hud/components/inspector/agent-inspector.tsx"
-  - "src/hud/components/inspector/road-inspector.tsx"
-  - "src/hud/components/inspector/node-inspector.tsx"
-  - "src/hud/components/inspector/building-inspector.tsx"
-  - "src/hud/components/inspector/tree-inspector.tsx"
-  - "src/hud/components/inspector/common.tsx"
-last_updated: "2025-11-23"
-owner: "Mateusz Nędzi"
-tags: ["hud", "inspector", "ui", "components"]
+  - 'src/hud/components/inspector/agent-inspector.tsx'
+  - 'src/hud/components/inspector/road-inspector.tsx'
+  - 'src/hud/components/inspector/node-inspector.tsx'
+  - 'src/hud/components/inspector/building-inspector.tsx'
+  - 'src/hud/components/inspector/tree-inspector.tsx'
+  - 'src/hud/components/inspector/common.tsx'
+last_updated: '2025-11-23'
+owner: 'Mateusz Nędzi'
+tags: ['hud', 'inspector', 'ui', 'components']
 links:
-  parent: "../../../SUMMARY.md"
+  parent: '../../../SUMMARY.md'
   siblings:
-    - "../../containers/focus-inspector.md"
+    - '../../containers/focus-inspector.md'
 ---
 
 # Inspector Components
@@ -29,30 +29,41 @@ links:
 ## Components
 
 ### AgentInspector
+
 Displays live telemetry for `Truck` agents.
+
 - **Data:** Speed, Fuel (with visual bar), CO2 Emissions, Cargo Load (inbox/outbox), Route progress.
 - **Visuals:** Uses color-coded progress bars for fuel (amber) and cargo (blue).
 
 ### RoadInspector
+
 Displays static and dynamic properties of `Road` segments.
+
 - **Data:** Road class, Lanes, Speed Limit, Weight Limit, Length, active Truck count.
 - **Visuals:** Shows start/end node IDs for topology context.
 
 ### NodeInspector
+
 Displays properties of `Node` (intersections).
+
 - **Data:** X/Y Coordinates, connected Building count.
 
 ### BuildingInspector
+
 Handles both `Parking` and `Site` entities.
+
 - **Parking:** Shows capacity vs occupancy.
 - **Site:** Shows activity rate and pending package count.
 - **Common:** Shows attached node and vehicle count.
 
 ### TreeInspector
+
 A simple placeholder for decorative vegetation, confirming the object is purely visual.
 
 ### Common Utilities
+
 Located in `common.tsx`:
+
 - `InspectorHeader`: Standardized card header with icon, title, and ID.
 - `KeyValue`: Formatted label-value row with optional units.
 - `SectionHeader`: Small uppercase separator title.
@@ -70,4 +81,3 @@ These components are intended to be used exclusively by `FocusInspector`.
 
 - **Type Safety:** Props are typed against the domain entities (`Truck`, `Road`, etc.) from `src/sim/domain/entities.ts`.
 - **Visual Consistency:** All inspectors share the same `Card` structure and `common` utility components to ensure a unified look and feel.
-

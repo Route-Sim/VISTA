@@ -19,6 +19,10 @@ export interface SimSnapshot {
   trucks: TruckMap;
   packages: PackageMap;
   agents: AgentMap;
+  config: {
+    speed: number;
+    tickRate: number;
+  };
 }
 
 export type SimDraft = SimSnapshot; // mutable working copy type alias
@@ -35,6 +39,10 @@ export function createEmptySnapshot(): SimSnapshot {
     trucks: {},
     packages: {},
     agents: {},
+    config: {
+      speed: 1,
+      tickRate: 1,
+    },
   };
 }
 
@@ -52,6 +60,7 @@ export function cloneSnapshot(s: SimSnapshot): SimDraft {
     trucks: { ...s.trucks },
     packages: { ...s.packages },
     agents: { ...s.agents },
+    config: { ...s.config },
   };
 }
 
@@ -68,7 +77,8 @@ export function isSimSnapshot(x: unknown): x is SimSnapshot {
     typeof s.buildings === 'object' &&
     typeof s.trucks === 'object' &&
     typeof s.packages === 'object' &&
-    typeof s.agents === 'object'
+    typeof s.agents === 'object' &&
+    typeof s.config === 'object'
   );
 }
 
@@ -80,5 +90,6 @@ export function freezeSnapshot(s: SimSnapshot): SimSnapshot {
   Object.freeze(s.trucks);
   Object.freeze(s.packages);
   Object.freeze(s.agents);
+  Object.freeze(s.config);
   return Object.freeze(s) as SimSnapshot;
 }

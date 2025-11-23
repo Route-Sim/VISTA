@@ -44,6 +44,13 @@ export function wireNetToSim(
   off.push(net.on('agent.updated', (data) => forward('agent.updated', data)));
   off.push(net.on('agent.deleted', (data) => forward('agent.deleted', data)));
 
+  off.push(
+    net.on('simulation.started', (data) => forward('simulation.started', data)),
+  );
+  off.push(
+    net.on('simulation.updated', (data) => forward('simulation.updated', data)),
+  );
+
   return () => {
     for (const fn of off) fn();
   };

@@ -6,7 +6,9 @@ export class MovementSystem {
     if (deltaTimeMs <= 0) return;
 
     // Convert ms to hours for speed (km/h) calculation
-    const deltaTimeHours = deltaTimeMs / (1000 * 60 * 60);
+    // And apply simulation speed multiplier
+    const simSpeed = draft.config?.speed ?? 1.0;
+    const deltaTimeHours = (deltaTimeMs * simSpeed) / (1000 * 60 * 60);
 
     for (const truck of Object.values(draft.trucks)) {
       this.updateTruck(truck, draft, deltaTimeHours);

@@ -40,7 +40,9 @@ export class SimStore {
       // Calculate delta time since last tick
       const lastTime = this.working.timeMs;
       const newTime = typeof evt.timeMs === 'number' ? evt.timeMs : lastTime;
-      const deltaMs = newTime - lastTime;
+
+      // Prevent huge jump on first tick if initialized at 0
+      const deltaMs = lastTime === 0 ? 0 : newTime - lastTime;
 
       this.working.tick = evt.tick;
       if (typeof evt.timeMs === 'number') this.working.timeMs = evt.timeMs;

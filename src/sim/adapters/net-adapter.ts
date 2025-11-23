@@ -246,6 +246,21 @@ export function mapNetEvent(payload: unknown): SimEvent | undefined {
     };
   }
 
+  // --- Simulation Config ---
+  if (
+    isSignalEnvelope(payload, 'simulation.started') ||
+    isSignalEnvelope(payload, 'simulation.updated')
+  ) {
+    const data = payload.data;
+    return {
+      type: 'simulation.config',
+      config: {
+        speed: data.speed,
+        tickRate: data.tick_rate,
+      },
+    };
+  }
+
   return undefined;
 }
 

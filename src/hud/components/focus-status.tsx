@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { useFocusState } from '@/hud/state/focus-state';
 import { Button } from '@/hud/ui/button';
 import { Card, CardContent } from '@/hud/ui/card';
@@ -14,7 +13,8 @@ export function FocusStatus() {
       <Card className="rounded-full border border-black/10 bg-white/90 shadow-lg backdrop-blur-sm">
         <CardContent className="flex items-center gap-3 p-2 pl-4">
           <span className="text-sm font-medium text-black/80">
-            Focusing {focusedType}: <span className="font-bold">{focusedId}</span>
+            Focusing {focusedType}:{' '}
+            <span className="font-bold">{focusedId}</span>
           </span>
           <Button
             variant="ghost"
@@ -30,4 +30,3 @@ export function FocusStatus() {
     </div>
   );
 }
-

@@ -79,6 +79,13 @@ const agentDeleted = (
   delete draft.buildings[evt.id as any];
 };
 
+const simulationConfig = (
+  draft: SimDraft,
+  evt: Extract<SimEvent, { type: 'simulation.config' }>,
+) => {
+  draft.config = evt.config;
+};
+
 export function createDefaultReducerRegistry(): ReducerRegistry {
   const registry = new ReducerRegistry();
   registry.register('map.created', mapCreated as any);
@@ -86,6 +93,7 @@ export function createDefaultReducerRegistry(): ReducerRegistry {
   registry.register('agent.created', agentCreated as any);
   registry.register('agent.updated', agentUpdated as any);
   registry.register('agent.deleted', agentDeleted as any);
+  registry.register('simulation.config', simulationConfig as any);
 
   return registry;
 }

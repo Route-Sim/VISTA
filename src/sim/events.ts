@@ -18,6 +18,10 @@ export type SimEvent =
   | { type: 'truck.created'; truck: Truck }
   | { type: 'building.created'; building: Parking | Site }
   | { type: 'agent.updated'; id: AgentId; patch: Record<string, unknown> }
-  | { type: 'agent.deleted'; id: AgentId };
+  | { type: 'agent.deleted'; id: AgentId }
+  | {
+      type: 'simulation.config';
+      config: { speed: number; tickRate: number };
+    };
 
 export type SimEventType = SimEvent['type'];

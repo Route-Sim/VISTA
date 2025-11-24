@@ -15,7 +15,7 @@ export function TreeInspector() {
       <SectionHeader title="Info" />
       <CardContent className="p-3 pt-2">
         <div className="text-sm text-black/60 italic">
-          Decorative vegetation object. No simulation logic attached.
+          Just a tree. Standing here and there. Does nothing. Do not touch it.
         </div>
       </CardContent>
     </>

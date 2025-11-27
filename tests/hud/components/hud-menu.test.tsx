@@ -1,5 +1,5 @@
-import { describe, it, expect, vi } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { describe, it, expect, vi, afterEach } from 'vitest';
+import { render, screen, fireEvent, cleanup, within } from '@testing-library/react';
 import { HudMenu } from '@/hud/components/hud-menu';
 import { useHudVisibility } from '@/hud/state/hud-visibility';
 import type { HudPanelId } from '@/hud/state/hud-visibility';
@@ -13,6 +13,10 @@ vi.mock('@/hud/state/hud-visibility', async (importOriginal) => {
 });
 
 describe('HudMenu', () => {
+  afterEach(() => {
+    cleanup();
+    vi.clearAllMocks();
+  });
   it('should render trigger button', () => {
     vi.mocked(useHudVisibility).mockReturnValue({
       state: {},
@@ -21,8 +25,9 @@ describe('HudMenu', () => {
       toggle: vi.fn(),
     });
 
-    render(<HudMenu />);
-    expect(screen.getByText('HUD')).toBeInTheDocument();
+    const { container } = render(<HudMenu />);
+    const { getByText } = within(container);
+    expect(getByText('HUD')).toBeInTheDocument();
   });
 
   it('should show menu items when clicked', async () => {
@@ -34,10 +39,11 @@ describe('HudMenu', () => {
       toggle: vi.fn(),
     });
 
-    render(<HudMenu />);
+    const { container } = render(<HudMenu />);
     
-    // Open menu
-    const trigger = screen.getByText('HUD');
+    // Open menu - scope to this container
+    const { getByText } = within(container);
+    const trigger = getByText('HUD');
     fireEvent.pointerDown(trigger); // DropdownMenu uses pointer events
 
     // Check for panel labels

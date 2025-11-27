@@ -1,5 +1,5 @@
-import { describe, it, expect, vi } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { describe, it, expect, vi, afterEach } from 'vitest';
+import { render, screen, cleanup, within } from '@testing-library/react';
 import { MapGraph } from '@/hud/components/map-graph';
 import type { SignalData } from '@/net';
 
@@ -18,6 +18,10 @@ vi.mock('react-konva', () => ({
 }));
 
 describe('MapGraph', () => {
+  afterEach(() => {
+    cleanup();
+    vi.clearAllMocks();
+  });
   const mockData: SignalData['map.created'] = {
     map_width: 1000,
     map_height: 1000,
@@ -71,16 +75,17 @@ describe('MapGraph', () => {
   });
 
   it('should render graph elements via Konva', () => {
-    render(<MapGraph data={mockData} />);
+    const { container } = render(<MapGraph data={mockData} />);
 
-    // Check mocked konva elements
-    expect(screen.getByTestId('stage')).toBeInTheDocument();
-    expect(screen.getByTestId('layer')).toBeInTheDocument();
+    // Check mocked konva elements scoped to this container
+    const { getByTestId, getAllByTestId } = within(container);
+    expect(getByTestId('stage')).toBeInTheDocument();
+    expect(getByTestId('layer')).toBeInTheDocument();
     
-    const circles = screen.getAllByTestId('circle');
+    const circles = getAllByTestId('circle');
     expect(circles).toHaveLength(2);
 
-    const lines = screen.getAllByTestId('line');
+    const lines = getAllByTestId('line');
     expect(lines).toHaveLength(1);
   });
 });

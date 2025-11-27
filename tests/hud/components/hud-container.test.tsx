@@ -1,5 +1,5 @@
-import { describe, it, expect, vi } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { describe, it, expect, vi, afterEach } from 'vitest';
+import { render, screen, fireEvent, cleanup, within } from '@testing-library/react';
 import { HudContainer } from '@/hud/components/hud-container';
 import { useHudVisibility } from '@/hud/state/hud-visibility';
 
@@ -9,6 +9,10 @@ vi.mock('@/hud/state/hud-visibility', () => ({
 }));
 
 describe('HudContainer', () => {
+  afterEach(() => {
+    cleanup();
+    vi.clearAllMocks();
+  });
   it('should not render when not visible', () => {
     vi.mocked(useHudVisibility).mockReturnValue({
       isVisible: () => false,
@@ -53,14 +57,15 @@ describe('HudContainer', () => {
       toggle: vi.fn(),
     });
 
-    render(
+    const { container } = render(
       <HudContainer id="play-controls" title="Test Panel">
         Content
       </HudContainer>
     );
 
-    // Find close button (it has title="Hide" or aria-label="Hide Test Panel")
-    const closeBtn = screen.getByTitle('Hide');
+    // Find close button scoped to this container
+    const { getByLabelText } = within(container);
+    const closeBtn = getByLabelText('Hide Test Panel');
     fireEvent.click(closeBtn);
 
     expect(setVisible).toHaveBeenCalledWith('play-controls', false);
@@ -74,13 +79,15 @@ describe('HudContainer', () => {
       toggle: vi.fn(),
     });
 
-    render(
+    const { container } = render(
       <HudContainer id="play-controls" title="Test Panel" closable={false}>
         Content
       </HudContainer>
     );
 
-    expect(screen.queryByTitle('Hide')).not.toBeInTheDocument();
+    // Query scoped to this container
+    const { queryByTitle } = within(container);
+    expect(queryByTitle('Hide')).not.toBeInTheDocument();
   });
 });
 

@@ -41,12 +41,70 @@ export class MovementSystem {
     const timeSeconds = (deltaTimeMs / 1000) * simSpeed;
     const distanceM = speedMps * timeSeconds;
 
+    // Accumulate progress along the current edge (in meters)
     truck.edgeProgress += distanceM;
 
-    // Clamp to road length.
-    // We do NOT transition to next node/edge here; we wait for server update.
-    if (truck.edgeProgress > road.lengthM) {
-      truck.edgeProgress = road.lengthM;
+    // If we haven't reached the end of the current road, we're done.
+    if (truck.edgeProgress < road.lengthM) {
+      truck.currentNodeId = null;
+      return;
     }
+
+    // We have reached or passed the end of the current edge.
+    // Determine if we can transition to a next edge based on the route, which
+    // in some scenarios is treated as a sequence of road/edge IDs.
+    const route = (truck.route ?? []) as unknown as string[];
+    const routeEdges = route.filter((id) => draft.roads[id as keyof typeof draft.roads]) as any[];
+
+    let remainingProgress = truck.edgeProgress;
+    let currentEdgeId = truck.currentEdgeId;
+
+    // Walk along the route while we have more distance than the current edge length.
+    while (currentEdgeId && remainingProgress >= (draft.roads[currentEdgeId]?.lengthM ?? 0)) {
+      const currentRoad = draft.roads[currentEdgeId];
+      if (!currentRoad) break;
+
+      const overshoot = remainingProgress - currentRoad.lengthM;
+
+      // Find the next edge in the interpreted route sequence.
+      const idx = routeEdges.indexOf(currentEdgeId as unknown as string);
+      const nextEdgeId =
+        idx >= 0 && idx + 1 < routeEdges.length
+          ? (routeEdges[idx + 1] as keyof typeof draft.roads)
+          : null;
+
+      if (!nextEdgeId) {
+        // No next edge: clamp to the end of the current road, snap to end node (if any),
+        // and stop the truck.
+        truck.currentEdgeId = currentEdgeId;
+        truck.edgeProgress = currentRoad.lengthM;
+        if (currentRoad.endNodeId) {
+          truck.currentNodeId = currentRoad.endNodeId;
+        }
+        truck.currentSpeed = 0;
+        return;
+      }
+
+      // Move onto the next edge and continue with the overshoot distance.
+      currentEdgeId = nextEdgeId as any;
+      remainingProgress = overshoot;
+    }
+
+    // If we have transitioned to a new edge, update the truck state accordingly.
+    if (currentEdgeId && currentEdgeId !== truck.currentEdgeId) {
+      truck.currentEdgeId = currentEdgeId;
+      truck.edgeProgress = remainingProgress;
+      // While on an edge, we are between nodes.
+      truck.currentNodeId = null;
+      return;
+    }
+
+    // Fallback: clamp to the end of the original road if we did not manage to
+    // move to another edge for any reason.
+    truck.edgeProgress = road.lengthM;
+    if (road.endNodeId) {
+      truck.currentNodeId = road.endNodeId;
+    }
+    truck.currentSpeed = 0;
   }
 }

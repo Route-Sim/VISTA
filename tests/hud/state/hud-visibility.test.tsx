@@ -1,11 +1,14 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
 import {
   HudVisibilityProvider,
   useHudVisibility,
-  HUD_PANELS
+  HUD_PANELS,
 } from '@/hud/state/hud-visibility';
 
+/**
+ * @vitest-environment happy-dom
+ */
 describe('HudVisibilityContext', () => {
   beforeEach(() => {
     localStorage.clear();
@@ -81,7 +84,46 @@ describe('HudVisibilityContext', () => {
 
   it('should list known panels', () => {
     expect(HUD_PANELS).toContain('play-controls');
-    expect(HUD_PANELS).toContain('agent-inspector');
+    expect(HUD_PANELS).toContain('camera-help');
+    expect(HUD_PANELS).toContain('net-events');
+    expect(HUD_PANELS.length).toBe(3);
+  });
+
+  it('should not update state when setVisible is called with same value', () => {
+    const { result } = renderHook(() => useHudVisibility(), {
+      wrapper: HudVisibilityProvider,
+    });
+
+    const initialState = result.current.state;
+
+    act(() => {
+      // default is true; setting true again should keep same object
+      result.current.setVisible('play-controls', true);
+    });
+
+    expect(result.current.state).toBe(initialState);
+  });
+
+  it('should fall back to defaults when localStorage contains invalid JSON', () => {
+    localStorage.setItem('hud:panels:v1', '{not: "json"}');
+
+    const { result } = renderHook(() => useHudVisibility(), {
+      wrapper: HudVisibilityProvider,
+    });
+
+    // Should not throw and should use default visibility
+    expect(result.current.isVisible('play-controls')).toBe(true);
+    expect(result.current.isVisible('net-events')).toBe(false);
+  });
+
+  it('should throw if used outside provider', () => {
+    // React logs errors to console when hooks throw; silence for this test
+    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+
+    expect(() => {
+      renderHook(() => useHudVisibility());
+    }).toThrow('useHudVisibility must be used within provider');
+
+    consoleSpy.mockRestore();
   });
 });
-

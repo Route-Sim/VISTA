@@ -4,7 +4,7 @@ import path from 'path';
 export default defineConfig({
   test: {
     environment: 'happy-dom',
-    include: ['tests/**/*.test.ts'],
+    include: ['tests/**/*.test.ts', 'tests/hud/state/**/*.test.tsx'],
     alias: {
       '@': path.resolve(__dirname, './src'),
     },

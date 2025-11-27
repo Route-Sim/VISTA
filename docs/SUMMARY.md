@@ -56,6 +56,8 @@
     - store
       - [sim-store](modules/sim/store/sim-store.md)
       - [reducers](modules/sim/store/reducers.md)
+    - systems
+      - [movement-system](modules/sim/systems/movement-system.md)
 
   - view
     - [index](modules/view/index.md)

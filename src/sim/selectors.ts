@@ -3,6 +3,7 @@ import type {
   Parking,
   Road,
   Site,
+  GasStation,
   Truck,
 } from './domain/entities';
 import type {
@@ -26,7 +27,7 @@ export const getTruckById = (s: SimSnapshot, id: TruckId): Truck | undefined =>
 export const getBuildingById = (
   s: SimSnapshot,
   id: BuildingId,
-): (Parking | Site) | undefined => s.buildings[id];
+): (Parking | Site | GasStation) | undefined => s.buildings[id];
 
 export const getSiteById = (
   s: SimSnapshot,
@@ -39,12 +40,13 @@ export const getSiteById = (
 export const getBuildingsAtNode = (
   s: SimSnapshot,
   nodeId: NodeId,
-): (Parking | Site)[] => {
+): (Parking | Site | GasStation)[] => {
   const node = s.nodes[nodeId];
   if (!node) return [];
   return node.buildingIds.map((id) => s.buildings[id]).filter(Boolean) as (
     | Parking
     | Site
+    | GasStation
   )[];
 };
 

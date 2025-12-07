@@ -1,12 +1,21 @@
 import { useFocusState, type FocusType } from '@/hud/state/focus-state';
 import { useSimSnapshot } from './use-sim-snapshot';
-import type { EntityKind, Node, Road, Parking, Site, Truck } from '@/sim';
+import type {
+  EntityKind,
+  Node,
+  Road,
+  Parking,
+  Site,
+  GasStation,
+  Truck,
+} from '@/sim';
 
 type SelectedObject =
   | { kind: 'node'; data: Node }
   | { kind: 'road'; data: Road }
   | { kind: 'parking'; data: Parking }
   | { kind: 'site'; data: Site }
+  | { kind: 'gas_station'; data: GasStation }
   | { kind: 'agent'; data: Truck }
   | { kind: 'tree'; data: null }
   | null;
@@ -36,6 +45,8 @@ export function useSelectedObject(): {
     if (building) {
       if (building.kind === 'site') {
         object = { kind: 'site', data: building };
+      } else if (building.kind === 'gas_station') {
+        object = { kind: 'gas_station', data: building };
       } else {
         object = { kind: 'parking', data: building };
       }

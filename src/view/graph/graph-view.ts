@@ -6,6 +6,7 @@ import type {
   Parking,
   RoadId,
   Site,
+  GasStation,
   SimSnapshot,
 } from '@/sim';
 import type { SimFrame } from '@/sim/systems/interpolation';
@@ -25,6 +26,7 @@ import {
   PARKING_SPOT_DEPTH,
   PARKING_CORRIDOR_WIDTH,
 } from '@/engine/objects/parking';
+import { createGasStation } from '@/engine/objects/gas-station';
 import {
   type GraphTransform,
   computeGraphTransform,
@@ -66,11 +68,13 @@ export class GraphView {
   private readonly roadGroup = new THREE.Group();
   private readonly siteGroup = new THREE.Group();
   private readonly parkingGroup = new THREE.Group();
+  private readonly gasStationGroup = new THREE.Group();
   private readonly treeGroup = new THREE.Group();
   private readonly intersectionMeshes = new Map<NodeId, THREE.Mesh>();
   private readonly roadMeshes = new Map<RoadId, THREE.Mesh>();
   private readonly siteMeshes = new Map<BuildingId, THREE.Group>();
   private readonly parkingMeshes = new Map<BuildingId, THREE.Group>();
+  private readonly gasStationMeshes = new Map<BuildingId, THREE.Group>();
   // Store tree Sim-Coordinates to keep them stable when transform changes
   private readonly trees: Array<{ mesh: THREE.Group; x: number; y: number }> =
     [];
@@ -85,12 +89,14 @@ export class GraphView {
     this.roadGroup.name = 'GraphView.Roads';
     this.siteGroup.name = 'GraphView.Sites';
     this.parkingGroup.name = 'GraphView.Parkings';
+    this.gasStationGroup.name = 'GraphView.GasStations';
     this.treeGroup.name = 'GraphView.Trees';
 
     this.root.add(this.roadGroup);
     this.root.add(this.intersectionGroup);
     this.root.add(this.siteGroup);
     this.root.add(this.parkingGroup);
+    this.root.add(this.gasStationGroup);
     this.root.add(this.treeGroup);
     this.scene.add(this.root);
   }
@@ -421,12 +427,18 @@ export class GraphView {
   ): void {
     const seenSites = new Set<BuildingId>();
     const seenParkings = new Set<BuildingId>();
+    const seenGasStations = new Set<BuildingId>();
 
     // Group buildings by node
-    const buildingsByNode = new Map<NodeId, Array<Parking | Site>>();
+    const buildingsByNode = new Map<NodeId, Array<Parking | Site | GasStation>>();
 
     for (const building of Object.values(snapshot.buildings)) {
-      if (building.kind !== 'site' && building.kind !== 'parking') continue;
+      if (
+        building.kind !== 'site' &&
+        building.kind !== 'parking' &&
+        building.kind !== 'gas_station'
+      )
+        continue;
 
       if (!buildingsByNode.has(building.nodeId)) {
         buildingsByNode.set(building.nodeId, []);
@@ -482,10 +494,12 @@ export class GraphView {
         return a.side === 'right' ? -1 : 1;
       });
 
-      // Sort buildings: Sites first (larger)
+      // Sort buildings: Sites first (larger), then gas stations, then parking
       buildings.sort((a, b) => {
-        const scoreA = a.kind === 'site' ? 2 : 1;
-        const scoreB = b.kind === 'site' ? 2 : 1;
+        const scoreA =
+          a.kind === 'site' ? 2 : a.kind === 'gas_station' ? 1.5 : 1;
+        const scoreB =
+          b.kind === 'site' ? 2 : b.kind === 'gas_station' ? 1.5 : 1;
         return scoreB - scoreA;
       });
 
@@ -524,6 +538,17 @@ export class GraphView {
             cornerPush,
             slot.side,
           );
+        } else if (building.kind === 'gas_station') {
+          seenGasStations.add(building.id);
+          this.syncGasStation(
+            building,
+            snapshot,
+            transform,
+            nodeId,
+            slot.conn,
+            cornerPush,
+            slot.side,
+          );
         }
       }
     }
@@ -542,6 +567,14 @@ export class GraphView {
         this.parkingGroup.remove(mesh);
         disposeObject3D(mesh);
         this.parkingMeshes.delete(id);
+      }
+    }
+
+    for (const [id, mesh] of this.gasStationMeshes) {
+      if (!seenGasStations.has(id)) {
+        this.gasStationGroup.remove(mesh);
+        disposeObject3D(mesh);
+        this.gasStationMeshes.delete(id);
       }
     }
   }
@@ -676,6 +709,68 @@ export class GraphView {
     mesh.rotation.y = -conn.angle + (side === 'left' ? Math.PI : 0);
   }
 
+  private syncGasStation(
+    building: GasStation,
+    snapshot: SimSnapshot,
+    transform: GraphTransform,
+    nodeId: NodeId,
+    conn: ConnectedRoad,
+    cornerPush: number,
+    side: 'left' | 'right',
+  ): void {
+    let mesh = this.gasStationMeshes.get(building.id);
+    if (!mesh) {
+      mesh = createGasStation();
+      mesh.userData = { id: building.id, type: 'building' };
+      // Scale the gas station group to match graph scale
+      mesh.scale.setScalar(transform.scale);
+      this.gasStationMeshes.set(building.id, mesh);
+      this.gasStationGroup.add(mesh);
+    }
+
+    const node = snapshot.nodes[nodeId];
+    if (!node) return;
+
+    toVector3(node, transform, this.nodePosition);
+
+    const dirX = Math.cos(conn.angle);
+    const dirZ = Math.sin(conn.angle);
+
+    // Right vector (rotated -90 deg in XZ plane)
+    // or Left (rotated +90 deg)
+    let perpX, perpZ;
+    if (side === 'right') {
+      perpX = dirZ;
+      perpZ = -dirX;
+    } else {
+      perpX = -dirZ;
+      perpZ = dirX;
+    }
+
+    // Gas station dimensions: 18m x 12m (from createGasStation)
+    const gsWidth = 18 * transform.scale;
+    const gsDepth = 12 * transform.scale;
+
+    // Offsets
+    // Move along road enough to clear intersection + half gas station width + corner push
+    const distAlong =
+      conn.width + 2 * transform.scale + gsWidth / 2 + cornerPush;
+
+    // Move sideways to clear road half-width + half gas station depth
+    const roadHalfWidth = conn.width / 2;
+    const distSide = roadHalfWidth + 1 * transform.scale + gsDepth / 2;
+
+    mesh.position.x = this.nodePosition.x + dirX * distAlong + perpX * distSide;
+    mesh.position.z = this.nodePosition.z + dirZ * distAlong + perpZ * distSide;
+    // Use graph road elevation so it sits on same plane
+    mesh.position.y = GRAPH_ROAD_ELEVATION;
+
+    // Align rotation with road
+    // If right: -conn.angle
+    // If left: -conn.angle + PI
+    mesh.rotation.y = -conn.angle + (side === 'left' ? Math.PI : 0);
+  }
+
   private syncRoads(
     snapshot: SimSnapshot,
     transform: GraphTransform,
@@ -776,5 +871,11 @@ export class GraphView {
       disposeObject3D(mesh);
     }
     this.parkingMeshes.clear();
+
+    for (const mesh of this.gasStationMeshes.values()) {
+      this.gasStationGroup.remove(mesh);
+      disposeObject3D(mesh);
+    }
+    this.gasStationMeshes.clear();
   }
 }

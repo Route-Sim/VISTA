@@ -11,6 +11,7 @@ import type {
   Truck,
   Parking,
   Site,
+  GasStation,
 } from '../domain/entities';
 import {
   asEdgeId,
@@ -93,6 +94,18 @@ export function mapNetEvent(payload: unknown): SimEvent | undefined {
               truckIds: [],
             };
             buildings[bId] = site;
+          } else if (b.type === 'gas_station') {
+            // Gas Station
+            const gs = b as any;
+            const gasStation: GasStation = {
+              id: bId,
+              nodeId,
+              kind: 'gas_station',
+              capacity: gs.capacity || 0,
+              costFactor: gs.cost_factor || 1.0,
+              truckIds: [],
+            };
+            buildings[bId] = gasStation;
           }
         }
       }
@@ -201,6 +214,16 @@ export function mapNetEvent(payload: unknown): SimEvent | undefined {
           truckIds: [],
         };
         return { type: 'building.created', building: parking };
+      } else if (tags.type === 'gas_station') {
+        const gasStation: GasStation = {
+          id,
+          nodeId,
+          kind: 'gas_station',
+          capacity: (tags.capacity as number) || 0,
+          costFactor: (tags.cost_factor as number) || 1.0,
+          truckIds: [],
+        };
+        return { type: 'building.created', building: gasStation };
       } else {
         // Default to site
         const site: Site = {

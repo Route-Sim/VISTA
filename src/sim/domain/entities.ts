@@ -61,6 +61,12 @@ export interface Site extends BuildingBase {
   packageIds: PackageId[];
 }
 
+export interface GasStation extends BuildingBase {
+  kind: 'gas_station';
+  capacity: number;
+  costFactor: number;
+}
+
 // Logistics
 export interface Package {
   id: PackageId;
@@ -102,7 +108,7 @@ export interface Agent {
 export type NodeMap = Record<NodeId, Node>;
 export type EdgeMap = Record<EdgeId, Edge>;
 export type RoadMap = Record<RoadId, Road>;
-export type BuildingMap = Record<BuildingId, Parking | Site>;
+export type BuildingMap = Record<BuildingId, Parking | Site | GasStation>;
 export type TruckMap = Record<TruckId, Truck>;
 export type PackageMap = Record<PackageId, Package>;
 export type AgentMap = Record<AgentId, Agent>;

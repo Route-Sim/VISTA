@@ -41,6 +41,11 @@ export const Colors = {
   // Nature
   treeTrunk: 0x8b5a2b as ColorHex, // warm wood brown
   treeFoliage: 0x26854c as ColorHex, // olive green
+
+  // Gas Station
+  gasStationCanopy: 0x8c7b70 as ColorHex, // warm dark grey (same as warehouseRoof)
+  gasStationPump: 0xe67e22 as ColorHex, // safety orange (same as warehouseAccent)
+  gasStationSign: 0xe67e22 as ColorHex, // safety orange for signage
 } as const;
 
 export type AppColorKey = keyof typeof Colors;

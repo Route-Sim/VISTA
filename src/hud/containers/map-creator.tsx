@@ -32,8 +32,12 @@ const DEFAULTS: MapCreateParams = {
   rural_sites_per_km2: 0.5,
   urban_parkings_per_km2: 2.0,
   rural_parkings_per_km2: 0.5,
+  urban_gas_stations_per_km2: 1.0,
+  rural_gas_stations_per_km2: 0.2,
   urban_activity_rate_range: [5.0, 20.0],
   rural_activity_rate_range: [1.0, 8.0],
+  gas_station_capacity_range: [10.0, 50.0],
+  gas_station_cost_factor_range: [1.0, 2.0],
   seed: 42,
 };
 
@@ -73,8 +77,12 @@ export function MapCreator({
         rural_sites_per_km2: data.rural_sites_per_km2,
         urban_parkings_per_km2: data.urban_parkings_per_km2,
         rural_parkings_per_km2: data.rural_parkings_per_km2,
+        urban_gas_stations_per_km2: data.urban_gas_stations_per_km2,
+        rural_gas_stations_per_km2: data.rural_gas_stations_per_km2,
         urban_activity_rate_range: data.urban_activity_rate_range,
         rural_activity_rate_range: data.rural_activity_rate_range,
+        gas_station_capacity_range: data.gas_station_capacity_range,
+        gas_station_cost_factor_range: data.gas_station_cost_factor_range,
         seed: data.seed,
       });
     });
@@ -89,7 +97,11 @@ export function MapCreator({
   };
 
   const setArrayRange = <
-    K extends 'urban_activity_rate_range' | 'rural_activity_rate_range',
+    K extends
+      | 'urban_activity_rate_range'
+      | 'rural_activity_rate_range'
+      | 'gas_station_capacity_range'
+      | 'gas_station_cost_factor_range',
   >(
     key: K,
     index: 0 | 1,
@@ -597,6 +609,57 @@ export function MapCreator({
               </div>
             </section>
 
+            {/* Gas Stations */}
+            <section className="space-y-2">
+              <h3 className="text-sm font-medium text-black/80">
+                Gas Stations
+              </h3>
+              <div className="grid grid-cols-2 gap-2">
+                <div className="space-y-2 text-black/70">
+                  <Label
+                    htmlFor="urban_gas_stations_per_km2"
+                    className="ml-0.5 text-xs"
+                  >
+                    Urban Gas Stations (per km²)
+                  </Label>
+                  <Input
+                    id="urban_gas_stations_per_km2"
+                    type="number"
+                    min={0}
+                    step={0.1}
+                    value={params.urban_gas_stations_per_km2}
+                    onChange={(e) =>
+                      setNumber(
+                        'urban_gas_stations_per_km2',
+                        Math.max(0, Number(e.target.value) || 0),
+                      )
+                    }
+                  />
+                </div>
+                <div className="space-y-2 text-black/70">
+                  <Label
+                    htmlFor="rural_gas_stations_per_km2"
+                    className="ml-0.5 text-xs"
+                  >
+                    Rural Gas Stations (per km²)
+                  </Label>
+                  <Input
+                    id="rural_gas_stations_per_km2"
+                    type="number"
+                    min={0}
+                    step={0.1}
+                    value={params.rural_gas_stations_per_km2}
+                    onChange={(e) =>
+                      setNumber(
+                        'rural_gas_stations_per_km2',
+                        Math.max(0, Number(e.target.value) || 0),
+                      )
+                    }
+                  />
+                </div>
+              </div>
+            </section>
+
             {/* Activity Rates */}
             <section className="space-y-2">
               <h3 className="text-sm font-medium text-black/80">
@@ -675,6 +738,95 @@ export function MapCreator({
                       onChange={(e) =>
                         setArrayRange(
                           'rural_activity_rate_range',
+                          1,
+                          Number(e.target.value) || 0,
+                        )
+                      }
+                      placeholder="Max"
+                    />
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* Gas Station Properties */}
+            <section className="space-y-2">
+              <h3 className="text-sm font-medium text-black/80">
+                Gas Station Properties
+              </h3>
+              <div className="grid grid-cols-2 gap-2">
+                <div className="space-y-2 text-black/70">
+                  <Label
+                    htmlFor="gas_station_capacity_min"
+                    className="ml-0.5 text-xs"
+                  >
+                    Capacity Range [min, max]
+                  </Label>
+                  <div className="grid grid-cols-2 gap-2">
+                    <Input
+                      id="gas_station_capacity_min"
+                      type="number"
+                      min={0}
+                      step={0.1}
+                      value={params.gas_station_capacity_range[0]}
+                      onChange={(e) =>
+                        setArrayRange(
+                          'gas_station_capacity_range',
+                          0,
+                          Number(e.target.value) || 0,
+                        )
+                      }
+                      placeholder="Min"
+                    />
+                    <Input
+                      id="gas_station_capacity_max"
+                      type="number"
+                      min={0}
+                      step={0.1}
+                      value={params.gas_station_capacity_range[1]}
+                      onChange={(e) =>
+                        setArrayRange(
+                          'gas_station_capacity_range',
+                          1,
+                          Number(e.target.value) || 0,
+                        )
+                      }
+                      placeholder="Max"
+                    />
+                  </div>
+                </div>
+                <div className="space-y-2 text-black/70">
+                  <Label
+                    htmlFor="gas_station_cost_factor_min"
+                    className="ml-0.5 text-xs"
+                  >
+                    Cost Factor Range [min, max]
+                  </Label>
+                  <div className="grid grid-cols-2 gap-2">
+                    <Input
+                      id="gas_station_cost_factor_min"
+                      type="number"
+                      min={0}
+                      step={0.1}
+                      value={params.gas_station_cost_factor_range[0]}
+                      onChange={(e) =>
+                        setArrayRange(
+                          'gas_station_cost_factor_range',
+                          0,
+                          Number(e.target.value) || 0,
+                        )
+                      }
+                      placeholder="Min"
+                    />
+                    <Input
+                      id="gas_station_cost_factor_max"
+                      type="number"
+                      min={0}
+                      step={0.1}
+                      value={params.gas_station_cost_factor_range[1]}
+                      onChange={(e) =>
+                        setArrayRange(
+                          'gas_station_cost_factor_range',
                           1,
                           Number(e.target.value) || 0,
                         )

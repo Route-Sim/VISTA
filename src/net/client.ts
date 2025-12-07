@@ -159,7 +159,11 @@ export class WebSocketClient {
     let signal: SignalUnion;
     try {
       signal = decodeSignal(parsed);
-    } catch {
+    } catch (err) {
+      console.warn('[net][client] Failed to decode signal:', err);
+      if (err instanceof Error) {
+        console.warn('[net][client] Error details:', err.message);
+      }
       return; // ignore invalid signal shape
     }
     // Satisfy any awaiting request (promise resolution), then ALWAYS broadcast.

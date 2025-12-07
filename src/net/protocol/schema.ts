@@ -40,11 +40,21 @@ export const ActionSchemas = {
       rural_sites_per_km2: z.number().min(0),
       urban_parkings_per_km2: z.number().min(0),
       rural_parkings_per_km2: z.number().min(0),
+      urban_gas_stations_per_km2: z.number().min(0),
+      rural_gas_stations_per_km2: z.number().min(0),
       urban_activity_rate_range: z.tuple([
         z.number().min(0),
         z.number().min(0),
       ]),
       rural_activity_rate_range: z.tuple([
+        z.number().min(0),
+        z.number().min(0),
+      ]),
+      gas_station_capacity_range: z.tuple([
+        z.number().min(0),
+        z.number().min(0),
+      ]),
+      gas_station_cost_factor_range: z.tuple([
         z.number().min(0),
         z.number().min(0),
       ]),
@@ -92,7 +102,17 @@ const SiteData = z
   })
   .catchall(z.unknown());
 
-const BuildingData = z.union([ParkingData, SiteData]);
+const GasStationData = z
+  .object({
+    id: z.string(),
+    type: z.literal('gas_station'),
+    capacity: z.number().int().min(0),
+    current_agents: z.array(z.string()).default([]),
+    cost_factor: z.number().min(0),
+  })
+  .catchall(z.unknown());
+
+const BuildingData = z.union([ParkingData, SiteData, GasStationData]);
 
 const GraphNode = z.object({
   id: z.string(),
@@ -189,11 +209,21 @@ export const SignalSchemas = {
       rural_sites_per_km2: z.number().min(0),
       urban_parkings_per_km2: z.number().min(0),
       rural_parkings_per_km2: z.number().min(0),
+      urban_gas_stations_per_km2: z.number().min(0),
+      rural_gas_stations_per_km2: z.number().min(0),
       urban_activity_rate_range: z.tuple([
         z.number().min(0),
         z.number().min(0),
       ]),
       rural_activity_rate_range: z.tuple([
+        z.number().min(0),
+        z.number().min(0),
+      ]),
+      gas_station_capacity_range: z.tuple([
+        z.number().min(0),
+        z.number().min(0),
+      ]),
+      gas_station_cost_factor_range: z.tuple([
         z.number().min(0),
         z.number().min(0),
       ]),

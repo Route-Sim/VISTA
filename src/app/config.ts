@@ -1,4 +1,12 @@
 export function resolveWsUrl(): string {
+  // Runtime override: check for window global (set via script tag or injected config)
+  if (typeof window !== 'undefined' && (window as any).VITE_WS_URL) {
+    const runtimeUrl = (window as any).VITE_WS_URL;
+    if (typeof runtimeUrl === 'string' && runtimeUrl.trim().length > 0) {
+      return runtimeUrl.trim();
+    }
+  }
+
   // Vite exposes env vars via import.meta.env, prefixed with VITE_
   const envUrl = import.meta.env.VITE_WS_URL;
 

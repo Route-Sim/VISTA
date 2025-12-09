@@ -12,5 +12,6 @@ WORKDIR /app
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/index.ts ./
 ENV PORT=3000
+ENV VITE_WS_URL=ws://localhost:8000/ws
 EXPOSE 3000
 CMD ["bun", "run", "index.ts"]

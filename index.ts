@@ -4,6 +4,7 @@ import { join, normalize } from 'path';
 const DIST_DIR = join(process.cwd(), 'dist');
 const DEFAULT_FILE = 'index.html';
 const PORT = Number(process.env.PORT || 3000);
+const WS_URL = process.env.VITE_WS_URL;
 
 const MIME_MAP: Record<string, string> = {
   '.html': 'text/html; charset=utf-8',
@@ -43,15 +44,48 @@ async function serveFile(pathname: string): Promise<Response> {
     // SPA fallback to index.html
     const indexFile = file(join(DIST_DIR, DEFAULT_FILE));
     if (await indexFile.exists()) {
-      return new Response(indexFile, {
-        headers: { 'Content-Type': MIME_MAP['.html'] },
-      });
+      return await injectConfig(indexFile);
     }
     return new Response('Not Found', { status: 404 });
   }
 
+  // Inject runtime config into HTML files
+  if (pathname.endsWith('.html')) {
+    return await injectConfig(f);
+  }
+
   const contentType = getMimeType(fullPath) || 'application/octet-stream';
   return new Response(f, { headers: { 'Content-Type': contentType } });
+}
+
+async function injectConfig(htmlFile: File): Promise<Response> {
+  const html = await htmlFile.text();
+
+  // Only inject if VITE_WS_URL is set
+  if (!WS_URL) {
+    return new Response(html, {
+      headers: { 'Content-Type': MIME_MAP['.html'] },
+    });
+  }
+
+  // Inject script tag before closing </head> or at start of <body>
+  // Escape the URL to prevent XSS
+  const escapedUrl = WS_URL.replace(/"/g, '&quot;').replace(/'/g, '&#x27;');
+  const configScript = `<script>window.VITE_WS_URL="${escapedUrl}";</script>`;
+
+  let injectedHtml = html;
+  if (html.includes('</head>')) {
+    injectedHtml = html.replace('</head>', `${configScript}</head>`);
+  } else if (html.includes('<body>')) {
+    injectedHtml = html.replace('<body>', `<body>${configScript}`);
+  } else {
+    // Fallback: prepend to HTML
+    injectedHtml = `${configScript}${html}`;
+  }
+
+  return new Response(injectedHtml, {
+    headers: { 'Content-Type': MIME_MAP['.html'] },
+  });
 }
 
 serve({

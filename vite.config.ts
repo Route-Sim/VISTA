@@ -13,6 +13,4 @@ export default defineConfig({
       '@': path.resolve(__dirname, 'src'),
     },
   },
-  // Note: WebSocket proxy removed to avoid Bun compatibility issues with socket.destroySoon()
-  // The app connects directly to ws://localhost:8000/ws in dev mode (see src/app/config.ts)
 });

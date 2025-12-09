@@ -1,14 +1,6 @@
 import { useFocusState, type FocusType } from '@/hud/state/focus-state';
 import { useSimSnapshot } from './use-sim-snapshot';
-import type {
-  EntityKind,
-  Node,
-  Road,
-  Parking,
-  Site,
-  GasStation,
-  Truck,
-} from '@/sim';
+import type { Node, Road, Parking, Site, GasStation, Truck } from '@/sim';
 
 type SelectedObject =
   | { kind: 'node'; data: Node }
@@ -60,4 +52,3 @@ export function useSelectedObject(): {
 
   return { id: focusedId, type: focusedType, object };
 }
-

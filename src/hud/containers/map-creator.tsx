@@ -55,37 +55,36 @@ export function MapCreator({
 
   // Subscribe to map.created events on mount
   React.useEffect(() => {
-    const unsubscribe = net.on('map.created', (data) => {
+    const handleMapCreated = (data: MapCreatedData): void => {
       setMapData(data);
-      setParams({
-        map_width: data.map_width,
-        map_height: data.map_height,
-        num_major_centers: data.num_major_centers,
-        minor_per_major: data.minor_per_major,
-        center_separation: data.center_separation,
-        urban_sprawl: data.urban_sprawl,
-        local_density: data.local_density,
-        rural_density: data.rural_density,
-        intra_connectivity: data.intra_connectivity,
-        inter_connectivity: data.inter_connectivity,
-        arterial_ratio: data.arterial_ratio,
-        gridness: data.gridness,
-        ring_road_prob: data.ring_road_prob,
-        highway_curviness: data.highway_curviness,
-        rural_settlement_prob: data.rural_settlement_prob,
-        urban_sites_per_km2: data.urban_sites_per_km2,
-        rural_sites_per_km2: data.rural_sites_per_km2,
-        urban_parkings_per_km2: data.urban_parkings_per_km2,
-        rural_parkings_per_km2: data.rural_parkings_per_km2,
-        urban_gas_stations_per_km2: data.urban_gas_stations_per_km2,
-        rural_gas_stations_per_km2: data.rural_gas_stations_per_km2,
-        urban_activity_rate_range: data.urban_activity_rate_range,
-        rural_activity_rate_range: data.rural_activity_rate_range,
-        gas_station_capacity_range: data.gas_station_capacity_range,
-        gas_station_cost_factor_range: data.gas_station_cost_factor_range,
-        seed: data.seed,
+      setParams((prev) => {
+        const fallback = { ...DEFAULTS, ...prev };
+        return {
+          ...fallback,
+          ...data,
+          urban_activity_rate_range:
+            data.urban_activity_rate_range ??
+            fallback.urban_activity_rate_range,
+          rural_activity_rate_range:
+            data.rural_activity_rate_range ??
+            fallback.rural_activity_rate_range,
+          gas_station_capacity_range:
+            data.gas_station_capacity_range ??
+            fallback.gas_station_capacity_range,
+          gas_station_cost_factor_range:
+            data.gas_station_cost_factor_range ??
+            fallback.gas_station_cost_factor_range,
+          urban_gas_stations_per_km2:
+            data.urban_gas_stations_per_km2 ??
+            fallback.urban_gas_stations_per_km2,
+          rural_gas_stations_per_km2:
+            data.rural_gas_stations_per_km2 ??
+            fallback.rural_gas_stations_per_km2,
+        };
       });
-    });
+    };
+
+    const unsubscribe = net.on('map.created', handleMapCreated);
     return unsubscribe;
   }, []);
 

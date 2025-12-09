@@ -3,7 +3,7 @@ title: 'Map Creator'
 summary: 'Full-screen container for map creation and editing. Displayed when simulation is idle, hidden when simulation starts.'
 source_paths:
   - 'src/hud/containers/map-creator.tsx'
-last_updated: '2025-11-08'
+last_updated: '2025-12-09'
 owner: 'Mateusz Nędzi'
 tags: ['module', 'hud', 'react', 'ui', 'container']
 links:
@@ -70,6 +70,7 @@ import { MapCreator } from '@/hud/containers/map-creator';
 - Outgoing action visible in Network Log panel.
 - Graph preview colors follow the warm palette; stroke width reflects `road_class` tier and `lanes`.
 - The preview overlays counts (`generated_nodes`, `generated_edges`, `generated_sites`) for quick verification.
+- `map.created` events may omit newer fields (e.g., gas station ranges); the container defensively merges incoming data with the last known params/defaults so the form and graph stay render-safe during schema evolution.
 
 ## References
 

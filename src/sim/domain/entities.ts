@@ -1,5 +1,6 @@
 import type {
   AgentId,
+  BrokerId,
   BuildingId,
   EdgeId,
   NodeId,
@@ -8,8 +9,12 @@ import type {
   SiteId,
   TruckId,
 } from './ids';
-import type { BuildingKind } from './enums';
-import type { RoadClass } from './enums';
+import type {
+  BuildingKind,
+  DeliveryUrgency,
+  Priority,
+  RoadClass,
+} from './enums';
 
 // Core graph primitives
 export interface Node {
@@ -45,7 +50,7 @@ export interface Road extends Edge {
 export interface BuildingBase {
   id: BuildingId;
   nodeId: NodeId;
-  kind: BuildingKind; // "parking" | "site"
+  kind: BuildingKind; // "parking" | "site" | "gas_station"
   truckIds: TruckId[];
 }
 
@@ -54,11 +59,36 @@ export interface Parking extends BuildingBase {
   capacity: number;
 }
 
+// Package generation configuration for sites
+export interface PackageConfig {
+  sizeRange: [number, number];
+  valueRangeCurrency: [number, number];
+  pickupDeadlineRangeTicks: [number, number];
+  deliveryDeadlineRangeTicks: [number, number];
+  priorityWeights: Record<string, number>;
+  urgencyWeights: Record<string, number>;
+}
+
+// Site statistics
+export interface SiteStatistics {
+  packagesGenerated: number;
+  packagesPickedUp: number;
+  packagesDelivered: number;
+  packagesExpired: number;
+  totalValueDelivered: number;
+  totalValueExpired: number;
+}
+
 export interface Site extends BuildingBase {
   kind: 'site';
   name?: string;
+  capacity?: number;
   activityRate?: number;
+  loadingRateTonnesPerMin?: number;
+  destinationWeights?: Record<string, number>;
+  packageConfig?: PackageConfig;
   packageIds: PackageId[];
+  statistics?: SiteStatistics;
 }
 
 export interface GasStation extends BuildingBase {
@@ -70,9 +100,15 @@ export interface GasStation extends BuildingBase {
 // Logistics
 export interface Package {
   id: PackageId;
+  originBuildingId: SiteId;
+  destinationBuildingId: SiteId;
   size: number;
-  startSiteId: SiteId; // Site is a Building
-  endSiteId: SiteId;
+  valueCurrency: number;
+  priority: Priority;
+  urgency: DeliveryUrgency;
+  pickupDeadlineTick: number;
+  deliveryDeadlineTick: number;
+  createdAtTick: number;
 }
 
 export interface Truck {
@@ -98,6 +134,29 @@ export interface Truck {
   destinationNodeId: NodeId | null;
   routeStartNodeId: NodeId | null;
   routeEndNodeId: NodeId | null;
+
+  // Driving state
+  drivingTimeS: number;
+  restingTimeS: number;
+  isResting: boolean;
+
+  // Economic state
+  balanceDucats: number;
+  riskFactor: number;
+
+  // Behavioral flags
+  isSeekingParking: boolean;
+  originalDestination: NodeId | null;
+  isSeekingGasStation: boolean;
+  isFueling: boolean;
+}
+
+export interface Broker {
+  id: BrokerId;
+  balanceDucats: number;
+  queueSize: number;
+  assignedCount: number;
+  hasActiveNegotiation: boolean;
 }
 
 export interface Agent {
@@ -110,5 +169,6 @@ export type EdgeMap = Record<EdgeId, Edge>;
 export type RoadMap = Record<RoadId, Road>;
 export type BuildingMap = Record<BuildingId, Parking | Site | GasStation>;
 export type TruckMap = Record<TruckId, Truck>;
+export type BrokerMap = Record<BrokerId, Broker>;
 export type PackageMap = Record<PackageId, Package>;
 export type AgentMap = Record<AgentId, Agent>;

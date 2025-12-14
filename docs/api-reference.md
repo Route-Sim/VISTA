@@ -4,7 +4,7 @@ summary: 'Typed actions and signals exchanged between VISTA and SPINE with zod-v
 source_paths:
   - 'src/net/protocol/schema.ts'
   - 'src/net/protocol/mapping.ts'
-last_updated: '2025-12-13'
+last_updated: '2025-12-14'
 owner: 'Mateusz Nędzi'
 tags: ['api', 'net', 'protocol']
 links:
@@ -93,18 +93,17 @@ type SignalName =
   | 'simulation.stopped'
   | 'simulation.resumed'
   | 'simulation.paused'
+  | 'simulation.updated'
   | 'tick.start'
   | 'tick.end'
   | 'map.created'
-  | 'map.exported'
-  | 'map.imported'
-  | 'tick_rate.updated'
   | 'agent.created'
   | 'agent.updated'
   | 'agent.deleted'
-  | 'agent.state'
-  | 'event.created'
+  | 'agent.listed'
+  | 'agent.described'
   | 'building.updated'
+  | 'package.created'
   | 'error';
 ```
 
@@ -345,6 +344,274 @@ Examples:
 ```
 
 Downstream systems should tolerate additional properties introduced by the server; the schema intentionally uses `.catchall(z.unknown())` on each variant to allow forward-compatible extensions.
+
+### Signal: agent.updated – Per-Tick Agent State Updates
+
+The `agent.updated` signal provides the full current state of an agent. The payload varies by agent kind.
+
+#### Truck Agent Updated
+
+```ts
+type TruckAgentUpdatedPayload = {
+  id: string;
+  kind: 'truck';
+  max_speed_kph: number;
+  capacity: number;
+  loaded_packages: string[];
+  current_speed_kph: number;
+  current_node: GraphIndex | null;
+  current_edge: GraphIndex | null;
+  route: GraphIndex[];
+  route_start_node: GraphIndex | null;
+  route_end_node: GraphIndex | null;
+  current_building_id: string | null;
+  driving_time_s: number;
+  resting_time_s: number;
+  is_resting: boolean;
+  balance_ducats: number;
+  risk_factor: number;           // 0..1
+  is_seeking_parking: boolean;
+  original_destination: GraphIndex | null;
+  fuel_tank_capacity_l: number;
+  current_fuel_l: number;
+  co2_emitted_kg: number;
+  is_seeking_gas_station: boolean;
+  is_fueling: boolean;
+  agent_id: string;
+  tick: number;
+};
+```
+
+Example:
+
+```json
+{
+  "signal": "agent.updated",
+  "data": {
+    "id": "11b4b0ae-627e-4343-b5ba-ff98d765c81d",
+    "kind": "truck",
+    "max_speed_kph": 80.0,
+    "capacity": 20.0,
+    "loaded_packages": [],
+    "current_speed_kph": 20.0,
+    "current_node": null,
+    "current_edge": 328,
+    "route": [1, 5, 21, 6, 29, 20, 33, 28, 58],
+    "route_start_node": null,
+    "route_end_node": 58,
+    "current_building_id": null,
+    "driving_time_s": 0.0,
+    "resting_time_s": 0.0,
+    "is_resting": false,
+    "balance_ducats": 1000.0,
+    "risk_factor": 0.5,
+    "is_seeking_parking": false,
+    "original_destination": null,
+    "fuel_tank_capacity_l": 100.0,
+    "current_fuel_l": 10.0,
+    "co2_emitted_kg": 0.0,
+    "is_seeking_gas_station": true,
+    "is_fueling": false,
+    "agent_id": "11b4b0ae-627e-4343-b5ba-ff98d765c81d",
+    "tick": 2
+  }
+}
+```
+
+#### Broker Agent Updated
+
+```ts
+type BrokerAgentUpdatedPayload = {
+  id: string;
+  kind: 'broker';
+  balance_ducats: number;
+  queue_size: number;
+  assigned_count: number;
+  has_active_negotiation: boolean;
+  agent_id: string;
+  tick: number;
+};
+```
+
+Example:
+
+```json
+{
+  "signal": "agent.updated",
+  "data": {
+    "id": "broker-main",
+    "kind": "broker",
+    "balance_ducats": 10000.0,
+    "queue_size": 0,
+    "assigned_count": 1,
+    "has_active_negotiation": false,
+    "agent_id": "broker-main",
+    "tick": 7
+  }
+}
+```
+
+### Signal: building.updated – Building State Changes
+
+The `building.updated` signal provides the current state of a building. Building types include `site`, `parking`, and `gas_station`.
+
+#### Site Building Updated
+
+```ts
+type PackageConfig = {
+  size_range: [number, number];
+  value_range_currency: [number, number];
+  pickup_deadline_range_ticks: [number, number];
+  delivery_deadline_range_ticks: [number, number];
+  priority_weights: Record<string, number>;   // e.g., "Priority.LOW": 0.4
+  urgency_weights: Record<string, number>;    // e.g., "DeliveryUrgency.STANDARD": 0.6
+};
+
+type BuildingStatistics = {
+  packages_generated: number;
+  packages_picked_up: number;
+  packages_delivered: number;
+  packages_expired: number;
+  total_value_delivered: number;
+  total_value_expired: number;
+};
+
+type SiteBuildingUpdatedPayload = {
+  building_id: string;
+  building: {
+    id: string;
+    type: 'site';
+    capacity: number;
+    current_agents: string[];
+    name: string;
+    activity_rate: number;
+    loading_rate_tonnes_per_min: number;
+    destination_weights: Record<string, number>;
+    package_config: PackageConfig;
+    active_packages: string[];
+    statistics: BuildingStatistics;
+  };
+  tick: number;
+};
+```
+
+Example:
+
+```json
+{
+  "signal": "building.updated",
+  "data": {
+    "building_id": "node116_site_4",
+    "building": {
+      "id": "node116_site_4",
+      "capacity": 3,
+      "current_agents": [],
+      "name": "Site 116",
+      "activity_rate": 442.93,
+      "loading_rate_tonnes_per_min": 0.5,
+      "destination_weights": {
+        "node62_site_0": 0.23,
+        "node65_site_1": 0.26,
+        "node46_site_2": 0.25,
+        "node58_site_3": 0.26
+      },
+      "package_config": {
+        "size_range": [1.0, 30.0],
+        "value_range_currency": [10.0, 1000.0],
+        "pickup_deadline_range_ticks": [1800, 7200],
+        "delivery_deadline_range_ticks": [3600, 14400],
+        "priority_weights": {
+          "Priority.LOW": 0.4,
+          "Priority.MEDIUM": 0.3,
+          "Priority.HIGH": 0.2,
+          "Priority.URGENT": 0.1
+        },
+        "urgency_weights": {
+          "DeliveryUrgency.STANDARD": 0.6,
+          "DeliveryUrgency.EXPRESS": 0.3,
+          "DeliveryUrgency.SAME_DAY": 0.1
+        }
+      },
+      "active_packages": ["pkg-node116_site_4-53-0", "pkg-node116_site_4-65-1"],
+      "statistics": {
+        "packages_generated": 4,
+        "packages_picked_up": 0,
+        "packages_delivered": 0,
+        "packages_expired": 0,
+        "total_value_delivered": 0.0,
+        "total_value_expired": 0.0
+      },
+      "type": "site"
+    },
+    "tick": 155
+  }
+}
+```
+
+#### Parking and Gas Station Buildings
+
+These building types follow similar structures:
+
+```ts
+type ParkingBuildingPayload = {
+  id: string;
+  type: 'parking';
+  capacity: number;
+  current_agents: string[];
+};
+
+type GasStationBuildingPayload = {
+  id: string;
+  type: 'gas_station';
+  capacity: number;
+  current_agents: string[];
+  cost_factor: number;
+};
+```
+
+### Signal: package.created – New Package Generated
+
+The `package.created` signal is emitted when a new package is generated at a site.
+
+```ts
+type Priority = 'LOW' | 'MEDIUM' | 'HIGH' | 'URGENT';
+type DeliveryUrgency = 'STANDARD' | 'EXPRESS' | 'SAME_DAY';
+
+type PackageCreatedPayload = {
+  package_id: string;
+  origin_building_id: string;
+  destination_building_id: string;
+  size: number;
+  value_currency: number;
+  priority: Priority;
+  urgency: DeliveryUrgency;
+  pickup_deadline_tick: number;
+  delivery_deadline_tick: number;
+  created_at_tick: number;
+  tick: number;
+};
+```
+
+Example:
+
+```json
+{
+  "signal": "package.created",
+  "data": {
+    "package_id": "pkg-node116_site_4-53-0",
+    "origin_building_id": "node116_site_4",
+    "destination_building_id": "node62_site_0",
+    "size": 15.5,
+    "value_currency": 450.0,
+    "priority": "MEDIUM",
+    "urgency": "STANDARD",
+    "pickup_deadline_tick": 3600,
+    "delivery_deadline_tick": 10800,
+    "created_at_tick": 53,
+    "tick": 53
+  }
+}
+```
 
 ## Request/Response Matching
 

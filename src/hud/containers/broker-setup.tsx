@@ -72,10 +72,17 @@ export function BrokerSetup({
 
     // Listen for broker updates
     const unsubscribeUpdated = net.on('agent.updated', (data) => {
+      if (data.kind !== 'broker') return;
       if (existingBroker && data.agent_id === existingBroker.id) {
         // Refresh broker data - the update signal may contain partial data
-        // For now, just update what we know
-        setExistingBroker((prev) => (prev ? { ...prev, ...data } : prev));
+        setExistingBroker((prev) =>
+          prev
+            ? {
+                ...prev,
+                balance_ducats: data.balance_ducats ?? prev.balance_ducats,
+              }
+            : prev,
+        );
       }
     });
 

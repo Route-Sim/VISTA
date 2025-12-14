@@ -9,15 +9,21 @@ import type {
   RoadMap,
   BuildingMap,
   Truck,
+  Broker,
+  Package,
   Parking,
   Site,
   GasStation,
+  PackageConfig,
+  SiteStatistics,
 } from '../domain/entities';
+import type { DeliveryUrgency, Priority } from '../domain/enums';
 import {
   asEdgeId,
   asNodeId,
   asRoadId,
   asTruckId,
+  asBrokerId,
   asBuildingId,
   asPackageId,
   asAgentId,
@@ -165,9 +171,9 @@ export function mapNetEvent(payload: unknown): SimEvent | undefined {
         maxSpeed: data.max_speed_kph,
         currentSpeed: data.current_speed_kph,
         packageIds: [],
-        maxFuel: (tags.maxFuel as number) || 100,
-        currentFuel: (tags.currentFuel as number) || 100,
-        co2Emission: (tags.co2Emission as number) || 0,
+        maxFuel: (tags.fuel_tank_capacity_l as number) || 100,
+        currentFuel: (tags.current_fuel_l as number) || 100,
+        co2Emission: (tags.co2_emitted_kg as number) || 0,
         inboxCount: data.inbox_count || 0,
         outboxCount: data.outbox_count || 0,
         currentNodeId:
@@ -196,8 +202,27 @@ export function mapNetEvent(payload: unknown): SimEvent | undefined {
           data.route_end_node !== null
             ? asNodeId(String(data.route_end_node))
             : null,
+        // New fields with defaults
+        drivingTimeS: (tags.driving_time_s as number) || 0,
+        restingTimeS: (tags.resting_time_s as number) || 0,
+        isResting: (tags.is_resting as boolean) || false,
+        balanceDucats: (tags.balance_ducats as number) || 0,
+        riskFactor: (tags.risk_factor as number) || 0.5,
+        isSeekingParking: (tags.is_seeking_parking as boolean) || false,
+        originalDestination: null,
+        isSeekingGasStation: (tags.is_seeking_gas_station as boolean) || false,
+        isFueling: (tags.is_fueling as boolean) || false,
       };
       return { type: 'truck.created', truck };
+    } else if (data.kind === 'broker') {
+      const broker: Broker = {
+        id: asBrokerId(data.id),
+        balanceDucats: data.balance_ducats || 0,
+        queueSize: (tags.queue_size as number) || 0,
+        assignedCount: (tags.assigned_count as number) || 0,
+        hasActiveNegotiation: (tags.has_active_negotiation as boolean) || false,
+      };
+      return { type: 'broker.created', broker };
     } else if (data.kind === 'building') {
       const id = asBuildingId(data.id);
       const bData = (data as any).building || {};
@@ -247,61 +272,204 @@ export function mapNetEvent(payload: unknown): SimEvent | undefined {
   // --- Agent Updated ---
   if (isSignalEnvelope(payload, 'agent.updated')) {
     const data = payload.data;
-    const patch: Record<string, unknown> = { ...data };
 
-    // Remap fields to domain camelCase
-    if ('current_node' in data) {
-      patch.currentNodeId =
-        data.current_node !== null ? asNodeId(String(data.current_node)) : null;
-    }
-    if ('current_edge' in data) {
-      patch.currentEdgeId =
-        data.current_edge !== null ? asRoadId(String(data.current_edge)) : null;
-    }
-    if ('current_building_id' in data) {
-      patch.currentBuildingId =
-        data.current_building_id !== null
-          ? asBuildingId(String(data.current_building_id))
-          : null;
-    }
-    if ('edge_progress_m' in data) {
-      patch.edgeProgress = data.edge_progress_m;
-    }
-    if ('current_speed_kph' in data) {
-      patch.currentSpeed = data.current_speed_kph;
-    }
-    if ('inbox_count' in data) {
-      patch.inboxCount = data.inbox_count;
-    }
-    if ('outbox_count' in data) {
-      patch.outboxCount = data.outbox_count;
-    }
-    if ('destination' in data) {
-      patch.destinationNodeId =
-        data.destination !== null ? asNodeId(String(data.destination)) : null;
-    }
-    if ('route_start_node' in data) {
-      patch.routeStartNodeId =
-        data.route_start_node !== null
-          ? asNodeId(String(data.route_start_node))
-          : null;
-    }
-    if ('route_end_node' in data) {
-      patch.routeEndNodeId =
-        data.route_end_node !== null
-          ? asNodeId(String(data.route_end_node))
-          : null;
-    }
-    if ('route' in data && Array.isArray(data.route)) {
-      patch.route = data.route.map((id: string | number) =>
-        asNodeId(String(id)),
-      );
+    // Handle truck agent updates
+    if (data.kind === 'truck') {
+      const patch: Partial<Truck> = {
+        currentSpeed: data.current_speed_kph,
+        maxSpeed: data.max_speed_kph,
+        capacity: data.capacity,
+        packageIds: (data.loaded_packages || []).map((id: string) =>
+          asPackageId(id),
+        ),
+        currentNodeId:
+          data.current_node !== null
+            ? asNodeId(String(data.current_node))
+            : null,
+        currentEdgeId:
+          data.current_edge !== null
+            ? asRoadId(String(data.current_edge))
+            : null,
+        currentBuildingId:
+          data.current_building_id !== null
+            ? asBuildingId(String(data.current_building_id))
+            : null,
+        route: (data.route || []).map((id: string | number) =>
+          asNodeId(String(id)),
+        ),
+        routeStartNodeId:
+          data.route_start_node !== null
+            ? asNodeId(String(data.route_start_node))
+            : null,
+        routeEndNodeId:
+          data.route_end_node !== null
+            ? asNodeId(String(data.route_end_node))
+            : null,
+        drivingTimeS: data.driving_time_s,
+        restingTimeS: data.resting_time_s,
+        isResting: data.is_resting,
+        balanceDucats: data.balance_ducats,
+        riskFactor: data.risk_factor,
+        isSeekingParking: data.is_seeking_parking,
+        originalDestination:
+          data.original_destination !== null
+            ? asNodeId(String(data.original_destination))
+            : null,
+        maxFuel: data.fuel_tank_capacity_l,
+        currentFuel: data.current_fuel_l,
+        co2Emission: data.co2_emitted_kg,
+        isSeekingGasStation: data.is_seeking_gas_station,
+        isFueling: data.is_fueling,
+      };
+
+      return {
+        type: 'truck.updated',
+        id: asAgentId(data.agent_id),
+        patch,
+      };
     }
 
+    // Handle broker agent updates
+    if (data.kind === 'broker') {
+      const patch: Partial<Broker> = {
+        balanceDucats: data.balance_ducats,
+        queueSize: data.queue_size,
+        assignedCount: data.assigned_count,
+        hasActiveNegotiation: data.has_active_negotiation,
+      };
+
+      return {
+        type: 'broker.updated',
+        id: asBrokerId(data.agent_id),
+        patch,
+      };
+    }
+
+    // Fallback for unknown agent types
+    const anyData = data as Record<string, unknown>;
+    const patch: Record<string, unknown> = { ...anyData };
     return {
       type: 'agent.updated',
-      id: asAgentId(data.agent_id),
+      id: asAgentId(anyData.agent_id as string),
       patch,
+    };
+  }
+
+  // --- Building Updated ---
+  if (isSignalEnvelope(payload, 'building.updated')) {
+    const data = payload.data;
+    const building = data.building;
+    const buildingId = asBuildingId(data.building_id);
+
+    if (building.type === 'site') {
+      const b = building as any;
+      const packageConfig: PackageConfig | undefined = b.package_config
+        ? {
+            sizeRange: b.package_config.size_range,
+            valueRangeCurrency: b.package_config.value_range_currency,
+            pickupDeadlineRangeTicks:
+              b.package_config.pickup_deadline_range_ticks,
+            deliveryDeadlineRangeTicks:
+              b.package_config.delivery_deadline_range_ticks,
+            priorityWeights: b.package_config.priority_weights,
+            urgencyWeights: b.package_config.urgency_weights,
+          }
+        : undefined;
+
+      const statistics: SiteStatistics | undefined = b.statistics
+        ? {
+            packagesGenerated: b.statistics.packages_generated,
+            packagesPickedUp: b.statistics.packages_picked_up,
+            packagesDelivered: b.statistics.packages_delivered,
+            packagesExpired: b.statistics.packages_expired,
+            totalValueDelivered: b.statistics.total_value_delivered,
+            totalValueExpired: b.statistics.total_value_expired,
+          }
+        : undefined;
+
+      const patch: Partial<Site> = {
+        name: b.name,
+        capacity: b.capacity,
+        activityRate: b.activity_rate,
+        loadingRateTonnesPerMin: b.loading_rate_tonnes_per_min,
+        destinationWeights: b.destination_weights,
+        packageConfig,
+        packageIds: (b.active_packages || []).map((id: string) =>
+          asPackageId(id),
+        ),
+        statistics,
+        truckIds: (b.current_agents || []).map((id: string) => asTruckId(id)),
+      };
+
+      return {
+        type: 'building.updated',
+        id: buildingId,
+        patch,
+      };
+    }
+
+    if (building.type === 'parking') {
+      const b = building as any;
+      const patch: Partial<Parking> = {
+        capacity: b.capacity,
+        truckIds: (b.current_agents || []).map((id: string) => asTruckId(id)),
+      };
+
+      return {
+        type: 'building.updated',
+        id: buildingId,
+        patch,
+      };
+    }
+
+    if (building.type === 'gas_station') {
+      const b = building as any;
+      const patch: Partial<GasStation> = {
+        capacity: b.capacity,
+        costFactor: b.cost_factor,
+        truckIds: (b.current_agents || []).map((id: string) => asTruckId(id)),
+      };
+
+      return {
+        type: 'building.updated',
+        id: buildingId,
+        patch,
+      };
+    }
+  }
+
+  // --- Package Created ---
+  if (isSignalEnvelope(payload, 'package.created')) {
+    const data = payload.data;
+
+    // Parse priority from wire format (e.g., "Priority.LOW" -> "LOW")
+    const parsePriority = (p: string): Priority => {
+      const match = p.match(/Priority\.(\w+)/);
+      return (match ? match[1] : p) as Priority;
+    };
+
+    // Parse urgency from wire format (e.g., "DeliveryUrgency.STANDARD" -> "STANDARD")
+    const parseUrgency = (u: string): DeliveryUrgency => {
+      const match = u.match(/DeliveryUrgency\.(\w+)/);
+      return (match ? match[1] : u) as DeliveryUrgency;
+    };
+
+    const pkg: Package = {
+      id: asPackageId(data.package_id),
+      originBuildingId: asBuildingId(data.origin_building_id),
+      destinationBuildingId: asBuildingId(data.destination_building_id),
+      size: data.size,
+      valueCurrency: data.value_currency,
+      priority: parsePriority(data.priority),
+      urgency: parseUrgency(data.urgency),
+      pickupDeadlineTick: data.pickup_deadline_tick,
+      deliveryDeadlineTick: data.delivery_deadline_tick,
+      createdAtTick: data.created_at_tick,
+    };
+
+    return {
+      type: 'package.created',
+      pkg,
     };
   }
 

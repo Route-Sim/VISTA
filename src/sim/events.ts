@@ -1,5 +1,13 @@
-import type { AgentId } from './domain/ids';
-import type { Agent, Truck, Parking, Site } from './domain/entities';
+import type { AgentId, BrokerId, BuildingId, PackageId } from './domain/ids';
+import type {
+  Agent,
+  Broker,
+  GasStation,
+  Package,
+  Parking,
+  Site,
+  Truck,
+} from './domain/entities';
 import type { BuildingMap, EdgeMap, NodeMap, RoadMap } from './domain/entities';
 
 // Event envelope used by SimStore. The server guarantees ordering within the
@@ -16,7 +24,17 @@ export type SimEvent =
     }
   | { type: 'agent.created'; agent: Agent }
   | { type: 'truck.created'; truck: Truck }
-  | { type: 'building.created'; building: Parking | Site }
+  | { type: 'truck.updated'; id: AgentId; patch: Partial<Truck> }
+  | { type: 'broker.created'; broker: Broker }
+  | { type: 'broker.updated'; id: BrokerId; patch: Partial<Broker> }
+  | { type: 'building.created'; building: Parking | Site | GasStation }
+  | {
+      type: 'building.updated';
+      id: BuildingId;
+      patch: Partial<Parking | Site | GasStation>;
+    }
+  | { type: 'package.created'; pkg: Package }
+  | { type: 'package.updated'; id: PackageId; patch: Partial<Package> }
   | { type: 'agent.updated'; id: AgentId; patch: Record<string, unknown> }
   | { type: 'agent.deleted'; id: AgentId }
   | {

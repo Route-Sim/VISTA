@@ -11,6 +11,7 @@ export type RoadId = EdgeId; // Roads inherit from edges; share identity
 export type BuildingId = Brand<string, 'BuildingId'>;
 export type SiteId = BuildingId; // Sites are buildings
 export type TruckId = Brand<string, 'TruckId'>;
+export type BrokerId = Brand<string, 'BrokerId'>;
 export type PackageId = Brand<string, 'PackageId'>;
 export type AgentId = Brand<string, 'AgentId'>;
 
@@ -22,5 +23,6 @@ export const asRoadId = (id: string): RoadId => id as RoadId;
 export const asBuildingId = (id: string): BuildingId => id as BuildingId;
 export const asSiteId = (id: string): SiteId => id as SiteId;
 export const asTruckId = (id: string): TruckId => id as TruckId;
+export const asBrokerId = (id: string): BrokerId => id as BrokerId;
 export const asPackageId = (id: string): PackageId => id as PackageId;
 export const asAgentId = (id: string): AgentId => id as AgentId;

@@ -1,5 +1,6 @@
 import type {
   AgentMap,
+  BrokerMap,
   BuildingMap,
   EdgeMap,
   NodeMap,
@@ -17,6 +18,7 @@ export interface SimSnapshot {
   roads: RoadMap;
   buildings: BuildingMap;
   trucks: TruckMap;
+  brokers: BrokerMap;
   packages: PackageMap;
   agents: AgentMap;
   config: {
@@ -37,6 +39,7 @@ export function createEmptySnapshot(): SimSnapshot {
     roads: {},
     buildings: {},
     trucks: {},
+    brokers: {},
     packages: {},
     agents: {},
     config: {
@@ -58,6 +61,7 @@ export function cloneSnapshot(s: SimSnapshot): SimDraft {
     roads: { ...s.roads },
     buildings: { ...s.buildings },
     trucks: { ...s.trucks },
+    brokers: { ...s.brokers },
     packages: { ...s.packages },
     agents: { ...s.agents },
     config: { ...s.config },
@@ -68,7 +72,7 @@ export function isSimSnapshot(x: unknown): x is SimSnapshot {
   if (typeof x !== 'object' || x === null) return false;
   const s = x as Record<string, unknown>;
   return (
-    (s.version === 1 || s.version === 1) &&
+    s.version === 1 &&
     typeof s.tick === 'number' &&
     typeof s.timeMs === 'number' &&
     typeof s.nodes === 'object' &&
@@ -76,6 +80,7 @@ export function isSimSnapshot(x: unknown): x is SimSnapshot {
     typeof s.roads === 'object' &&
     typeof s.buildings === 'object' &&
     typeof s.trucks === 'object' &&
+    typeof s.brokers === 'object' &&
     typeof s.packages === 'object' &&
     typeof s.agents === 'object' &&
     typeof s.config === 'object'
@@ -88,6 +93,7 @@ export function freezeSnapshot(s: SimSnapshot): SimSnapshot {
   Object.freeze(s.roads);
   Object.freeze(s.buildings);
   Object.freeze(s.trucks);
+  Object.freeze(s.brokers);
   Object.freeze(s.packages);
   Object.freeze(s.agents);
   Object.freeze(s.config);

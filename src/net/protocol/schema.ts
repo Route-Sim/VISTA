@@ -191,6 +191,143 @@ const AgentSignalData = z.union([
   BrokerAgentSignalData,
 ]);
 
+// Agent updated signal schemas (different from agent.created)
+const TruckAgentUpdatedData = z
+  .object({
+    id: z.string(),
+    kind: z.literal('truck'),
+    max_speed_kph: z.number().min(0),
+    capacity: z.number().min(0),
+    loaded_packages: z.array(z.string()).default([]),
+    current_speed_kph: z.number().min(0),
+    current_node: GraphIndex.nullable(),
+    current_edge: GraphIndex.nullable(),
+    route: z.array(GraphIndex),
+    route_start_node: GraphIndex.nullable(),
+    route_end_node: GraphIndex.nullable(),
+    current_building_id: z.string().nullable(),
+    driving_time_s: z.number().min(0),
+    resting_time_s: z.number().min(0),
+    is_resting: z.boolean(),
+    balance_ducats: z.number().min(0),
+    risk_factor: z.number().min(0).max(1),
+    is_seeking_parking: z.boolean(),
+    original_destination: GraphIndex.nullable(),
+    fuel_tank_capacity_l: z.number().min(0),
+    current_fuel_l: z.number().min(0),
+    co2_emitted_kg: z.number().min(0),
+    is_seeking_gas_station: z.boolean(),
+    is_fueling: z.boolean(),
+    agent_id: z.string(),
+    tick: z.number().int().min(0),
+  })
+  .catchall(z.unknown());
+
+const BrokerAgentUpdatedData = z
+  .object({
+    id: z.string(),
+    kind: z.literal('broker'),
+    balance_ducats: z.number().min(0),
+    queue_size: z.number().int().min(0),
+    assigned_count: z.number().int().min(0),
+    has_active_negotiation: z.boolean(),
+    agent_id: z.string(),
+    tick: z.number().int().min(0),
+  })
+  .catchall(z.unknown());
+
+const AgentUpdatedData = z.union([TruckAgentUpdatedData, BrokerAgentUpdatedData]);
+
+// Building updated signal schemas
+const PackageConfigData = z
+  .object({
+    size_range: z.tuple([z.number().min(0), z.number().min(0)]),
+    value_range_currency: z.tuple([z.number().min(0), z.number().min(0)]),
+    pickup_deadline_range_ticks: z.tuple([
+      z.number().int().min(0),
+      z.number().int().min(0),
+    ]),
+    delivery_deadline_range_ticks: z.tuple([
+      z.number().int().min(0),
+      z.number().int().min(0),
+    ]),
+    priority_weights: z.record(z.string(), z.number().min(0)),
+    urgency_weights: z.record(z.string(), z.number().min(0)),
+  })
+  .catchall(z.unknown());
+
+const BuildingStatisticsData = z
+  .object({
+    packages_generated: z.number().int().min(0),
+    packages_picked_up: z.number().int().min(0),
+    packages_delivered: z.number().int().min(0),
+    packages_expired: z.number().int().min(0),
+    total_value_delivered: z.number().min(0),
+    total_value_expired: z.number().min(0),
+  })
+  .catchall(z.unknown());
+
+const SiteBuildingUpdatedData = z
+  .object({
+    id: z.string(),
+    type: z.literal('site'),
+    capacity: z.number().int().min(0),
+    current_agents: z.array(z.string()).default([]),
+    name: z.string(),
+    activity_rate: z.number().min(0),
+    loading_rate_tonnes_per_min: z.number().min(0),
+    destination_weights: z.record(z.string(), z.number().min(0)),
+    package_config: PackageConfigData,
+    active_packages: z.array(z.string()).default([]),
+    statistics: BuildingStatisticsData,
+  })
+  .catchall(z.unknown());
+
+const ParkingBuildingUpdatedData = z
+  .object({
+    id: z.string(),
+    type: z.literal('parking'),
+    capacity: z.number().int().min(0),
+    current_agents: z.array(z.string()).default([]),
+  })
+  .catchall(z.unknown());
+
+const GasStationBuildingUpdatedData = z
+  .object({
+    id: z.string(),
+    type: z.literal('gas_station'),
+    capacity: z.number().int().min(0),
+    current_agents: z.array(z.string()).default([]),
+    cost_factor: z.number().min(0),
+  })
+  .catchall(z.unknown());
+
+const BuildingUpdatedData = z.union([
+  SiteBuildingUpdatedData,
+  ParkingBuildingUpdatedData,
+  GasStationBuildingUpdatedData,
+]);
+
+// Package schemas
+const Priority = z.enum(['LOW', 'MEDIUM', 'HIGH', 'URGENT']);
+const DeliveryUrgency = z.enum(['STANDARD', 'EXPRESS', 'SAME_DAY']);
+
+const PackageCreatedData = z
+  .object({
+    package_id: z.string(),
+    origin_building_id: z.string(),
+    destination_building_id: z.string(),
+    size: z.number().min(0),
+    value_currency: z.number().min(0),
+    priority: Priority,
+    urgency: DeliveryUrgency,
+    pickup_deadline_tick: z.number().int().min(0),
+    delivery_deadline_tick: z.number().int().min(0),
+    created_at_tick: z.number().int().min(0),
+    tick: z.number().int().min(0),
+  })
+  .catchall(z.unknown());
+
 // Signal schemas: exact data per signal
 export const SignalSchemas = {
   'simulation.started': z.object({
@@ -259,7 +396,7 @@ export const SignalSchemas = {
     })
     .strict(),
   'agent.created': AgentSignalData,
-  'agent.updated': z.object({ agent_id: z.string() }).catchall(z.unknown()),
+  'agent.updated': AgentUpdatedData,
   'agent.deleted': z.object({ agent_id: z.string() }),
   'agent.listed': z.object({
     total: z.number().int().min(0),
@@ -268,8 +405,13 @@ export const SignalSchemas = {
   }),
   'agent.described': AgentSignalData,
   'building.updated': z
-    .object({ building_id: z.string() })
+    .object({
+      building_id: z.string(),
+      building: BuildingUpdatedData,
+      tick: z.number().int().min(0),
+    })
     .catchall(z.unknown()),
+  'package.created': PackageCreatedData,
   error: z.object({ code: z.string(), message: z.string() }),
 } as const;
 

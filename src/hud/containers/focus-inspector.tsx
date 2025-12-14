@@ -8,7 +8,11 @@ import { MapPin } from 'lucide-react';
 import { AgentInspector } from '@/hud/components/inspector/agent-inspector';
 import { RoadInspector } from '@/hud/components/inspector/road-inspector';
 import { NodeInspector } from '@/hud/components/inspector/node-inspector';
-import { BuildingInspector } from '@/hud/components/inspector/building-inspector';
+import {
+  ParkingInspector,
+  SiteInspector,
+} from '@/hud/components/inspector/building-inspector';
+import { GasStationInspector } from '@/hud/components/inspector/gas-station-inspector';
 import { TreeInspector } from '@/hud/components/inspector/tree-inspector';
 import {
   InspectorFooter,
@@ -23,7 +27,7 @@ export function FocusInspector() {
 
   return (
     <div className="pointer-events-auto w-96">
-      <Card className="rounded-xl border border-black/10 bg-white/90 shadow-lg backdrop-blur-sm">
+      <Card className="max-h-[90vh] overflow-y-auto rounded-xl border border-black/10 bg-white/90 shadow-lg backdrop-blur-sm">
         {object?.kind === 'agent' && (
           <AgentInspector id={id} data={object.data} />
         )}
@@ -36,8 +40,16 @@ export function FocusInspector() {
           <NodeInspector id={id} data={object.data} />
         )}
 
-        {(object?.kind === 'site' || object?.kind === 'parking') && (
-          <BuildingInspector id={id} data={object.data} />
+        {object?.kind === 'site' && (
+          <SiteInspector id={id} data={object.data} />
+        )}
+
+        {object?.kind === 'parking' && (
+          <ParkingInspector id={id} data={object.data} />
+        )}
+
+        {object?.kind === 'gas_station' && (
+          <GasStationInspector id={id} data={object.data} />
         )}
 
         {object?.kind === 'tree' && <TreeInspector />}

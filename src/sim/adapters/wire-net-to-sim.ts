@@ -40,10 +40,22 @@ export function wireNetToSim(
 
   off.push(net.on('map.created', (data) => forward('map.created', data)));
 
+  // Agent lifecycle
   off.push(net.on('agent.created', (data) => forward('agent.created', data)));
   off.push(net.on('agent.updated', (data) => forward('agent.updated', data)));
   off.push(net.on('agent.deleted', (data) => forward('agent.deleted', data)));
 
+  // Building updates
+  off.push(
+    net.on('building.updated', (data) => forward('building.updated', data)),
+  );
+
+  // Package lifecycle
+  off.push(
+    net.on('package.created', (data) => forward('package.created', data)),
+  );
+
+  // Simulation state
   off.push(
     net.on('simulation.started', (data) => forward('simulation.started', data)),
   );

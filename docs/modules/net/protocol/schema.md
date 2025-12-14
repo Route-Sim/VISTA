@@ -3,7 +3,7 @@ title: 'Protocol Schemas – Actions & Signals'
 summary: 'Strongly typed zod schemas and TypeScript unions for actions and signals, with envelope types and codec helpers.'
 source_paths:
   - 'src/net/protocol/schema.ts'
-last_updated: '2025-11-09'
+last_updated: '2025-12-14'
 owner: 'Mateusz Nędzi'
 tags: ['module', 'net', 'protocol', 'zod']
 links:
@@ -42,18 +42,17 @@ type SignalName =
   | 'simulation.stopped'
   | 'simulation.resumed'
   | 'simulation.paused'
+  | 'simulation.updated'
   | 'tick.start'
   | 'tick.end'
   | 'map.created'
-  | 'map.exported'
-  | 'map.imported'
-  | 'tick_rate.updated'
   | 'agent.created'
   | 'agent.updated'
   | 'agent.deleted'
-  | 'agent.state'
-  | 'event.created'
+  | 'agent.listed'
+  | 'agent.described'
   | 'building.updated'
+  | 'package.created'
   | 'error';
 ```
 
@@ -199,6 +198,144 @@ Example:
 ```
 
 The schema allows additional truck-specific fields via `.catchall(z.unknown())`, so downstream code should rely on the documented subset above.
+
+## Signal: agent.updated
+
+The `agent.updated` signal provides the full current state of an agent per tick. The payload varies by agent kind.
+
+### Truck Agent Updated
+
+```ts
+type TruckAgentUpdatedPayload = {
+  id: string;
+  kind: 'truck';
+  max_speed_kph: number;
+  capacity: number;
+  loaded_packages: string[];
+  current_speed_kph: number;
+  current_node: GraphIndex | null;
+  current_edge: GraphIndex | null;
+  route: GraphIndex[];
+  route_start_node: GraphIndex | null;
+  route_end_node: GraphIndex | null;
+  current_building_id: string | null;
+  driving_time_s: number;
+  resting_time_s: number;
+  is_resting: boolean;
+  balance_ducats: number;
+  risk_factor: number;           // 0..1
+  is_seeking_parking: boolean;
+  original_destination: GraphIndex | null;
+  fuel_tank_capacity_l: number;
+  current_fuel_l: number;
+  co2_emitted_kg: number;
+  is_seeking_gas_station: boolean;
+  is_fueling: boolean;
+  agent_id: string;
+  tick: number;
+};
+```
+
+### Broker Agent Updated
+
+```ts
+type BrokerAgentUpdatedPayload = {
+  id: string;
+  kind: 'broker';
+  balance_ducats: number;
+  queue_size: number;
+  assigned_count: number;
+  has_active_negotiation: boolean;
+  agent_id: string;
+  tick: number;
+};
+```
+
+## Signal: building.updated
+
+The `building.updated` signal provides the current state of a building. Building types include `site`, `parking`, and `gas_station`.
+
+### Site Building
+
+```ts
+type PackageConfig = {
+  size_range: [number, number];
+  value_range_currency: [number, number];
+  pickup_deadline_range_ticks: [number, number];
+  delivery_deadline_range_ticks: [number, number];
+  priority_weights: Record<string, number>;
+  urgency_weights: Record<string, number>;
+};
+
+type BuildingStatistics = {
+  packages_generated: number;
+  packages_picked_up: number;
+  packages_delivered: number;
+  packages_expired: number;
+  total_value_delivered: number;
+  total_value_expired: number;
+};
+
+type SiteBuildingPayload = {
+  building_id: string;
+  building: {
+    id: string;
+    type: 'site';
+    capacity: number;
+    current_agents: string[];
+    name: string;
+    activity_rate: number;
+    loading_rate_tonnes_per_min: number;
+    destination_weights: Record<string, number>;
+    package_config: PackageConfig;
+    active_packages: string[];
+    statistics: BuildingStatistics;
+  };
+  tick: number;
+};
+```
+
+### Parking and Gas Station Buildings
+
+```ts
+type ParkingBuildingPayload = {
+  id: string;
+  type: 'parking';
+  capacity: number;
+  current_agents: string[];
+};
+
+type GasStationBuildingPayload = {
+  id: string;
+  type: 'gas_station';
+  capacity: number;
+  current_agents: string[];
+  cost_factor: number;
+};
+```
+
+## Signal: package.created
+
+The `package.created` signal is emitted when a new package is generated at a site.
+
+```ts
+type Priority = 'LOW' | 'MEDIUM' | 'HIGH' | 'URGENT';
+type DeliveryUrgency = 'STANDARD' | 'EXPRESS' | 'SAME_DAY';
+
+type PackageCreatedPayload = {
+  package_id: string;
+  origin_building_id: string;
+  destination_building_id: string;
+  size: number;
+  value_currency: number;
+  priority: Priority;
+  urgency: DeliveryUrgency;
+  pickup_deadline_tick: number;
+  delivery_deadline_tick: number;
+  created_at_tick: number;
+  tick: number;
+};
+```
 
 ## Signals: tick.start / tick.end
 

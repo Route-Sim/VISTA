@@ -1,12 +1,15 @@
 import type {
+  Broker,
+  GasStation,
   Node,
+  Package,
   Parking,
   Road,
   Site,
-  GasStation,
   Truck,
 } from './domain/entities';
 import type {
+  BrokerId,
   BuildingId,
   NodeId,
   PackageId,
@@ -24,6 +27,16 @@ export const getRoadById = (s: SimSnapshot, id: RoadId): Road | undefined =>
 export const getTruckById = (s: SimSnapshot, id: TruckId): Truck | undefined =>
   s.trucks[id];
 
+export const getBrokerById = (
+  s: SimSnapshot,
+  id: BrokerId,
+): Broker | undefined => s.brokers[id];
+
+export const getPackageById = (
+  s: SimSnapshot,
+  id: PackageId,
+): Package | undefined => s.packages[id];
+
 export const getBuildingById = (
   s: SimSnapshot,
   id: BuildingId,
@@ -35,6 +48,22 @@ export const getSiteById = (
 ): Site | undefined => {
   const b = s.buildings[id];
   return b && b.kind === 'site' ? (b as Site) : undefined;
+};
+
+export const getParkingById = (
+  s: SimSnapshot,
+  id: BuildingId,
+): Parking | undefined => {
+  const b = s.buildings[id];
+  return b && b.kind === 'parking' ? (b as Parking) : undefined;
+};
+
+export const getGasStationById = (
+  s: SimSnapshot,
+  id: BuildingId,
+): GasStation | undefined => {
+  const b = s.buildings[id];
+  return b && b.kind === 'gas_station' ? (b as GasStation) : undefined;
 };
 
 export const getBuildingsAtNode = (
@@ -62,6 +91,28 @@ export const getPackagesAtSite = (
   const site = getSiteById(s, siteId);
   return site ? site.packageIds : [];
 };
+
+export const getPackageEntitiesAtSite = (
+  s: SimSnapshot,
+  siteId: BuildingId,
+): Package[] => {
+  const packageIds = getPackagesAtSite(s, siteId);
+  return packageIds
+    .map((id) => s.packages[id])
+    .filter(Boolean) as Package[];
+};
+
+export const getAllTrucks = (s: SimSnapshot): Truck[] =>
+  Object.values(s.trucks);
+
+export const getAllBrokers = (s: SimSnapshot): Broker[] =>
+  Object.values(s.brokers);
+
+export const getAllPackages = (s: SimSnapshot): Package[] =>
+  Object.values(s.packages);
+
+export const getAllSites = (s: SimSnapshot): Site[] =>
+  Object.values(s.buildings).filter((b) => b.kind === 'site') as Site[];
 
 export const getOutgoingEdges = (s: SimSnapshot, nodeId: NodeId) =>
   Object.values(s.edges).filter((e) => e.startNodeId === nodeId);

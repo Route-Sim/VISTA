@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { createRoot } from 'react-dom/client';
+import { Map, Truck, Handshake, Play } from 'lucide-react';
 import {
   HudVisibilityProvider,
   useHudVisibility,
@@ -8,6 +9,7 @@ import {
   PlaybackStateProvider,
   usePlaybackState,
 } from './state/playback-state';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from './ui/tabs';
 import { PlayControls } from './containers/play-controls';
 import { CameraHelp } from './containers/camera-help';
 import { HudMenu } from './components/hud-menu';
@@ -16,6 +18,7 @@ import { useHudHotkeys } from './hooks/use-hud-hotkeys';
 import { NetEventsPanel } from './containers/net-events';
 import { MapCreator } from './containers/map-creator';
 import { FleetCreator } from './containers/fleet-creator';
+import { BrokerSetup } from './containers/broker-setup';
 import { StartSimulation } from './containers/start-simulation';
 import { FocusInspector } from './containers/focus-inspector';
 import { SimStore } from '@/sim';
@@ -115,15 +118,66 @@ function CreatorPanels({
   controller?: ReturnType<typeof usePlaybackNetController>;
 }): React.ReactNode {
   const { status } = usePlaybackState();
+  const [activeTab, setActiveTab] = React.useState('map');
 
   // Only render creator panels when idle or stopped
   if (status === 'playing' || status === 'paused') return null;
 
   return (
-    <div className="fixed inset-0 grid grid-cols-2 grid-rows-[1fr_auto] gap-4 bg-[#0d1f2d] p-4">
-      <MapCreator className="row-span-2" />
-      <FleetCreator />
-      <StartSimulation controller={controller} />
+    <div className="fixed inset-0 bg-gray-50 p-4">
+      <Tabs
+        value={activeTab}
+        onValueChange={setActiveTab}
+        className="flex h-full flex-col"
+      >
+        <TabsList className="pointer-events-auto mx-auto w-fit shrink-0 bg-white/90 shadow-md backdrop-blur-sm">
+          <TabsTrigger value="map" className="gap-1.5">
+            <Map className="h-4 w-4" />
+            Map
+          </TabsTrigger>
+          <TabsTrigger value="fleet" className="gap-1.5">
+            <Truck className="h-4 w-4" />
+            Fleet
+          </TabsTrigger>
+          <TabsTrigger value="broker" className="gap-1.5">
+            <Handshake className="h-4 w-4" />
+            Broker
+          </TabsTrigger>
+          <TabsTrigger value="simulation" className="gap-1.5">
+            <Play className="h-4 w-4" />
+            Simulation
+          </TabsTrigger>
+        </TabsList>
+        {/* Use forceMount + hidden to preserve state across tab switches */}
+        <TabsContent
+          value="map"
+          forceMount
+          className="mt-4 min-h-0 flex-1 data-[state=inactive]:hidden"
+        >
+          <MapCreator className="h-full" />
+        </TabsContent>
+        <TabsContent
+          value="fleet"
+          forceMount
+          className="mt-4 min-h-0 flex-1 data-[state=inactive]:hidden"
+        >
+          <FleetCreator className="h-full" />
+        </TabsContent>
+        <TabsContent
+          value="broker"
+          forceMount
+          className="mt-4 min-h-0 flex-1 data-[state=inactive]:hidden"
+        >
+          <BrokerSetup className="h-full" />
+        </TabsContent>
+        <TabsContent
+          value="simulation"
+          forceMount
+          className="mt-4 min-h-0 flex-1 data-[state=inactive]:hidden"
+        >
+          <StartSimulation controller={controller} className="h-full" />
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }

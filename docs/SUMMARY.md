@@ -74,6 +74,7 @@
       - [net-events](modules/hud/containers/net-events.md)
       - [map-creator](modules/hud/containers/map-creator.md)
       - [fleet-creator](modules/hud/containers/fleet-creator.md)
+      - [broker-setup](modules/hud/containers/broker-setup.md)
       - [start-simulation](modules/hud/containers/start-simulation.md)
       - [focus-inspector](modules/hud/containers/focus-inspector.md)
     - components

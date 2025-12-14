@@ -1,8 +1,16 @@
 import { z } from 'zod';
 
-const AgentKind = z.enum(['truck', 'building']);
+const AgentKind = z.enum(['truck', 'building', 'broker']);
 const TruckAgentData = z.object({
   max_speed_kph: z.number().min(0).optional(),
+  capacity: z.number().min(0).optional(),
+  risk_factor: z.number().min(0).max(1).optional(),
+  initial_balance_ducats: z.number().min(0).optional(),
+  fuel_tank_capacity_l: z.number().min(0).optional(),
+  initial_fuel_l: z.number().min(0).optional(),
+});
+const BrokerAgentData = z.object({
+  balance_ducats: z.number().min(0).optional(),
 });
 const BuildingAgentData = z.object({});
 
@@ -65,10 +73,15 @@ export const ActionSchemas = {
     .object({
       agent_id: z.string(),
       agent_kind: AgentKind,
-      agent_data: z.union([TruckAgentData, BuildingAgentData]).optional(),
+      agent_data: z.union([TruckAgentData, BuildingAgentData, BrokerAgentData]).optional(),
     })
     .catchall(z.unknown()),
-  'agent.update': z.object({ agent_id: z.string() }).catchall(z.unknown()),
+  'agent.update': z
+    .object({ 
+      agent_id: z.string(), 
+      agent_data: z.union([TruckAgentData, BuildingAgentData, BrokerAgentData]).optional(),
+    })
+    .catchall(z.unknown()),
   'agent.delete': z.object({ agent_id: z.string() }),
   'agent.list': z.object({}),
   'agent.describe': z.object({ agent_id: z.string() }),
@@ -167,9 +180,15 @@ const TruckAgentSignalData = AgentSignalBase.extend({
   current_building_id: z.string().nullable(),
 }).catchall(z.unknown());
 
+const BrokerAgentSignalData = AgentSignalBase.extend({
+  kind: z.literal('broker'),
+  balance_ducats: z.number().min(0).optional(),
+}).catchall(z.unknown());
+
 const AgentSignalData = z.union([
   BuildingAgentSignalData,
   TruckAgentSignalData,
+  BrokerAgentSignalData,
 ]);
 
 // Signal schemas: exact data per signal

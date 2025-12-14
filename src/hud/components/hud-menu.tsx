@@ -13,13 +13,13 @@ import { HUD_PANELS, useHudVisibility } from '@/hud/state/hud-visibility';
 import type { HudPanelId } from '@/hud/state/hud-visibility';
 
 const LABELS: Record<(typeof HUD_PANELS)[number], string> = {
+  'broker-setup': 'Broker Setup',
   'play-controls': 'Play Controls',
   'camera-help': 'Camera Help',
   'net-events': 'Net Events',
   'map-creator': 'Map Creator',
   'fleet-creator': 'Fleet Creator',
   'start-simulation': 'Start Simulation',
-  'agent-inspector': 'Agent Inspector',
 };
 
 export function HudMenu(): React.ReactNode {

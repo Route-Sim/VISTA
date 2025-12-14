@@ -33,11 +33,9 @@ const DEFAULT_BALANCE_DUCATS = 1000;
 
 // Fuel constraints
 const FUEL_TANK_MIN = 0;
-const FUEL_TANK_MAX = 1000;
-const DEFAULT_FUEL_TANK_CAPACITY_L = 300;
-const DEFAULT_INITIAL_FUEL_L = 150;
-
-const MAX_TRACKED_TRUCKS = 32;
+const FUEL_TANK_MAX = 300;
+const DEFAULT_FUEL_TANK_CAPACITY_L = 100;
+const DEFAULT_INITIAL_FUEL_L = 10;
 
 type TruckCreatedEnvelope = Extract<
   SignalData['agent.created'],
@@ -90,7 +88,7 @@ export function FleetCreator({
       const trucks = data.agents
         .filter((agent) => agent.kind === 'truck')
         .map((agent) => agent as TruckCreatedEnvelope);
-      setCreatedTrucks(trucks.slice(0, MAX_TRACKED_TRUCKS));
+      setCreatedTrucks(trucks);
     });
 
     const unsubscribeCreated = net.on('agent.created', (data) => {
@@ -102,7 +100,7 @@ export function FleetCreator({
           clone.splice(existingIndex, 1);
           return [data, ...clone];
         }
-        return [data, ...prev].slice(0, MAX_TRACKED_TRUCKS);
+        return [data, ...prev];
       });
       setHighlightId(data.id);
       if (typeof window !== 'undefined') {

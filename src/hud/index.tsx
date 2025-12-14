@@ -110,7 +110,7 @@ function SimulationPanels({
 
       <div className="fixed top-4 bottom-4 right-4 flex flex-col gap-4 w-">
         <ObjectPicker />
-        <div className="flex-1 min-h-0 overflow-auto">
+        <div className="flex-1 min-h-0">
           <FocusInspector />
         </div>
       </div>

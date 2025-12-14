@@ -2,7 +2,7 @@ type: folder
 model: folder
 id: fl_V57ekqotsu
 createdAt: 2025-11-09T12:05:22.707530
-updatedAt: 2025-11-16T18:32:33.205196
+updatedAt: 2025-12-14T09:51:06.978859
 workspaceId: wk_BJkwK7RGqy
 folderId: null
 authentication: {}
@@ -10,4 +10,4 @@ authenticationType: null
 description: ''
 headers: []
 name: Map
-sortPriority: 0.0
+sortPriority: 1000.0

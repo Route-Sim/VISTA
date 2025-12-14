@@ -5,7 +5,7 @@ source_paths:
   - "src/sim/domain/entities.ts"
   - "src/sim/domain/enums.ts"
   - "src/sim/domain/ids.ts"
-last_updated: "2025-11-23"
+last_updated: "2025-12-14"
 owner: "Mateusz Nędzi"
 tags: ["module", "sim", "domain", "types"]
 links:
@@ -30,6 +30,7 @@ links:
 - Nodes now carry planar coordinates (`x`, `y`) in meters.
 - `Edge` includes `lengthM` (meters). `Road` adds `roadClass`, `mode`, `lanes`, `maxSpeedKph`, and `weightLimitKg`.
 - `Truck` includes rich state: fuel, CO2, message counters (`inboxCount`/`outboxCount`), and navigation state (`destination`, `routeStart`/`end`).
+- `SimulationTime` represents the virtual world clock with `day` (1-indexed integer) and `time` (24h float format, e.g., 12.5 = 12:30).
 
 ## Public Types (excerpt)
 
@@ -41,6 +42,7 @@ links:
 // Edge { id, startNodeId, endNodeId, lengthM }
 // Road { ...Edge, roadClass, mode, lanes, maxSpeedKph, weightLimitKg, truckIds }
 // Truck { ...navState, inboxCount, outboxCount, currentBuildingId }
+// SimulationTime { day: number, time: number }
 ```
 
 ## Implementation Notes

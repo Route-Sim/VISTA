@@ -114,8 +114,8 @@ simulation.started: { tick_rate: number }
 simulation.stopped: {}
 simulation.resumed: {}
 simulation.paused: {}
-tick.start: { tick: number }
-tick.end: { tick: number }
+tick.start: { tick: number, time: number, day: number }
+tick.end: { tick: number, time: number, day: number }
 map.created: {
   // echoes params...
   map_width: number; map_height: number; num_major_centers: number; minor_per_major: number;
@@ -149,11 +149,16 @@ building.updated: { building_id: string, ... }
 error: { code: string, message: string }
 ```
 
+**Tick signals** include simulation time:
+
+- `time`: Current time in 24h format as a float (e.g., `12.5` = 12:30, `22.75` = 22:45)
+- `day`: Current simulation day (1-indexed integer)
+
 Examples:
 
 ```json
-{ "signal": "tick.start", "data": { "tick": 32 } }
-{ "signal": "tick.end",   "data": { "tick": 32 } }
+{ "signal": "tick.start", "data": { "tick": 32, "time": 14.5, "day": 1 } }
+{ "signal": "tick.end",   "data": { "tick": 32, "time": 14.5, "day": 1 } }
 ```
 
 ### CREATE_MAP – Generate New Map Procedurally

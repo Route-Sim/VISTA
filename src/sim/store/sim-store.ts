@@ -48,6 +48,12 @@ export class SimStore {
       this.working.tick = evt.tick;
       if (typeof evt.timeMs === 'number') this.working.timeMs = evt.timeMs;
 
+      // Update simulation time (virtual world clock)
+      this.working.simulationTime = {
+        day: evt.simDay,
+        time: evt.simTime,
+      };
+
       // Run movement system
       if (deltaMs > 0) {
         this.movementSystem.update(this.working, deltaMs);

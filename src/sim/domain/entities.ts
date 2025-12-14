@@ -163,6 +163,18 @@ export interface Agent {
   id: AgentId;
 }
 
+/**
+ * Represents the current simulation time within the virtual world.
+ * Day is an integer starting from 1.
+ * Time is a float in 24h system (e.g., 12.5 = 12:30, 22.75 = 22:45).
+ */
+export interface SimulationTime {
+  /** Current simulation day (1-indexed) */
+  day: number;
+  /** Current time in 24h format as a float (0.0 - 24.0) */
+  time: number;
+}
+
 // Utility collection types for normalized storage
 export type NodeMap = Record<NodeId, Node>;
 export type EdgeMap = Record<EdgeId, Edge>;

@@ -6,6 +6,7 @@ import type {
   NodeMap,
   PackageMap,
   RoadMap,
+  SimulationTime,
   TruckMap,
 } from '../domain/entities';
 
@@ -13,6 +14,8 @@ export interface SimSnapshot {
   version: 1;
   tick: number;
   timeMs: number;
+  /** Current simulation time in the virtual world */
+  simulationTime: SimulationTime;
   nodes: NodeMap;
   edges: EdgeMap;
   roads: RoadMap;
@@ -34,6 +37,10 @@ export function createEmptySnapshot(): SimSnapshot {
     version: 1,
     tick: 0,
     timeMs: 0,
+    simulationTime: {
+      day: 1,
+      time: 12.0,
+    },
     nodes: {},
     edges: {},
     roads: {},
@@ -56,6 +63,7 @@ export function cloneSnapshot(s: SimSnapshot): SimDraft {
     version: s.version,
     tick: s.tick,
     timeMs: s.timeMs,
+    simulationTime: { ...s.simulationTime },
     nodes: { ...s.nodes },
     edges: { ...s.edges },
     roads: { ...s.roads },
@@ -75,6 +83,7 @@ export function isSimSnapshot(x: unknown): x is SimSnapshot {
     s.version === 1 &&
     typeof s.tick === 'number' &&
     typeof s.timeMs === 'number' &&
+    typeof s.simulationTime === 'object' &&
     typeof s.nodes === 'object' &&
     typeof s.edges === 'object' &&
     typeof s.roads === 'object' &&
@@ -88,6 +97,7 @@ export function isSimSnapshot(x: unknown): x is SimSnapshot {
 }
 
 export function freezeSnapshot(s: SimSnapshot): SimSnapshot {
+  Object.freeze(s.simulationTime);
   Object.freeze(s.nodes);
   Object.freeze(s.edges);
   Object.freeze(s.roads);

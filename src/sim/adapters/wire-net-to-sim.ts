@@ -23,13 +23,25 @@ export function wireNetToSim(
 
   off.push(
     net.on('tick.start', (data) => {
-      store.ingest({ type: 'tick.start', tick: data.tick, timeMs: nowMs() });
+      store.ingest({
+        type: 'tick.start',
+        tick: data.tick,
+        timeMs: nowMs(),
+        simTime: data.time,
+        simDay: data.day,
+      });
     }),
   );
 
   off.push(
     net.on('tick.end', (data) => {
-      store.ingest({ type: 'tick.end', tick: data.tick, timeMs: nowMs() });
+      store.ingest({
+        type: 'tick.end',
+        tick: data.tick,
+        timeMs: nowMs(),
+        simTime: data.time,
+        simDay: data.day,
+      });
     }),
   );
 

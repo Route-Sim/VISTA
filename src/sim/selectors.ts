@@ -5,6 +5,7 @@ import type {
   Package,
   Parking,
   Road,
+  SimulationTime,
   Site,
   Truck,
 } from './domain/entities';
@@ -119,3 +120,29 @@ export const getOutgoingEdges = (s: SimSnapshot, nodeId: NodeId) =>
 
 export const getIncomingEdges = (s: SimSnapshot, nodeId: NodeId) =>
   Object.values(s.edges).filter((e) => e.endNodeId === nodeId);
+
+// Simulation time selectors
+
+export const getSimulationTime = (s: SimSnapshot): SimulationTime =>
+  s.simulationTime;
+
+export const getSimulationDay = (s: SimSnapshot): number =>
+  s.simulationTime.day;
+
+export const getSimulationTimeOfDay = (s: SimSnapshot): number =>
+  s.simulationTime.time;
+
+/**
+ * Formats simulation time as HH:MM string (e.g., "12:30", "22:45").
+ */
+export const formatSimulationTime = (time: number): string => {
+  const hours = Math.floor(time);
+  const minutes = Math.round((time - hours) * 60);
+  return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+};
+
+/**
+ * Returns formatted time string from snapshot (e.g., "12:30").
+ */
+export const getFormattedSimulationTime = (s: SimSnapshot): string =>
+  formatSimulationTime(s.simulationTime.time);

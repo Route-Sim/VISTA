@@ -341,8 +341,16 @@ export const SignalSchemas = {
     tick_rate: z.number().int().min(1),
     speed: z.number().min(0),
   }),
-  'tick.start': z.object({ tick: z.number().int().min(0) }),
-  'tick.end': z.object({ tick: z.number().int().min(0) }),
+  'tick.start': z.object({ 
+    tick: z.number().int().min(0),
+    time: z.number().min(0),
+    day: z.number().int().min(0),
+  }),
+  'tick.end': z.object({
+    tick: z.number().int().min(0),
+    time: z.number().min(0),
+    day: z.number().int().min(0),
+  }),
   'map.created': z
     .object({
       // echo of creation params

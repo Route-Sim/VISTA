@@ -13,8 +13,24 @@ import type { BuildingMap, EdgeMap, NodeMap, RoadMap } from './domain/entities';
 // Event envelope used by SimStore. The server guarantees ordering within the
 // stream as: tick.start -> update* -> tick.end -> tick.start -> ...
 export type SimEvent =
-  | { type: 'tick.start'; tick: number; timeMs?: number }
-  | { type: 'tick.end'; tick: number; timeMs?: number }
+  | {
+      type: 'tick.start';
+      tick: number;
+      timeMs?: number;
+      /** Simulation time in 24h float format (e.g., 12.5 = 12:30) */
+      simTime: number;
+      /** Simulation day (1-indexed) */
+      simDay: number;
+    }
+  | {
+      type: 'tick.end';
+      tick: number;
+      timeMs?: number;
+      /** Simulation time in 24h float format (e.g., 12.5 = 12:30) */
+      simTime: number;
+      /** Simulation day (1-indexed) */
+      simDay: number;
+    }
   | {
       type: 'map.created';
       nodes: NodeMap;

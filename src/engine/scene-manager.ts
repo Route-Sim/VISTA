@@ -9,7 +9,7 @@ export class SceneManager {
   constructor() {
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color(Colors.background);
-    this.scene.fog = new THREE.Fog(Colors.fog, 60, 100);
+    this.scene.fog = new THREE.Fog(Colors.fog, 100, 300);
 
     const ambient = new THREE.AmbientLight(Colors.lightAmbient, 0.9);
     this.scene.add(ambient);
@@ -21,7 +21,7 @@ export class SceneManager {
     point.shadow.mapSize.height = 2048;
     this.scene.add(point);
 
-    const ground = createGround({ width: 500, height: 500 });
+    const ground = createGround({ width: 5000, height: 5000 });
     this.scene.add(ground);
   }
 }

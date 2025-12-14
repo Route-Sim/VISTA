@@ -21,6 +21,7 @@ import { FleetCreator } from './containers/fleet-creator';
 import { BrokerSetup } from './containers/broker-setup';
 import { StartSimulation } from './containers/start-simulation';
 import { FocusInspector } from './containers/focus-inspector';
+import { SimulationClock } from './containers/simulation-clock';
 import { SimStore } from '@/sim';
 import { SimStoreProvider } from './state/sim-context';
 
@@ -91,6 +92,11 @@ function SimulationPanels({
 
   return (
     <>
+      {/* Top-center clock */}
+      <div className="fixed top-4 left-1/2 -translate-x-1/2">
+        <SimulationClock />
+      </div>
+
       <div className="fixed top-4 bottom-4 left-4 flex flex-col gap-4">
         {isVisible('play-controls') && <PlayControls controller={controller} />}
         {isVisible('camera-help') && <CameraHelp />}

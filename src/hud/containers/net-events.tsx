@@ -172,7 +172,7 @@ export function NetEventsPanel(): React.ReactNode {
     <HudContainer
       id="net-events"
       title="Network Log"
-      className="flex h-full w-[400px] flex-col"
+      className="flex h-full w-96 flex-col"
     >
       <div className="flex h-full min-h-0 flex-col gap-2 pt-2">
         <div className="flex items-center justify-between gap-2">

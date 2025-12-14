@@ -21,6 +21,7 @@ import { FleetCreator } from './containers/fleet-creator';
 import { BrokerSetup } from './containers/broker-setup';
 import { StartSimulation } from './containers/start-simulation';
 import { FocusInspector } from './containers/focus-inspector';
+import { ObjectPicker } from './containers/object-picker';
 import { SimulationClock } from './containers/simulation-clock';
 import { SimStore } from '@/sim';
 import { SimStoreProvider } from './state/sim-context';
@@ -101,17 +102,20 @@ function SimulationPanels({
         {isVisible('play-controls') && <PlayControls controller={controller} />}
         {isVisible('camera-help') && <CameraHelp />}
         {isVisible('net-events') && (
-          <div className="min-h-0 flex-1">
+          <div className="flex-1 min-h-0">
             <NetEventsPanel />
           </div>
         )}
       </div>
 
-      <div className="fixed top-4 right-4 flex flex-col gap-4">
-        <FocusInspector />
+      <div className="fixed top-4 bottom-4 right-4 flex flex-col gap-4 w-">
+        <ObjectPicker />
+        <div className="flex-1 min-h-0 overflow-auto">
+          <FocusInspector />
+        </div>
       </div>
 
-      <div className="fixed right-4 bottom-4">
+      <div className="fixed bottom-4 left-1/2 -translate-x-1/2">
         <HudMenu />
       </div>
     </>

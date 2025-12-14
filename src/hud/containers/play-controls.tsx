@@ -129,6 +129,7 @@ export function PlayControls({
       id="play-controls"
       title="Play Controls"
       description="Control the playback of the simulation."
+      className="w-96"
     >
       <div className="flex flex-col gap-4 py-4">
         <div className="space-y-2">

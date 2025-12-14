@@ -115,6 +115,18 @@ export const getAllPackages = (s: SimSnapshot): Package[] =>
 export const getAllSites = (s: SimSnapshot): Site[] =>
   Object.values(s.buildings).filter((b) => b.kind === 'site') as Site[];
 
+export const getAllParkings = (s: SimSnapshot): Parking[] =>
+  Object.values(s.buildings).filter((b) => b.kind === 'parking') as Parking[];
+
+export const getAllGasStations = (s: SimSnapshot): GasStation[] =>
+  Object.values(s.buildings).filter(
+    (b) => b.kind === 'gas_station',
+  ) as GasStation[];
+
+export const getAllBuildings = (
+  s: SimSnapshot,
+): (Parking | Site | GasStation)[] => Object.values(s.buildings);
+
 export const getOutgoingEdges = (s: SimSnapshot, nodeId: NodeId) =>
   Object.values(s.edges).filter((e) => e.startNodeId === nodeId);
 

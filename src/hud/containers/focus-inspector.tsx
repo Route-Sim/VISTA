@@ -26,8 +26,8 @@ export function FocusInspector() {
   if (!id || !type) return null;
 
   return (
-    <div className="pointer-events-auto w-96">
-      <Card className="max-h-[90vh] overflow-y-auto rounded-xl border border-black/10 bg-white/90 shadow-lg backdrop-blur-sm">
+    <div className="pointer-events-auto w-96 h-full rounded-xl">
+      <Card className="overflow-y-auto rounded-xl border border-black/10 bg-white/90 shadow-lg backdrop-blur-sm h-full">
         {object?.kind === 'agent' && (
           <AgentInspector id={id} data={object.data} />
         )}

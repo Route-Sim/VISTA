@@ -78,6 +78,7 @@
       - [broker-setup](modules/hud/containers/broker-setup.md)
       - [start-simulation](modules/hud/containers/start-simulation.md)
       - [focus-inspector](modules/hud/containers/focus-inspector.md)
+      - [object-picker](modules/hud/containers/object-picker.md)
     - components
       - [map-graph](modules/hud/components/map-graph.md)
       - [inspector](modules/hud/components/inspector/index.md)

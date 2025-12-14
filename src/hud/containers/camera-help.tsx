@@ -5,7 +5,7 @@ import { KeyCap } from '@/hud/components/key-cap';
 
 export function CameraHelp(): React.ReactNode {
   return (
-    <HudContainer id="camera-help" title="Camera & Movement">
+    <HudContainer id="camera-help" title="Camera & Movement" className="w-96">
       <div className="flex flex-col gap-2 py-4">
         <div className="space-y-1.5 text-[12px]">
           <div className="flex items-center gap-2">

@@ -10,10 +10,33 @@ import { cn } from '../lib/utils';
 import { net, type ActionParams, type SignalData } from '@/net';
 import { usePlaybackState } from '@/hud/state/playback-state';
 
+// Speed constraints
 const SPEED_MIN_KPH = 10;
 const SPEED_MAX_KPH = 140;
 const SPEED_STEP_KPH = 5;
 const DEFAULT_SPEED_KPH = 80;
+
+// Capacity constraints
+const CAPACITY_MIN = 0;
+const CAPACITY_MAX = 100;
+const DEFAULT_CAPACITY = 20;
+
+// Risk factor constraints (0-1)
+const RISK_FACTOR_MIN = 0;
+const RISK_FACTOR_MAX = 1;
+const RISK_FACTOR_STEP = 0.05;
+const DEFAULT_RISK_FACTOR = 0.5;
+
+// Balance constraints
+const BALANCE_MIN = 0;
+const DEFAULT_BALANCE_DUCATS = 1000;
+
+// Fuel constraints
+const FUEL_TANK_MIN = 0;
+const FUEL_TANK_MAX = 1000;
+const DEFAULT_FUEL_TANK_CAPACITY_L = 300;
+const DEFAULT_INITIAL_FUEL_L = 150;
+
 const MAX_TRACKED_TRUCKS = 32;
 
 type TruckCreatedEnvelope = Extract<
@@ -26,11 +49,21 @@ type TruckCreateParams = ActionParams['agent.create'];
 type TruckFormState = {
   agentId: string;
   maxSpeedKph: number;
+  capacity: number;
+  riskFactor: number;
+  initialBalanceDucats: number;
+  fuelTankCapacityL: number;
+  initialFuelL: number;
 };
 
 const initialFormState = (): TruckFormState => ({
   agentId: createTruckId(),
   maxSpeedKph: DEFAULT_SPEED_KPH,
+  capacity: DEFAULT_CAPACITY,
+  riskFactor: DEFAULT_RISK_FACTOR,
+  initialBalanceDucats: DEFAULT_BALANCE_DUCATS,
+  fuelTankCapacityL: DEFAULT_FUEL_TANK_CAPACITY_L,
+  initialFuelL: DEFAULT_INITIAL_FUEL_L,
 });
 
 export function FleetCreator({
@@ -113,15 +146,34 @@ export function FleetCreator({
         SPEED_MIN_KPH,
         SPEED_MAX_KPH,
       );
-      if (clampedSpeed !== form.maxSpeedKph) {
-        setForm((prev) => ({ ...prev, maxSpeedKph: clampedSpeed }));
-      }
+      const clampedCapacity = clamp(form.capacity, CAPACITY_MIN, CAPACITY_MAX);
+      const clampedRiskFactor = clamp(
+        form.riskFactor,
+        RISK_FACTOR_MIN,
+        RISK_FACTOR_MAX,
+      );
+      const clampedBalance = Math.max(BALANCE_MIN, form.initialBalanceDucats);
+      const clampedFuelTank = clamp(
+        form.fuelTankCapacityL,
+        FUEL_TANK_MIN,
+        FUEL_TANK_MAX,
+      );
+      const clampedInitialFuel = clamp(
+        form.initialFuelL,
+        FUEL_TANK_MIN,
+        clampedFuelTank,
+      );
 
       const params: TruckCreateParams = {
         agent_id: agentId,
         agent_kind: 'truck',
         agent_data: {
           max_speed_kph: clampedSpeed,
+          capacity: clampedCapacity,
+          risk_factor: clampedRiskFactor,
+          initial_balance_ducats: clampedBalance,
+          fuel_tank_capacity_l: clampedFuelTank,
+          initial_fuel_l: clampedInitialFuel,
         },
       };
 
@@ -211,27 +263,166 @@ export function FleetCreator({
             </p>
           </div>
 
-          <div className="grid gap-2">
-            <div className="flex items-center justify-between">
+          <div className="grid grid-cols-2 gap-3">
+            {/* Max Speed */}
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <Label
+                  htmlFor="truck-max-speed"
+                  className="text-xs text-black/70"
+                >
+                  Max speed
+                </Label>
+                <span className="text-xs text-black/50">
+                  {form.maxSpeedKph} km/h
+                </span>
+              </div>
+              <Slider
+                id="truck-max-speed"
+                min={SPEED_MIN_KPH}
+                max={SPEED_MAX_KPH}
+                step={SPEED_STEP_KPH}
+                value={[form.maxSpeedKph]}
+                onValueChange={(values) => handleMaxSpeedChange(values[0] ?? 0)}
+                aria-label="Truck maximum speed"
+              />
+            </div>
+
+            {/* Risk Factor */}
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <Label
+                  htmlFor="truck-risk-factor"
+                  className="text-xs text-black/70"
+                >
+                  Risk factor
+                </Label>
+                <span className="text-xs text-black/50">
+                  {form.riskFactor.toFixed(2)}
+                </span>
+              </div>
+              <Slider
+                id="truck-risk-factor"
+                min={RISK_FACTOR_MIN}
+                max={RISK_FACTOR_MAX}
+                step={RISK_FACTOR_STEP}
+                value={[form.riskFactor]}
+                onValueChange={(values) =>
+                  setForm((prev) => ({
+                    ...prev,
+                    riskFactor: clamp(
+                      values[0] ?? DEFAULT_RISK_FACTOR,
+                      RISK_FACTOR_MIN,
+                      RISK_FACTOR_MAX,
+                    ),
+                  }))
+                }
+                aria-label="Truck risk factor"
+              />
+            </div>
+
+            {/* Capacity */}
+            <div className="space-y-1">
+              <Label htmlFor="truck-capacity" className="text-xs text-black/70">
+                Capacity (packages)
+              </Label>
+              <Input
+                id="truck-capacity"
+                type="number"
+                min={CAPACITY_MIN}
+                max={CAPACITY_MAX}
+                value={form.capacity}
+                onChange={(e) =>
+                  setForm((prev) => ({
+                    ...prev,
+                    capacity: Math.max(
+                      CAPACITY_MIN,
+                      Math.floor(Number(e.target.value) || 0),
+                    ),
+                  }))
+                }
+                className="h-8 text-sm"
+              />
+            </div>
+
+            {/* Initial Balance */}
+            <div className="space-y-1">
+              <Label htmlFor="truck-balance" className="text-xs text-black/70">
+                Initial balance (ducats)
+              </Label>
+              <Input
+                id="truck-balance"
+                type="number"
+                min={BALANCE_MIN}
+                value={form.initialBalanceDucats}
+                onChange={(e) =>
+                  setForm((prev) => ({
+                    ...prev,
+                    initialBalanceDucats: Math.max(
+                      BALANCE_MIN,
+                      Number(e.target.value) || 0,
+                    ),
+                  }))
+                }
+                className="h-8 text-sm"
+              />
+            </div>
+
+            {/* Fuel Tank Capacity */}
+            <div className="space-y-1">
               <Label
-                htmlFor="truck-max-speed"
+                htmlFor="truck-fuel-tank"
                 className="text-xs text-black/70"
               >
-                Max speed (km/h)
+                Fuel tank (liters)
               </Label>
-              <span className="text-xs text-black/50">
-                {form.maxSpeedKph} km/h
-              </span>
+              <Input
+                id="truck-fuel-tank"
+                type="number"
+                min={FUEL_TANK_MIN}
+                max={FUEL_TANK_MAX}
+                value={form.fuelTankCapacityL}
+                onChange={(e) =>
+                  setForm((prev) => ({
+                    ...prev,
+                    fuelTankCapacityL: clamp(
+                      Number(e.target.value) || 0,
+                      FUEL_TANK_MIN,
+                      FUEL_TANK_MAX,
+                    ),
+                  }))
+                }
+                className="h-8 text-sm"
+              />
             </div>
-            <Slider
-              id="truck-max-speed"
-              min={SPEED_MIN_KPH}
-              max={SPEED_MAX_KPH}
-              step={SPEED_STEP_KPH}
-              value={[form.maxSpeedKph]}
-              onValueChange={(values) => handleMaxSpeedChange(values[0] ?? 0)}
-              aria-label="Truck maximum speed"
-            />
+
+            {/* Initial Fuel */}
+            <div className="space-y-1">
+              <Label
+                htmlFor="truck-initial-fuel"
+                className="text-xs text-black/70"
+              >
+                Initial fuel (liters)
+              </Label>
+              <Input
+                id="truck-initial-fuel"
+                type="number"
+                min={FUEL_TANK_MIN}
+                max={form.fuelTankCapacityL}
+                value={form.initialFuelL}
+                onChange={(e) =>
+                  setForm((prev) => ({
+                    ...prev,
+                    initialFuelL: clamp(
+                      Number(e.target.value) || 0,
+                      FUEL_TANK_MIN,
+                      prev.fuelTankCapacityL,
+                    ),
+                  }))
+                }
+                className="h-8 text-sm"
+              />
+            </div>
           </div>
 
           {errorMessage ? (

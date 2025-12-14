@@ -1,15 +1,17 @@
 ---
 title: 'Fleet Creator'
-summary: 'Truck creation panel that collects agent parameters, dispatches `agent.create`, and renders a live manifest of incoming `agent.created` signals.'
+summary: 'Truck creation panel that collects comprehensive agent parameters (speed, capacity, risk factor, balance, fuel), dispatches `agent.create`, and renders a live manifest of incoming `agent.created` signals.'
 source_paths:
   - 'src/hud/containers/fleet-creator.tsx'
-last_updated: '2025-11-09'
+last_updated: '2025-12-13'
 owner: 'Mateusz Nędzi'
 tags: ['module', 'hud', 'react', 'ui', 'container']
 links:
   parent: '../index.md'
   siblings:
     - './map-creator.md'
+    - './broker-setup.md'
+    - './start-simulation.md'
     - './play-controls.md'
     - './camera-help.md'
 ---
@@ -23,31 +25,45 @@ links:
 - Gives operators a pre-flight surface to spin up a delivery fleet alongside map creation.
 - Only available while the playback state is `idle` or `stopped`, matching the map creator workflow.
 - Bridges HUD → net: the HUD gathers intent, the net layer issues actions, the manifest reflects the authoritative response from the server.
+- Accessible via the main tabbed interface in CreatorPanels alongside Map, Broker, and Simulation tabs.
 
 ## Responsibilities & Boundaries
 
-- In-scope: Truck UUID + max-speed form, dispatch of `agent.create`, live manifest fed by `agent.created`.
+- In-scope: Complete truck configuration (UUID, max speed, capacity, risk factor, initial balance, fuel tank capacity, initial fuel), dispatch of `agent.create`, live manifest fed by `agent.created`.
 - Out-of-scope: Server-side validation/business rules, simulation state transitions, three.js scene updates (handled by view/engine).
 
 ## Architecture & Design
 
 - Wrapper: `HudContainer` (`closable={false}`) ensures consistent chrome and respects HUD visibility toggles.
-- Form controls: shadcn `Input`, `Slider`, `Button`.
+- Form controls: shadcn `Input`, `Slider`, `Button` in a 2-column grid layout.
 - State:
-  - `form`: `{ agentId, maxSpeedKph }`
+  - `form`: `{ agentId, maxSpeedKph, capacity, riskFactor, initialBalanceDucats, fuelTankCapacityL, initialFuelL }`
   - `createdTrucks`: `Extract<SignalData['agent.created'], { kind: 'truck' }>[]`
-  - Feedback: `errorMessage`, `statusMessage`, `highlightId`
+  - Feedback: `errorMessage`, `highlightId`
 - Data flow:
-  1. User generates/edits the UUID + speed → submits.
-  2. HUD calls `net.sendAction('agent.create', params)`; awaits either `agent.created` or `error`.
+  1. User generates/edits the UUID and configures truck parameters → submits.
+  2. HUD calls `net.sendAction('agent.create', params)` with full `agent_data`; awaits either `agent.created` or `error`.
   3. `net.on('agent.created', handler)` pushes trucks into the manifest, limited to the 32 most recent entries.
-  4. Highlight timer (~3.5 s) emphasizes the latest truck.
-- Layout: top form card, bottom manifest card with `ScrollArea` for overflow, count badge summarizing tracked trucks.
+  4. Highlight timer (~3.5 s) emphasizes the latest truck.
+- Layout: top form card with 2-column grid for parameters, bottom manifest card with `ScrollArea` for overflow, count badge summarizing tracked trucks.
 - Palette: high-opacity warm whites and subtle orange highlight align with the low-poly warm world guidance.
+
+### Truck Parameters
+
+| Parameter | Type | Range | Default | Description |
+|-----------|------|-------|---------|-------------|
+| `agentId` | string | UUID | auto-generated | Unique identifier for the truck |
+| `maxSpeedKph` | number | 10–140 | 80 | Maximum speed in km/h |
+| `capacity` | number | 0–100 | 20 | Package capacity |
+| `riskFactor` | number | 0–1 | 0.5 | Risk tolerance factor |
+| `initialBalanceDucats` | number | ≥0 | 1000 | Starting funds |
+| `fuelTankCapacityL` | number | 0–1000 | 300 | Fuel tank size in liters |
+| `initialFuelL` | number | 0–tank | 150 | Initial fuel level in liters |
 
 ### UI Snapshot
 
-- Form shows live slider readout, numeric input backup, and a “New UUID” button for quick regeneration.
+- Form shows 2-column grid with sliders for speed and risk factor, numeric inputs for other values.
+- "New UUID" button regenerates the truck identifier.
 - Manifest surfaces current vs. max speed, location indices, destination, route length, inbox/outbox counts, and progress in metres.
 - Empty state communicates readiness when no trucks have been created.
 
@@ -62,15 +78,18 @@ links:
 ```tsx
 import { FleetCreator } from '@/hud/containers/fleet-creator';
 
-<FleetCreator />
+<FleetCreator className="h-full" />
 ```
+
+The component is rendered via the tabbed `CreatorPanels` in `src/hud/index.tsx`.
 
 ## Implementation Notes
 
 - `canCreate` is derived from `usePlaybackState`; button disables outside idle/stopped states.
-- `net.sendAction` returns the matching signal or `error`; success message appears even though the manifest already updates via the subscription.
+- `net.sendAction` returns the matching signal or `error`.
 - UUIDs come from `crypto.randomUUID()` with a template fallback for older browsers; the form auto-refreshes the ID after each successful creation.
-- `clamp` ensures max speed stays within [10, 140] km/h and degrades gracefully when the user clears numeric input.
+- `clamp` ensures values stay within defined ranges and degrades gracefully when the user clears numeric input.
+- Initial fuel is clamped to not exceed fuel tank capacity.
 - Manifest deduplicates trucks by ID; repeated signals bubble the truck back to the top.
 - Highlight uses a `setTimeout`; cleaned up on unmount to avoid leaking timers.
 - Styling leans on warm whites and light orange borders to respect the Low‑Poly Warm World palette.
@@ -78,14 +97,14 @@ import { FleetCreator } from '@/hud/containers/fleet-creator';
 
 ## Tests (If Applicable)
 
-- Manual smoke test: 1) open HUD while idle, 2) create a truck, 3) observe manifest entry and highlight, 4) confirm `agent.created` telemetry in Net Events panel.
-- Future scope: Vitest coverage for `nextAgentId` helper and form validation.
+- Manual smoke test: 1) open HUD while idle, 2) create a truck with various parameters, 3) observe manifest entry and highlight, 4) confirm `agent.created` telemetry in Net Events panel.
+- Future scope: Vitest coverage for form validation and parameter clamping.
 
 ## Performance
 
 - Manifest capped to 32 entries avoids large array churn; ScrollArea virtualisation unnecessary.
 - Only re-renders when form state or incoming signal changes.
-- Slider and number input share state, reducing double-binding overhead.
+- 2-column grid layout efficiently uses available space.
 
 ## Security & Reliability
 
@@ -97,6 +116,8 @@ import { FleetCreator } from '@/hud/containers/fleet-creator';
 
 - Parent: [`../index.md`](../index.md)
 - Sibling: [`./map-creator.md`](./map-creator.md)
+- Sibling: [`./broker-setup.md`](./broker-setup.md)
+- Sibling: [`./start-simulation.md`](./start-simulation.md)
 - Protocol: [`../../net/protocol/schema.md`](../../net/protocol/schema.md)
 - API Reference: [`../../../api-reference.md`](../../../api-reference.md)
 - State: [`../state/playback-state.md`](../state/playback-state.md)

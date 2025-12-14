@@ -4,6 +4,7 @@ export type HudPanelId =
   | 'start-simulation'
   | 'map-creator'
   | 'fleet-creator'
+  | 'broker-setup'
   | 'play-controls'
   | 'camera-help'
   | 'net-events';
@@ -22,6 +23,7 @@ const defaultVisibility: HudVisibilityState = {
   'start-simulation': true,
   'map-creator': true,
   'fleet-creator': true,
+  'broker-setup': true,
   'play-controls': true,
   'camera-help': true,
   'net-events': false,

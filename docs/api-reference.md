@@ -4,7 +4,7 @@ summary: 'Typed actions and signals exchanged between VISTA and SPINE with zod-v
 source_paths:
   - 'src/net/protocol/schema.ts'
   - 'src/net/protocol/mapping.ts'
-last_updated: '2025-11-09'
+last_updated: '2025-12-13'
 owner: 'Mateusz Nędzi'
 tags: ['api', 'net', 'protocol']
 links:
@@ -230,7 +230,7 @@ Base payload shared by all agent kinds:
 ```ts
 type AgentEnvelopeBase = {
   id: string;
-  kind: 'truck' | 'building';
+  kind: 'truck' | 'building' | 'broker';
   inbox_count: number;   // >= 0
   outbox_count: number;  // >= 0
   tags: Record<string, unknown>; // defaults to {}
@@ -240,7 +240,8 @@ type AgentEnvelopeBase = {
 Variants:
 
 - Building agents append a `building` object that currently mirrors the identifier and may grow with structural metadata.
-- Truck agents provide the full motion state.
+- Truck agents provide the full motion state and vehicle parameters.
+- Broker agents provide balance information for order management.
 
 ```ts
 type GraphIndex = string | number;
@@ -261,7 +262,36 @@ type TruckAgentPayload = AgentEnvelopeBase & {
   destination: GraphIndex | null;
 };
 
-type AgentCreatedPayload = BuildingAgentPayload | TruckAgentPayload;
+type BrokerAgentPayload = AgentEnvelopeBase & {
+  kind: 'broker';
+  balance_ducats?: number;    // >= 0, optional
+};
+
+type AgentCreatedPayload = BuildingAgentPayload | TruckAgentPayload | BrokerAgentPayload;
+```
+
+### Action: agent.create – Agent Data Schemas
+
+When creating agents, `agent_data` varies by `agent_kind`:
+
+```ts
+// For trucks
+type TruckAgentData = {
+  max_speed_kph?: number;         // >= 0
+  capacity?: number;              // >= 0
+  risk_factor?: number;           // 0..1
+  initial_balance_ducats?: number; // >= 0
+  fuel_tank_capacity_l?: number;  // >= 0
+  initial_fuel_l?: number;        // >= 0
+};
+
+// For brokers
+type BrokerAgentData = {
+  balance_ducats?: number;        // >= 0
+};
+
+// For buildings
+type BuildingAgentData = {};
 ```
 
 Examples:
@@ -293,6 +323,20 @@ Examples:
     "edge_progress_m": 0.0,
     "route": [],
     "destination": null,
+    "inbox_count": 0,
+    "outbox_count": 0,
+    "tags": {}
+  }
+}
+```
+
+```json
+{
+  "signal": "agent.created",
+  "data": {
+    "id": "broker-001",
+    "kind": "broker",
+    "balance_ducats": 10000,
     "inbox_count": 0,
     "outbox_count": 0,
     "tags": {}

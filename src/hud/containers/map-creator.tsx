@@ -105,7 +105,7 @@ const DEFAULTS: MapCreateParams = {
   inter_connectivity: 2,
   arterial_ratio: 0.2,
   gridness: 0.3,
-  ring_road_prob: 0.5,
+  ring_road_prob: 0.1,
   highway_curviness: 0.2,
   rural_settlement_prob: 0.15,
   urban_sites_per_km2: 2.0,
@@ -201,7 +201,7 @@ export function MapCreator({
       local_density: 80.0,
       rural_density: 0.0,
       gridness: 0.7,
-      ring_road_prob: 1.0,
+      ring_road_prob: 0.1,
     }));
   };
 
